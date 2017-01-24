@@ -11,8 +11,8 @@ import UIKit
 struct Neuron {
     
     // Properties
-    let weights: [Double]
-    let bias: Double
+    var weights: [Double]
+    var bias: Double
     
     // Lifecycle
     init(weights: [Double], bias: Double){

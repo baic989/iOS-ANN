@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Foundation
 
 struct NeuralNetwork {
     
@@ -29,21 +30,37 @@ struct NeuralNetwork {
     }
     
     //MARK: - Helpers -
-    func initNetwork(topology: Int) -> [Layer]{
+    func initNetwork() -> [Layer]{
+        
+        let numberOfLayers = networkTopology.count
+        let inputLayerSize = networkTopology.first
+        let outputLayerSize = networkTopology.last
+        // TODO: Un-hack this
+        let hiddenLayerSize = networkTopology[1]
+
+        let hiddenLayer = Layer
         
         // Dummy
         return [Layer]()
     }
     
-    func trainNetwork(inputData: [[Double]]){
+    func sigmoid(input: Double) -> Double {
+        return 1 / (1 + pow(M_E, -input))
+    }
+    
+    func sigmoidDerivative(output: Double) -> Double {
+        return output * (1.0 - output)
+    }
+    
+    func trainNetwork(inputData: [[Double]]) {
         
     }
     
-    private func forwardPropagete(){
-        
+    private func forwardPropagete() {
+
     }
     
-    private func backwardPropagate(){
+    private func backwardPropagate() {
         
     }
 }
