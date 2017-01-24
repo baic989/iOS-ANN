@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14F2009" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--Main View Controller-->
@@ -15,7 +16,98 @@
                     <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XJD-4K-Yo2">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ggi-N6-14P">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="200"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LXI-s2-9L2">
+                                                <rect key="frame" x="0.0" y="76" width="600" height="48"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                                <state key="normal" title="Feed sample data">
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="feedSampleDataButtonPressed:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="ueN-QX-doo"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="centerY" secondItem="LXI-s2-9L2" secondAttribute="centerY" id="1hB-SV-SJ6"/>
+                                            <constraint firstAttribute="centerX" secondItem="LXI-s2-9L2" secondAttribute="centerX" id="3r7-Zc-yUV"/>
+                                            <constraint firstAttribute="width" secondItem="LXI-s2-9L2" secondAttribute="width" id="P87-BE-nFS"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1Yg-Dl-USN">
+                                        <rect key="frame" x="0.0" y="400" width="600" height="200"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5sX-Qe-tlO">
+                                                <rect key="frame" x="0.0" y="76" width="600" height="48"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                                <state key="normal" title="Test network">
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="testNetworkButtonPressed:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="Ska-vL-pG7"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="centerY" secondItem="5sX-Qe-tlO" secondAttribute="centerY" id="1Zk-ZS-lIb"/>
+                                            <constraint firstAttribute="width" secondItem="5sX-Qe-tlO" secondAttribute="width" id="XcJ-Q6-jah"/>
+                                            <constraint firstAttribute="centerX" secondItem="5sX-Qe-tlO" secondAttribute="centerX" id="saV-UL-HIy"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lMD-pM-tnk">
+                                        <rect key="frame" x="0.0" y="200" width="600" height="200"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="udS-ME-zQU">
+                                                <rect key="frame" x="0.0" y="76" width="600" height="48"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                                <state key="normal" title="Train network with sample data">
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="trainNetworkButtonPressed:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="lM4-8X-pgZ"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="centerX" secondItem="udS-ME-zQU" secondAttribute="centerX" id="HJJ-pg-45o"/>
+                                            <constraint firstAttribute="width" secondItem="udS-ME-zQU" secondAttribute="width" id="O1t-jw-58u"/>
+                                            <constraint firstAttribute="centerY" secondItem="udS-ME-zQU" secondAttribute="centerY" id="V9g-b7-bOl"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="1Yg-Dl-USN" secondAttribute="trailing" id="5ab-6i-jpK"/>
+                                    <constraint firstItem="1Yg-Dl-USN" firstAttribute="top" secondItem="lMD-pM-tnk" secondAttribute="bottom" id="6CI-v2-x8C"/>
+                                    <constraint firstItem="ggi-N6-14P" firstAttribute="top" secondItem="XJD-4K-Yo2" secondAttribute="top" id="9Ao-xj-hhy"/>
+                                    <constraint firstItem="lMD-pM-tnk" firstAttribute="top" secondItem="ggi-N6-14P" secondAttribute="bottom" id="E2m-fF-7Ww"/>
+                                    <constraint firstAttribute="trailing" secondItem="ggi-N6-14P" secondAttribute="trailing" id="PeS-Bc-NCK"/>
+                                    <constraint firstAttribute="trailing" secondItem="lMD-pM-tnk" secondAttribute="trailing" id="XPd-Hx-ZUg"/>
+                                    <constraint firstItem="ggi-N6-14P" firstAttribute="leading" secondItem="XJD-4K-Yo2" secondAttribute="leading" id="hbY-ZH-IUZ"/>
+                                    <constraint firstItem="1Yg-Dl-USN" firstAttribute="leading" secondItem="XJD-4K-Yo2" secondAttribute="leading" id="hpl-Yd-PXO"/>
+                                    <constraint firstItem="lMD-pM-tnk" firstAttribute="leading" secondItem="XJD-4K-Yo2" secondAttribute="leading" id="jQt-35-V1U"/>
+                                    <constraint firstItem="ggi-N6-14P" firstAttribute="height" secondItem="XJD-4K-Yo2" secondAttribute="height" multiplier="1/3" id="lZJ-EW-1nh"/>
+                                    <constraint firstItem="1Yg-Dl-USN" firstAttribute="height" secondItem="XJD-4K-Yo2" secondAttribute="height" multiplier="1/3" id="nWe-pG-YpJ"/>
+                                    <constraint firstAttribute="bottom" secondItem="1Yg-Dl-USN" secondAttribute="bottom" id="uuU-lp-RU7"/>
+                                </constraints>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="XJD-4K-Yo2" secondAttribute="trailing" id="5eH-QG-Yl5"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="XJD-4K-Yo2" secondAttribute="bottom" id="GUu-bT-MFm"/>
+                            <constraint firstItem="XJD-4K-Yo2" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="top" id="VKU-Ua-RaW"/>
+                            <constraint firstItem="XJD-4K-Yo2" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="dQ1-XE-Z32"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
