@@ -12,7 +12,11 @@ struct Layer {
     let neurons:[Neuron]!
     
     init(neurons: [Int]){
+        for neuron in neurons {
+            let newNeuron = Neuron(weights: [1.0, 1.0], bias: 1.0)
+            self.neurons.append(newNeuron)
+        }
         
-        
+        print(self.neurons)
     }
 }
