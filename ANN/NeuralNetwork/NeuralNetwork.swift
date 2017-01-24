@@ -8,6 +8,29 @@
 
 import UIKit
 
-class NeuralNetwork {
+struct NeuralNetwork {
     
+    //MARK: - Properties -
+    let layers:[Layer]!
+    
+    // Network topology is an array of integer which represents the structure
+    // of the network i.e. [2, 3, 2] creates a network of 3 layers. 2 input neurons
+    // 3 hidden neurons and 2 output neurons
+    let networkTopology: [Int]
+    
+    //MARK: - Lifecycle -
+    init(topology: [Int]){
+        
+        networkTopology = topology
+        
+        // TODO: Debug conversion error
+        //layers = initNetwork(topology: networkTopology)
+    }
+    
+    //MARK: - Helpers -
+    func initNetwork(topology: Int) -> [Layer]{
+        
+        // Dummy
+        return [Layer]()
+    }
 }

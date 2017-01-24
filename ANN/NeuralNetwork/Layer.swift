@@ -8,6 +8,11 @@
 
 import UIKit
 
-class Layer {
+struct Layer {
+    let neurons:[Neuron]!
     
+    init(neurons: [Int]){
+        
+        
+    }
 }
