@@ -13,6 +13,9 @@
 		3B627DDA1E37590D004A066A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B627DD81E37590D004A066A /* LaunchScreen.xib */; };
 		3B627DE61E37590D004A066A /* ANNTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B627DE51E37590D004A066A /* ANNTests.swift */; };
 		3B627DF21E375FE2004A066A /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B627DF11E375FE2004A066A /* MainViewController.swift */; };
+		3B627DF41E376052004A066A /* NeuralNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B627DF31E376052004A066A /* NeuralNetwork.swift */; };
+		3B627DF61E3760D1004A066A /* Layer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B627DF51E3760D1004A066A /* Layer.swift */; };
+		3B627DF81E376116004A066A /* Neuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B627DF71E376116004A066A /* Neuron.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +39,9 @@
 		3B627DE41E37590D004A066A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3B627DE51E37590D004A066A /* ANNTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ANNTests.swift; sourceTree = "<group>"; };
 		3B627DF11E375FE2004A066A /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		3B627DF31E376052004A066A /* NeuralNetwork.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NeuralNetwork.swift; sourceTree = "<group>"; };
+		3B627DF51E3760D1004A066A /* Layer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Layer.swift; sourceTree = "<group>"; };
+		3B627DF71E376116004A066A /* Neuron.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Neuron.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +122,9 @@
 		3B627DEF1E375F5F004A066A /* NeuralNetwork */ = {
 			isa = PBXGroup;
 			children = (
+				3B627DF31E376052004A066A /* NeuralNetwork.swift */,
+				3B627DF51E3760D1004A066A /* Layer.swift */,
+				3B627DF71E376116004A066A /* Neuron.swift */,
 			);
 			path = NeuralNetwork;
 			sourceTree = "<group>";
@@ -230,6 +239,9 @@
 			files = (
 				3B627DD01E37590D004A066A /* AppDelegate.swift in Sources */,
 				3B627DF21E375FE2004A066A /* MainViewController.swift in Sources */,
+				3B627DF41E376052004A066A /* NeuralNetwork.swift in Sources */,
+				3B627DF61E3760D1004A066A /* Layer.swift in Sources */,
+				3B627DF81E376116004A066A /* Neuron.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
