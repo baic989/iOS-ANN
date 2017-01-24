@@ -12,7 +12,7 @@ struct NeuralNetwork {
     
     //MARK: - Properties -
     let layers:[Layer]!
-    let inputData:[Double]!
+    let inputData:[[Double]]!
     
     // Network topology is an array of integer which represents the structure
     // of the network i.e. [2, 3, 2] creates a network of 3 layers. 2 input neurons
@@ -35,7 +35,7 @@ struct NeuralNetwork {
         return [Layer]()
     }
     
-    func trainNetwork(inputData: [Double]){
+    func trainNetwork(inputData: [[Double]]){
         
     }
     
