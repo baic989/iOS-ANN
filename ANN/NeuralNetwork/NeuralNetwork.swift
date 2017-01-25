@@ -12,10 +12,9 @@ import Foundation
 struct NeuralNetwork {
     
     //MARK: - Properties -
-    let layers:[Layer]!
-    let inputData:[[Double]]!
+    var layers:[Layer] = []
     
-    // Network topology is an array of integer which represents the structure
+    // Network topology is an array of integers which represents the structure
     // of the network i.e. [2, 3, 2] creates a network of 3 layers. 2 input neurons
     // 3 hidden neurons and 2 output neurons
     let networkTopology: [Int]
@@ -24,24 +23,48 @@ struct NeuralNetwork {
     init(topology: [Int]){
         
         networkTopology = topology
-        
-        // TODO: Debug conversion error
-        //layers = initNetwork(topology: networkTopology)
+        initNetwork()
     }
     
+    // trebam topology u mainu ce se za svaki row zvati trains sa row, network ne treba referencu na to
+    
     //MARK: - Helpers -
-    func initNetwork() -> [Layer]{
+    mutating func initNetwork() {
         
-        let numberOfLayers = networkTopology.count
         let inputLayerSize = networkTopology.first
         let outputLayerSize = networkTopology.last
         // TODO: Un-hack this
         let hiddenLayerSize = networkTopology[1]
-
-        let hiddenLayer = Layer
         
-        // Dummy
-        return [Layer]()
+        // Init input layer
+        if let inputLayerSize = inputLayerSize {
+            let inputLayer = Layer(numberOfNeurons: inputLayerSize)
+            layers.append(inputLayer)
+        } else {
+            // tell VC what happened
+            #if DEBUG
+                print("Unable to init input layer!")
+            #endif
+        }
+        
+        // Init hidden layer
+        let hiddenLayer = Layer(numberOfNeurons: 2)
+        layers.append(hiddenLayer)
+        
+        if let outputLayerSize = outputLayerSize {
+            let outputLayer = Layer(numberOfNeurons: outputLayerSize)
+            layers.append(outputLayer)
+        } else {
+            #if DEBUG
+                print("Unable to init output layer!")
+            #endif
+        }
+        
+        initWeightsAndBias()
+    }
+    
+    func initWeightsAndBias() {
+        
     }
     
     func sigmoid(input: Double) -> Double {
@@ -52,8 +75,8 @@ struct NeuralNetwork {
         return output * (1.0 - output)
     }
     
-    func trainNetwork(inputData: [[Double]]) {
-        
+    func trainNetwork(inputData: [Double]) {
+        // forward propagate row
     }
     
     private func forwardPropagete() {

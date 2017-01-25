@@ -27,7 +27,7 @@ class MainViewController: UIViewController {
                             [10.5, 11.0, 24.1, 10.0, 15.9, 22.8, 31.3, 9.5]]
         
         let neuralNetwork = NeuralNetwork(topology: [trainingData.count, 3, 2])
-        neuralNetwork.trainNetwork(trainingData)
+        //neuralNetwork.trainNetwork(trainingData)
     }
     
     
