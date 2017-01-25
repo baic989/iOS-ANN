@@ -8,13 +8,21 @@
 
 import UIKit
 
+enum LayerType {
+    case inputLayer
+    case hiddenLayer
+    case outputLayer
+}
+
 class Layer {
     
     var neurons:[Neuron]
+    var type: LayerType
     
-    init(numberOfNeurons: Int){
+    init(numberOfNeurons: Int, type: LayerType){
         
         neurons = []
+        self.type = type
 
         for i in 0..<numberOfNeurons {
             

@@ -38,7 +38,7 @@ class NeuralNetwork {
         
         // Init input layer
         if let inputLayerSize = inputLayerSize {
-            let inputLayer = Layer(numberOfNeurons: inputLayerSize)
+            let inputLayer = Layer(numberOfNeurons: inputLayerSize, type: .inputLayer)
             layers.append(inputLayer)
         } else {
             // TODO: tell VC what happened
@@ -49,11 +49,11 @@ class NeuralNetwork {
         
         // Init hidden layer
         // TODO: Fix if more than one hidden layer
-        let hiddenLayer = Layer(numberOfNeurons: networkTopology[1])
+        let hiddenLayer = Layer(numberOfNeurons: networkTopology[1], type: .hiddenLayer)
         layers.append(hiddenLayer)
         
         if let outputLayerSize = outputLayerSize {
-            let outputLayer = Layer(numberOfNeurons: outputLayerSize)
+            let outputLayer = Layer(numberOfNeurons: outputLayerSize, type: .outputLayer)
             layers.append(outputLayer)
         } else {
             #if DEBUG
@@ -127,15 +127,17 @@ class NeuralNetwork {
         
         for layer in layers {
             
-            var neuronOutput = [Double]()
-            
-            print("INPUTS: \(inputs) \n")
-            for neuron in layer.neurons {
-                neuron.activate(inputs)
-                neuronOutput.append(neuron.value)
+            if layer.type != .inputLayer {
+                var neuronOutput = [Double]()
+                
+                print("INPUTS: \(inputs) \n")
+                for neuron in layer.neurons {
+                    neuron.activate(inputs)
+                    neuronOutput.append(neuron.value)
+                }
+                
+                inputs = neuronOutput
             }
-            
-            inputs = neuronOutput
         }
     }
     
