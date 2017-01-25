@@ -29,7 +29,6 @@ class Neuron {
         
         for (weight, input) in Zip2(weights, inputs) {
             value += weight * input
-            print("")
         }
         
         value = sigmoid(value)
