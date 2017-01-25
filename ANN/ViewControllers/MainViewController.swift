@@ -13,7 +13,7 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        createNeuralNetwork()
     }
 
     override func didReceiveMemoryWarning() {
@@ -26,8 +26,15 @@ class MainViewController: UIViewController {
         let trainingData = [[1.2, 1.1, 4.3, 5.5, 3.2, 7.6, 2.4, 4.2],
                             [10.5, 11.0, 24.1, 10.0, 15.9, 22.8, 31.3, 9.5]]
         
-        let neuralNetwork = NeuralNetwork(topology: [trainingData.count, 3, 2])
-        //neuralNetwork.trainNetwork(trainingData)
+        let neuralNetwork = NeuralNetwork(topology: [trainingData[0].count, 3, 2])
+        
+        for layer in neuralNetwork.layers {
+            
+            for neuron in layer.neurons {
+                print("WEIGHTS: \(neuron.weights) \n")
+                print("BIAS: \(neuron.bias) \n\n")
+            }
+        }
     }
     
     

@@ -8,15 +8,17 @@
 
 import UIKit
 
-struct Layer {
-    let neurons:[Neuron]!
+class Layer {
+    
+    var neurons:[Neuron]
     
     init(numberOfNeurons: Int){
-//        for neuron in neurons {
-//            let newNeuron = Neuron(weights: [1.0, 1.0], bias: 1.0)
-//            self.neurons.append(newNeuron)
-//        }
-//        
-//        print(self.neurons)
+        
+        neurons = []
+
+        for i in 0..<numberOfNeurons {
+            
+            neurons.append(Neuron())
+        }
     }
 }

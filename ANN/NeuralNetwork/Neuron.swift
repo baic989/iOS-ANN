@@ -8,15 +8,14 @@
 
 import UIKit
 
-struct Neuron {
+class Neuron {
     
     // Properties
     var weights: [Double]
     var bias: Double
     
-    // Lifecycle
-    init(weights: [Double], bias: Double){
-        self.weights = weights
-        self.bias = bias
+    init() {
+        weights = []
+        bias = 1.0
     }
 }

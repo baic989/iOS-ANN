@@ -9,7 +9,7 @@
 import UIKit
 import Foundation
 
-struct NeuralNetwork {
+class NeuralNetwork {
     
     //MARK: - Properties -
     var layers:[Layer] = []
@@ -29,7 +29,7 @@ struct NeuralNetwork {
     // trebam topology u mainu ce se za svaki row zvati trains sa row, network ne treba referencu na to
     
     //MARK: - Helpers -
-    mutating func initNetwork() {
+    func initNetwork() {
         
         let inputLayerSize = networkTopology.first
         let outputLayerSize = networkTopology.last
@@ -41,14 +41,15 @@ struct NeuralNetwork {
             let inputLayer = Layer(numberOfNeurons: inputLayerSize)
             layers.append(inputLayer)
         } else {
-            // tell VC what happened
+            // TODO: tell VC what happened
             #if DEBUG
                 print("Unable to init input layer!")
             #endif
         }
         
         // Init hidden layer
-        let hiddenLayer = Layer(numberOfNeurons: 2)
+        // TODO: Fix if more than one hidden layer
+        let hiddenLayer = Layer(numberOfNeurons: networkTopology[1])
         layers.append(hiddenLayer)
         
         if let outputLayerSize = outputLayerSize {
@@ -64,7 +65,28 @@ struct NeuralNetwork {
     }
     
     func initWeightsAndBias() {
-        
+        for i in 1..<layers.count {
+            
+            let currentLayer = layers[i]
+            
+            // Each neuron in the current layer will have as many weights
+            // as there are neurons in the previous layer
+            let feedLayer = layers[i - 1]
+            
+            for j in 0..<currentLayer.neurons.count {
+                let currentNeuron = currentLayer.neurons[j]
+                
+                for k in 0..<feedLayer.neurons.count {
+                    currentNeuron.weights.append(randomWeight())
+                }
+                
+                currentNeuron.bias = randomWeight()
+            }
+        }
+    }
+    
+    func randomWeight() -> Double {
+        return Double(arc4random()) / Double(UINT32_MAX)
     }
     
     func sigmoid(input: Double) -> Double {
