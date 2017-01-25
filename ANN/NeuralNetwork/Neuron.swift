@@ -25,8 +25,10 @@ class Neuron {
     // MARK: - Helpers -
     func activate(inputs: [Double]) {
         for (weight, input) in Zip2(weights, inputs) {
-            value = weight * input
+            value += weight * input
         }
+        
+        value = sigmoid(value)
     }
     
     func sigmoid(input: Double) -> Double {

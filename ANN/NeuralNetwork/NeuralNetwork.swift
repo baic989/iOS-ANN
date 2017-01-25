@@ -121,13 +121,21 @@ class NeuralNetwork {
         }
     }
     
-    private func forwardPropagete(inputs: [Double]) {
+    private func forwardPropagete(inputData: [Double]) {
+        
+        var inputs = inputData
         
         for layer in layers {
             
+            var neuronOutput = [Double]()
+            
+            print("INPUTS: \(inputs) \n")
             for neuron in layer.neurons {
-                
+                neuron.activate(inputs)
+                neuronOutput.append(neuron.value)
             }
+            
+            inputs = neuronOutput
         }
     }
     
