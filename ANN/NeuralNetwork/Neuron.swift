@@ -10,14 +10,26 @@ import UIKit
 
 class Neuron {
     
-    // Properties
+    // MARK: - Properties -
     var weights: [Double]
     var bias: Double
     var value: Double
-    
+
+    // MARK: - Lifecycle -
     init() {
         weights = []
         bias = 1.0
         value = 0.0
+    }
+    
+    // MARK: - Helpers -
+    func activate(inputs: [Double]) {
+        for (weight, input) in Zip2(weights, inputs) {
+            value = weight * input
+        }
+    }
+    
+    func sigmoid(input: Double) -> Double {
+        return 1 / (1 + pow(M_E, -input))
     }
 }

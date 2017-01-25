@@ -105,10 +105,6 @@ class NeuralNetwork {
         return Double(arc4random()) / Double(UINT32_MAX)
     }
     
-    func sigmoid(input: Double) -> Double {
-        return 1 / (1 + pow(M_E, -input))
-    }
-    
     func sigmoidDerivative(output: Double) -> Double {
         return output * (1.0 - output)
     }
@@ -120,13 +116,19 @@ class NeuralNetwork {
             for dataRow in inputData {
                 
                 loadDataIntoInputLayer(dataRow)
-                
+                forwardPropagete(dataRow)
             }
         }
     }
     
-    private func forwardPropagete() {
-
+    private func forwardPropagete(inputs: [Double]) {
+        
+        for layer in layers {
+            
+            for neuron in layer.neurons {
+                
+            }
+        }
     }
     
     private func backwardPropagate() {
