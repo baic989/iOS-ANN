@@ -28,13 +28,15 @@ class MainViewController: UIViewController {
         
         let neuralNetwork = NeuralNetwork(topology: [trainingData[0].count, 3, 2])
         
-        for layer in neuralNetwork.layers {
-            
-            for neuron in layer.neurons {
-                print("WEIGHTS: \(neuron.weights) \n")
-                print("BIAS: \(neuron.bias) \n\n")
-            }
-        }
+        // Uncomment to print initial weights and biases
+        // Note that input layer's neuron's weights and bias are default
+//        for layer in neuralNetwork.layers {
+//            
+//            for neuron in layer.neurons {
+//                print("WEIGHTS: \(neuron.weights) \n")
+//                print("BIAS: \(neuron.bias) \n\n")
+//            }
+//        }
     }
     
     

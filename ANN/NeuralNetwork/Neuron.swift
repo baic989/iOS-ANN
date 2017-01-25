@@ -13,9 +13,11 @@ class Neuron {
     // Properties
     var weights: [Double]
     var bias: Double
+    var value: Double
     
     init() {
         weights = []
         bias = 1.0
+        value = 0.0
     }
 }

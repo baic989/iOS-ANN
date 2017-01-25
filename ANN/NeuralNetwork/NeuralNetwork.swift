@@ -64,6 +64,21 @@ class NeuralNetwork {
         initWeightsAndBias()
     }
     
+    func loadDataIntoInputLayer(data: [Double]) {
+        
+        if let inputLayer = layers.first {
+            
+            for (neuron, dataValue) in Zip2(inputLayer.neurons, data) {
+                neuron.value = dataValue
+                
+                print("NEURON VALUE \(neuron.value)")
+                print("DATA VALUE \(dataValue)")
+            }
+        } else {
+            // TODO: Tell VC what happened
+        }
+    }
+    
     func initWeightsAndBias() {
         for i in 1..<layers.count {
             
@@ -97,8 +112,11 @@ class NeuralNetwork {
         return output * (1.0 - output)
     }
     
-    func trainNetwork(inputData: [Double]) {
-        // forward propagate row
+    func trainNetwork(inputData: [[Double]], numberOfEpochs: Int, learningRate: Double) {
+        
+        for dataRow in inputData {
+            
+        }
     }
     
     private func forwardPropagete() {
