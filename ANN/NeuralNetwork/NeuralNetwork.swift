@@ -43,7 +43,7 @@ class NeuralNetwork {
         } else {
             // TODO: tell VC what happened
             #if DEBUG
-                print("Unable to init input layer!")
+                print("\nERROR: Unable to init input layer!\n")
             #endif
         }
         
@@ -57,7 +57,7 @@ class NeuralNetwork {
             layers.append(outputLayer)
         } else {
             #if DEBUG
-                print("Unable to init output layer!")
+                print("\nERROR: Unable to init output layer!\n")
             #endif
         }
         
@@ -70,12 +70,13 @@ class NeuralNetwork {
             
             for (neuron, dataValue) in Zip2(inputLayer.neurons, data) {
                 neuron.value = dataValue
-                
-                print("NEURON VALUE \(neuron.value)")
-                print("DATA VALUE \(dataValue)")
             }
         } else {
             // TODO: Tell VC what happened
+            
+            #if DEBUG
+            print("\nERROR: Unable to load data into input layer!\n")
+            #endif
         }
     }
     
@@ -114,8 +115,13 @@ class NeuralNetwork {
     
     func trainNetwork(inputData: [[Double]], numberOfEpochs: Int, learningRate: Double) {
         
-        for dataRow in inputData {
+        for index in 0..<numberOfEpochs {
             
+            for dataRow in inputData {
+                
+                loadDataIntoInputLayer(dataRow)
+                
+            }
         }
     }
     

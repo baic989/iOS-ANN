@@ -28,6 +28,8 @@ class MainViewController: UIViewController {
         
         let neuralNetwork = NeuralNetwork(topology: [trainingData[0].count, 3, 2])
         
+        neuralNetwork.trainNetwork(trainingData, numberOfEpochs: 20, learningRate: 0.1)
+        
         // Uncomment to print initial weights and biases
         // Note that input layer's neuron's weights and bias are default
 //        for layer in neuralNetwork.layers {
