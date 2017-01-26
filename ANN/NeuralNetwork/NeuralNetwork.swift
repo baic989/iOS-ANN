@@ -109,19 +109,20 @@ class NeuralNetwork {
         return output * (1.0 - output)
     }
     
-    func trainNetwork(inputData: [[Double]], numberOfEpochs: Int, learningRate: Double) {
+    func trainNetwork(inputData: [[Double]], outputData: [[Int]], numberOfEpochs: Int, learningRate: Double) {
         
         for index in 0..<numberOfEpochs {
             
-            for dataRow in inputData {
+            for (dataRow, expectedData) in Zip2(inputData, outputData) {
                 
                 loadDataIntoInputLayer(dataRow)
                 forwardPropagete(dataRow)
+                backwardPropagate(expectedData)
             }
         }
     }
     
-    private func forwardPropagete(inputData: [Double]) -> [Double] {
+    private func forwardPropagete(inputData: [Double]) {
         
         var inputs = inputData
         
@@ -139,11 +140,36 @@ class NeuralNetwork {
                 inputs = neuronOutput
             }
         }
-        
-        return inputs
     }
     
-    private func backwardPropagate() {
+    private func backwardPropagate(expectedData: [Int]) {
         
+        // kreni od output layera
+        // izracunaj deltu
+        // razdvoji slucajeve za output i hidden layere
+        //
+        
+        // Reverse the layers order so that we start with output layer
+        // and move backwards
+        for layer in layers.reverse() {
+            
+            
+            if layer.type == .outputLayer {
+                for (neuron, expectedValue) in Zip2(layer.neurons, expectedData) {
+                    
+                    neuron.error = Double(expectedValue) - neuron.value
+                }
+            } else {
+                // drugi tip
+            }
+        }
     }
 }
+
+
+
+
+
+
+
+

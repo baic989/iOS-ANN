@@ -14,12 +14,14 @@ class Neuron {
     var weights: [Double]
     var bias: Double
     var value: Double
+    var error: Double
 
     // MARK: - Lifecycle -
     init() {
         weights = []
         bias = 1.0
         value = 0.0
+        error = 0.0
     }
     
     // MARK: - Helpers -
