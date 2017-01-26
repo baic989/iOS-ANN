@@ -105,10 +105,6 @@ class NeuralNetwork {
         return Double(arc4random()) / Double(UINT32_MAX)
     }
     
-    func sigmoidDerivative(output: Double) -> Double {
-        return output * (1.0 - output)
-    }
-    
     func trainNetwork(inputData: [[Double]], outputData: [[Int]], numberOfEpochs: Int, learningRate: Double) {
         
         for index in 0..<numberOfEpochs {
@@ -149,10 +145,10 @@ class NeuralNetwork {
         for layer in layers.reverse() {
             if layer.type == .outputLayer {
                 for (neuron, expectedValue) in Zip2(layer.neurons, expectedData) {
-                    neuron.error = Double(expectedValue) - neuron.value
+                    neuron.calculateError(Double(expectedValue))
                 }
             } else {
-                // drugi tip
+                
             }
         }
     }
