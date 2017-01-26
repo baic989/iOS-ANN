@@ -121,7 +121,7 @@ class NeuralNetwork {
         }
     }
     
-    private func forwardPropagete(inputData: [Double]) {
+    private func forwardPropagete(inputData: [Double]) -> [Double] {
         
         var inputs = inputData
         
@@ -139,6 +139,8 @@ class NeuralNetwork {
                 inputs = neuronOutput
             }
         }
+        
+        return inputs
     }
     
     private func backwardPropagate() {
