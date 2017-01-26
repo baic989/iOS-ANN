@@ -8,25 +8,19 @@
 
 import UIKit
 
-enum LayerType {
-    case inputLayer
-    case hiddenLayer
-    case outputLayer
-}
-
 class Layer {
     
     var neurons:[Neuron]
-    var type: LayerType
+    var position: PositionInNetwork
     
-    init(numberOfNeurons: Int, type: LayerType){
+    init(numberOfNeurons: Int, position: PositionInNetwork){
         
         neurons = []
-        self.type = type
+        self.position = position
 
         for i in 0..<numberOfNeurons {
             
-            neurons.append(Neuron())
+            neurons.append(Neuron(position: position))
         }
     }
 }

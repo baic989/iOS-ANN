@@ -9,15 +9,21 @@
 import UIKit
 import Foundation
 
+enum PositionInNetwork {
+    case input
+    case hidden
+    case output
+}
+
 class NeuralNetwork {
     
     //MARK: - Properties -
-    var layers:[Layer] = []
+    private var layers:[Layer] = []
     
     // Network topology is an array of integers which represents the structure
     // of the network i.e. [2, 3, 2] creates a network of 3 layers. 2 input neurons
     // 3 hidden neurons and 2 output neurons
-    let networkTopology: [Int]
+    private let networkTopology: [Int]
     
     //MARK: - Lifecycle -
     init(topology: [Int]){
@@ -29,7 +35,7 @@ class NeuralNetwork {
     // trebam topology u mainu ce se za svaki row zvati trains sa row, network ne treba referencu na to
     
     //MARK: - Helpers -
-    func initNetwork() {
+    private func initNetwork() {
         
         let inputLayerSize = networkTopology.first
         let outputLayerSize = networkTopology.last
@@ -38,7 +44,7 @@ class NeuralNetwork {
         
         // Init input layer
         if let inputLayerSize = inputLayerSize {
-            let inputLayer = Layer(numberOfNeurons: inputLayerSize, type: .inputLayer)
+            let inputLayer = Layer(numberOfNeurons: inputLayerSize, position: .input)
             layers.append(inputLayer)
         } else {
             // TODO: tell VC what happened
@@ -49,11 +55,11 @@ class NeuralNetwork {
         
         // Init hidden layer
         // TODO: Fix if more than one hidden layer
-        let hiddenLayer = Layer(numberOfNeurons: networkTopology[1], type: .hiddenLayer)
+        let hiddenLayer = Layer(numberOfNeurons: networkTopology[1], position: .hidden)
         layers.append(hiddenLayer)
         
         if let outputLayerSize = outputLayerSize {
-            let outputLayer = Layer(numberOfNeurons: outputLayerSize, type: .outputLayer)
+            let outputLayer = Layer(numberOfNeurons: outputLayerSize, position: .output)
             layers.append(outputLayer)
         } else {
             #if DEBUG
@@ -64,7 +70,7 @@ class NeuralNetwork {
         initWeightsAndBias()
     }
     
-    func loadDataIntoInputLayer(data: [Double]) {
+    private func loadDataIntoInputLayer(data: [Double]) {
         
         if let inputLayer = layers.first {
             
@@ -80,7 +86,7 @@ class NeuralNetwork {
         }
     }
     
-    func initWeightsAndBias() {
+    private func initWeightsAndBias() {
         for i in 1..<layers.count {
             
             let currentLayer = layers[i]
@@ -101,7 +107,7 @@ class NeuralNetwork {
         }
     }
     
-    func randomWeight() -> Double {
+    private func randomWeight() -> Double {
         return Double(arc4random()) / Double(UINT32_MAX)
     }
     
@@ -124,7 +130,7 @@ class NeuralNetwork {
         
         for layer in layers {
             
-            if layer.type != .inputLayer {
+            if layer.position != .input {
                 var neuronOutput = [Double]()
                 
                 print("INPUTS: \(inputs) \n")
@@ -143,12 +149,13 @@ class NeuralNetwork {
         // Reverse the layers order so that we start with output layer
         // and move backwards
         for layer in layers.reverse() {
-            if layer.type == .outputLayer {
+            if layer.position == .output {
                 for (neuron, expectedValue) in Zip2(layer.neurons, expectedData) {
                     neuron.calculateError(Double(expectedValue))
                 }
             } else {
-                
+                // dohvati prijeasnji layer
+                // 
             }
         }
     }

@@ -19,14 +19,16 @@ class Neuron {
     var error: Double
     // Delta is the proposed change to fix the error
     var delta: Double
+    var position: PositionInNetwork
 
     // MARK: - Lifecycle -
-    init() {
+    init(position: PositionInNetwork) {
         weights = []
         bias = 1.0
         value = 0.0
         error = 0.0
         delta = 0.0
+        self.position = position
     }
     
     // MARK: - Helpers -
@@ -42,8 +44,13 @@ class Neuron {
     }
     
     func calculateError(expectedOutput: Double) {
-        error = expectedOutput - value
-        calculateDelta()
+        
+        if position == .output {
+            error = expectedOutput - value
+            calculateDelta()
+        } else {
+            
+        }
     }
     
     func calculateDelta() {
