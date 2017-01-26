@@ -144,19 +144,11 @@ class NeuralNetwork {
     
     private func backwardPropagate(expectedData: [Int]) {
         
-        // kreni od output layera
-        // izracunaj deltu
-        // razdvoji slucajeve za output i hidden layere
-        //
-        
         // Reverse the layers order so that we start with output layer
         // and move backwards
         for layer in layers.reverse() {
-            
-            
             if layer.type == .outputLayer {
                 for (neuron, expectedValue) in Zip2(layer.neurons, expectedData) {
-                    
                     neuron.error = Double(expectedValue) - neuron.value
                 }
             } else {
