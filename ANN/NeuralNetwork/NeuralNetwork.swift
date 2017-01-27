@@ -107,8 +107,29 @@ class NeuralNetwork {
     
     private func updateWeightsAndBias(inputData: [Double], learningRate: Double) {
         
-        for layer in layers {
+        for i in 0..<layers.count {
             
+            var inputs = inputData
+            
+            // Update nothing for input layer
+            if layers[i].position == .input { continue }
+            
+            // For the first layer keep the inputs from the input layer
+            // and for all other layers outputs become new inputs
+            if i > 1 {
+                for neuron in layers[i - 1].neurons {
+                    inputs.append(neuron.value)
+                }
+            }
+            
+            for neuron in layers[i].neurons {
+                for j in 0..<inputs.count {
+                    neuron.weights[j] += inputs[j] * neuron.delta * learningRate
+                }
+                
+                // Update bias
+                neuron.bias += neuron.delta * learningRate
+            }
         }
     }
     
