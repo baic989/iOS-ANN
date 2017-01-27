@@ -117,6 +117,7 @@ class NeuralNetwork {
             // For the first layer keep the inputs from the input layer
             // and for all other layers outputs become new inputs
             if i > 1 {
+                inputs = []
                 for neuron in layers[i - 1].neurons {
                     inputs.append(neuron.value)
                 }
