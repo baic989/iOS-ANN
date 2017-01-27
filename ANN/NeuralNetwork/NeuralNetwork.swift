@@ -105,6 +105,13 @@ class NeuralNetwork {
         }
     }
     
+    private func updateWeightsAndBias(inputData: [Double], learningRate: Double) {
+        
+        for layer in layers {
+            
+        }
+    }
+    
     private func randomWeight() -> Double {
         return Double(arc4random()) / Double(UINT32_MAX)
     }
@@ -129,6 +136,7 @@ class NeuralNetwork {
                 loadDataIntoInputLayer(dataRow)
                 forwardPropagete(dataRow)
                 backwardPropagate(expectedData)
+                updateWeightsAndBias(dataRow, learningRate: learningRate)
             }
         }
     }
@@ -168,6 +176,7 @@ class NeuralNetwork {
                 // 3. For every neuron connecting to the current neuron multiply it's
                 //    weight with the neuron's delta
                 // 4. Sum the error of all weights connecting to the current neuron
+                // 5. Calculate output
                 
                 let previousLayer = getPreviousLayer(layer)
                 
@@ -181,6 +190,7 @@ class NeuralNetwork {
                         
                         let currentNeuron = layer.neurons[index]
                         currentNeuron.error = error
+                        currentNeuron.calculateDelta()
                     }
                 }
             }

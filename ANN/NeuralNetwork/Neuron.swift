@@ -47,21 +47,20 @@ class Neuron {
         
         if position == .output {
             error = expectedOutput - value
-            calculateDelta()
-        } else {
-            
         }
+        
+        calculateDelta()
     }
     
     func calculateDelta() {
         delta = error * sigmoidDerivative(value)
     }
     
-    func sigmoid(input: Double) -> Double {
+    private func sigmoid(input: Double) -> Double {
         return 1 / (1 + pow(M_E, -input))
     }
     
-    func sigmoidDerivative(output: Double) -> Double {
+    private func sigmoidDerivative(output: Double) -> Double {
         return output * (1.0 - output)
     }
 }
