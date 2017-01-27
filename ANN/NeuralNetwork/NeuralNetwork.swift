@@ -163,22 +163,19 @@ class NeuralNetwork {
                     neuron.calculateError(Double(expectedValue))
                 }
             } else {
-                // dohvati prijeasnji layer
-                // iteriraj kroz neurone
-                // svaki uteg koji povezuje trenutni neuron pomnozi sa deltom
-                // zbroji gresku od svih utega
-                // error dodaj kao error u trenutni neuron
+                // 1. Get previous layer
+                // 2. Iterate over it's neurons
+                // 3. For every neuron connecting to the current neuron multiply it's
+                //    weight with the neuron's delta
+                // 4. Sum the error of all weights connecting to the current neuron
                 
                 let previousLayer = getPreviousLayer(layer)
                 
                 if let previousLayer = previousLayer {
-                    
                     for index in 0..<layer.neurons.count {
                         
                         var error = 0.0
-                        
                         for neuron in previousLayer.neurons {
-                            
                             error += neuron.weights[index] * neuron.delta
                         }
                         
@@ -190,11 +187,3 @@ class NeuralNetwork {
         }
     }
 }
-
-
-
-
-
-
-
-
