@@ -32,8 +32,6 @@ class NeuralNetwork {
         initNetwork()
     }
     
-    // trebam topology u mainu ce se za svaki row zvati trains sa row, network ne treba referencu na to
-    
     //MARK: - Helpers -
     private func initNetwork() {
         
@@ -111,6 +109,17 @@ class NeuralNetwork {
         return Double(arc4random()) / Double(UINT32_MAX)
     }
     
+    private func getPreviousLayer(currentLayer: Layer) -> Layer? {
+        
+        for index in 0..<layers.count {
+            if layers[index].equals(currentLayer) {
+                return layers[index + 1]
+            }
+        }
+        
+        return nil
+    }
+    
     func trainNetwork(inputData: [[Double]], outputData: [[Int]], numberOfEpochs: Int, learningRate: Double) {
         
         for index in 0..<numberOfEpochs {
@@ -155,7 +164,28 @@ class NeuralNetwork {
                 }
             } else {
                 // dohvati prijeasnji layer
-                // 
+                // iteriraj kroz neurone
+                // svaki uteg koji povezuje trenutni neuron pomnozi sa deltom
+                // zbroji gresku od svih utega
+                // error dodaj kao error u trenutni neuron
+                
+                let previousLayer = getPreviousLayer(layer)
+                
+                if let previousLayer = previousLayer {
+                    
+                    for index in 0..<layer.neurons.count {
+                        
+                        var error = 0.0
+                        
+                        for neuron in previousLayer.neurons {
+                            
+                            error += neuron.weights[index] * neuron.delta
+                        }
+                        
+                        let currentNeuron = layer.neurons[index]
+                        currentNeuron.error = error
+                    }
+                }
             }
         }
     }
