@@ -114,10 +114,10 @@
             </objects>
             <point key="canvasLocation" x="-355" y="197"/>
         </scene>
-        <!--View Controller-->
+        <!--Draw View Controller-->
         <scene sceneID="QWA-r6-CgE">
             <objects>
-                <viewController id="vWK-ij-YfU" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DrawViewController" id="vWK-ij-YfU" customClass="DrawViewController" customModule="ANN" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="UQJ-TS-HJQ"/>
                         <viewControllerLayoutGuide type="bottom" id="CBg-VM-IkD"/>
@@ -178,12 +178,20 @@
                                     <constraint firstAttribute="trailing" secondItem="P7l-q6-tT1" secondAttribute="trailing" id="ysO-bl-Zsd"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HPE-bd-KhR">
+                                <rect key="frame" x="0.0" y="70" width="600" height="480"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="HPE-bd-KhR" firstAttribute="top" secondItem="n5s-jI-kXF" secondAttribute="bottom" id="5S6-nh-DIE"/>
                             <constraint firstAttribute="trailing" secondItem="n5s-jI-kXF" secondAttribute="trailing" id="8cO-cd-Xud"/>
                             <constraint firstItem="lwz-XU-uLs" firstAttribute="leading" secondItem="KUU-yA-Vyi" secondAttribute="leading" id="Ex8-Z4-eIN"/>
+                            <constraint firstItem="HPE-bd-KhR" firstAttribute="leading" secondItem="KUU-yA-Vyi" secondAttribute="leading" id="L0n-Vz-Yk1"/>
+                            <constraint firstItem="lwz-XU-uLs" firstAttribute="top" secondItem="HPE-bd-KhR" secondAttribute="bottom" id="LKd-Sl-Uvx"/>
                             <constraint firstItem="CBg-VM-IkD" firstAttribute="top" secondItem="lwz-XU-uLs" secondAttribute="bottom" id="bKy-0i-fNi"/>
+                            <constraint firstAttribute="trailing" secondItem="HPE-bd-KhR" secondAttribute="trailing" id="i8I-QM-EhX"/>
                             <constraint firstAttribute="trailing" secondItem="lwz-XU-uLs" secondAttribute="trailing" id="ka0-uB-IVk"/>
                             <constraint firstItem="n5s-jI-kXF" firstAttribute="leading" secondItem="KUU-yA-Vyi" secondAttribute="leading" id="s5Y-1G-jtL"/>
                             <constraint firstItem="n5s-jI-kXF" firstAttribute="top" secondItem="UQJ-TS-HJQ" secondAttribute="bottom" id="wW5-qy-oTW"/>
