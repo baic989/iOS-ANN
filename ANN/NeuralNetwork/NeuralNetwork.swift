@@ -155,17 +155,18 @@ class NeuralNetwork {
         
         for index in 0..<numberOfEpochs {
             
-            for (dataRow, expectedData) in Zip2(inputData, outputData) {
+            for (inputRow, outputRow) in Zip2(inputData, outputData) {
                 
-                loadDataIntoInputLayer(dataRow)
-                forwardPropagete(dataRow)
-                backwardPropagate(expectedData)
-                updateWeightsAndBias(dataRow, learningRate: learningRate)
+                loadDataIntoInputLayer(inputRow)
+                let result = forwardPropagete(inputRow)
+                print("Expected: \(outputRow) Prediction: \(result) \n")
+                backwardPropagate(outputRow)
+                updateWeightsAndBias(inputRow, learningRate: learningRate)
             }
         }
     }
     
-    private func forwardPropagete(inputData: [Int]) {
+    private func forwardPropagete(inputData: [Int]) -> [Double]{
         
         var inputs = inputData.map {
             Double($0)
@@ -176,7 +177,6 @@ class NeuralNetwork {
             if layer.position != .input {
                 var neuronOutput = [Double]()
                 
-                print("INPUTS: \(inputs) \n")
                 for neuron in layer.neurons {
                     neuron.activate(inputs)
                     neuronOutput.append(neuron.value)
@@ -185,6 +185,9 @@ class NeuralNetwork {
                 inputs = neuronOutput
             }
         }
+        
+        // Return the output of the last layer
+        return inputs
     }
     
     private func backwardPropagate(expectedData: [Int]) {

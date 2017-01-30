@@ -25,14 +25,17 @@ class MainViewController: UIViewController {
         
         // Imaginary data for 2 classes
         let trainingData = [[0, 1, 1, 0],
-                            [0, 0, 0, 0]]
+                            [0, 0, 0, 0],
+                            [1, 0, 1, 0],
+                            [1, 0, 0, 1],
+                            [0, 1, 0, 1]]
         
         // Imaginary outputs for 2 classes
-        let expectedData = [[1, 0], [0, 1]]
+        let expectedData = [[1, 0], [0, 1], [1, 0], [1, 0], [1, 0]]
         
-        let neuralNetwork = NeuralNetwork(topology: [trainingData[0].count, 3, expectedData.count])
+        let neuralNetwork = NeuralNetwork(topology: [trainingData[0].count, 3, expectedData[0].count])
         
-        neuralNetwork.trainNetwork(trainingData, outputData: expectedData, numberOfEpochs: 2, learningRate: 0.1)
+        neuralNetwork.trainNetwork(trainingData, outputData: expectedData, numberOfEpochs: 200, learningRate: 0.5)
         
         // Uncomment to print initial weights and biases
         // Note that input layer's neuron's weights and bias are default
