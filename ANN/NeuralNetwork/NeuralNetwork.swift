@@ -32,6 +32,38 @@ class NeuralNetwork {
         initNetwork()
     }
     
+    // MARK: - Public -
+    func trainNetwork(inputData: [[Int]], outputData: [[Int]], numberOfEpochs: Int, learningRate: Double) {
+        
+        for index in 0..<numberOfEpochs {
+            
+            for (inputRow, outputRow) in Zip2(inputData, outputData) {
+                
+                loadDataIntoInputLayer(inputRow)
+                let result = forwardPropagete(inputRow).map {
+                    round($0)
+                }
+                print("Expected: \(outputRow) Prediction: \(result) \n")
+                backwardPropagate(outputRow)
+                updateWeightsAndBias(inputRow, learningRate: learningRate)
+            }
+        }
+    }
+    
+    func feed(inputData: [[Int]]) {
+        
+        print("REAL DATA\n")
+        
+        for dataRow in inputData {
+            
+            let result = forwardPropagete(dataRow).map {
+                Int(round($0))
+            }
+            
+            print("Data: \(dataRow) Expected: [1, 0] Prediction: \(result)") // Expectation is hardcoded because we know what we expect
+        }
+    }
+    
     //MARK: - Helpers -
     private func initNetwork() {
         
@@ -149,23 +181,6 @@ class NeuralNetwork {
         }
         
         return nil
-    }
-    
-    func trainNetwork(inputData: [[Int]], outputData: [[Int]], numberOfEpochs: Int, learningRate: Double) {
-        
-        for index in 0..<numberOfEpochs {
-            
-            for (inputRow, outputRow) in Zip2(inputData, outputData) {
-                
-                loadDataIntoInputLayer(inputRow)
-                let result = forwardPropagete(inputRow).map {
-                    round($0)
-                }
-                print("Expected: \(outputRow) Prediction: \(result) \n")
-                backwardPropagate(outputRow)
-                updateWeightsAndBias(inputRow, learningRate: learningRate)
-            }
-        }
     }
     
     private func forwardPropagete(inputData: [Int]) -> [Double]{
