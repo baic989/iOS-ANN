@@ -68,12 +68,12 @@ class NeuralNetwork {
         initWeightsAndBias()
     }
     
-    private func loadDataIntoInputLayer(data: [Double]) {
+    private func loadDataIntoInputLayer(data: [Int]) {
         
         if let inputLayer = layers.first {
             
             for (neuron, dataValue) in Zip2(inputLayer.neurons, data) {
-                neuron.value = dataValue
+                neuron.value = Double(dataValue)
             }
         } else {
             // TODO: Tell VC what happened
@@ -105,11 +105,13 @@ class NeuralNetwork {
         }
     }
     
-    private func updateWeightsAndBias(inputData: [Double], learningRate: Double) {
+    private func updateWeightsAndBias(inputData: [Int], learningRate: Double) {
         
         for i in 0..<layers.count {
             
-            var inputs = inputData
+            var inputs = inputData.map {
+                Double($0)
+            }
             
             // Update nothing for input layer
             if layers[i].position == .input { continue }
@@ -149,7 +151,7 @@ class NeuralNetwork {
         return nil
     }
     
-    func trainNetwork(inputData: [[Double]], outputData: [[Int]], numberOfEpochs: Int, learningRate: Double) {
+    func trainNetwork(inputData: [[Int]], outputData: [[Int]], numberOfEpochs: Int, learningRate: Double) {
         
         for index in 0..<numberOfEpochs {
             
@@ -163,9 +165,11 @@ class NeuralNetwork {
         }
     }
     
-    private func forwardPropagete(inputData: [Double]) {
+    private func forwardPropagete(inputData: [Int]) {
         
-        var inputs = inputData
+        var inputs = inputData.map {
+            Double($0)
+        }
         
         for layer in layers {
             
