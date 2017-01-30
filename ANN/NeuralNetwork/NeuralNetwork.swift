@@ -158,7 +158,9 @@ class NeuralNetwork {
             for (inputRow, outputRow) in Zip2(inputData, outputData) {
                 
                 loadDataIntoInputLayer(inputRow)
-                let result = forwardPropagete(inputRow)
+                let result = forwardPropagete(inputRow).map {
+                    round($0)
+                }
                 print("Expected: \(outputRow) Prediction: \(result) \n")
                 backwardPropagate(outputRow)
                 updateWeightsAndBias(inputRow, learningRate: learningRate)
