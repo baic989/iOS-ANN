@@ -3,7 +3,6 @@
 //  ANN
 //
 //  Created by Hrvoje on 24/01/17.
-//  Copyright (c) 2017 Algebra. All rights reserved.
 //
 
 import UIKit
@@ -51,6 +50,13 @@ class MainViewController: UIViewController {
     
     
     @IBAction func feedSampleDataButtonPressed(sender: UIButton) {
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let drawViewController = storyboard.instantiateViewControllerWithIdentifier("DrawViewController") as DrawViewController
+        let drawViewPresenter = TrainCharacterPresenter(viewController: drawViewController)
+        drawViewController.presenter = drawViewPresenter
+        
+        presentViewController(drawViewController, animated: true, completion: nil)
     }
     
     @IBAction func trainNetworkButtonPressed(sender: UIButton) {

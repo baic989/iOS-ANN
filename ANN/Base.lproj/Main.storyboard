@@ -186,7 +186,18 @@
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HPE-bd-KhR">
                                 <rect key="frame" x="0.0" y="70" width="600" height="480"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Kei-CD-Fpt">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="480"/>
+                                    </imageView>
+                                </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="Kei-CD-Fpt" secondAttribute="bottom" id="AqC-nV-hHp"/>
+                                    <constraint firstAttribute="trailing" secondItem="Kei-CD-Fpt" secondAttribute="trailing" id="V0p-zb-QKG"/>
+                                    <constraint firstItem="Kei-CD-Fpt" firstAttribute="top" secondItem="HPE-bd-KhR" secondAttribute="top" id="e6J-FZ-DhA"/>
+                                    <constraint firstItem="Kei-CD-Fpt" firstAttribute="leading" secondItem="HPE-bd-KhR" secondAttribute="leading" id="jnJ-Nl-Zvh"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -203,6 +214,9 @@
                             <constraint firstItem="n5s-jI-kXF" firstAttribute="top" secondItem="UQJ-TS-HJQ" secondAttribute="bottom" id="wW5-qy-oTW"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="drawingImageView" destination="Kei-CD-Fpt" id="rEM-AS-ux0"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qle-gC-ptm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
