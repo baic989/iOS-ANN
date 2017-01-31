@@ -16,10 +16,12 @@ class DrawViewController: UIViewController {
     // Character box will be drawn around the character
     private var characterBox: CGRect?
     private let lineWidth: CGFloat = 10.0
+    private let characterBoxThickness: CGFloat = 1.0
     private var lastPoint = CGPointZero
 
     // MARK: - Outlets -
     @IBOutlet weak var drawingImageView: UIImageView!
+    @IBOutlet weak var characterBoxImageView: UIImageView!
     
     // MARK: - Lifecycle -
     override func viewDidLoad() {
@@ -58,16 +60,17 @@ class DrawViewController: UIViewController {
         if let point = touches.allObjects.first?.locationInView(drawingImageView) {
 
             self.drawLine(lastPoint, toPoint: point)
+            self.drawCharacterBox()
             
             if point.x < self.characterBox!.minX {
-                self.updateRect(&self.characterBox!, minX: point.x - self.lineWidth - 10, maxX: nil, minY: nil, maxY: nil)
+                self.updateRect(&self.characterBox!, minX: point.x - self.lineWidth - 1, maxX: nil, minY: nil, maxY: nil)
             } else if point.x > self.characterBox!.maxX {
-                self.updateRect(&self.characterBox!, minX: nil, maxX: point.x + self.lineWidth + 10, minY: nil, maxY: nil)
+                self.updateRect(&self.characterBox!, minX: nil, maxX: point.x + self.lineWidth + 1, minY: nil, maxY: nil)
             }
             if point.y < self.characterBox!.minY {
-                self.updateRect(&self.characterBox!, minX: nil, maxX: nil, minY: point.y - self.lineWidth - 10, maxY: nil)
+                self.updateRect(&self.characterBox!, minX: nil, maxX: nil, minY: point.y - self.lineWidth - 1, maxY: nil)
             } else if point.y > self.characterBox!.maxY {
-                self.updateRect(&self.characterBox!, minX: nil, maxX: nil, minY: nil, maxY: point.y + self.lineWidth + 10)
+                self.updateRect(&self.characterBox!, minX: nil, maxX: nil, minY: nil, maxY: point.y + self.lineWidth + 1)
             }
             
             self.lastPoint = point
@@ -76,12 +79,15 @@ class DrawViewController: UIViewController {
     
     // MARK: - Helpers -
     private func drawLine(fromPoint: CGPoint, toPoint: CGPoint) {
+        
         // Begin context
         UIGraphicsBeginImageContext(self.drawingImageView.frame.size)
         let context = UIGraphicsGetCurrentContext()
+        
         // Store current image (lines drawn) in context
         self.drawingImageView.image?.drawInRect(CGRect(x: 0, y: 0, width: self.drawingImageView.frame.width, height: self.drawingImageView.frame.height))
-        // Append new line to image
+        
+        // Add new line to image
         CGContextMoveToPoint(context, fromPoint.x, fromPoint.y)
         CGContextAddLineToPoint(context, toPoint.x, toPoint.y)
         CGContextSetLineCap(context, kCGLineCapRound)
@@ -89,10 +95,31 @@ class DrawViewController: UIViewController {
         CGContextSetRGBStrokeColor(context, 0, 0, 0, 1.0)
         CGContextSetBlendMode(context, kCGBlendModeNormal)
         CGContextStrokePath(context)
+        
         // Store modified image back to imageView
         self.drawingImageView.image = UIGraphicsGetImageFromCurrentImageContext()
+        
         // End context
         UIGraphicsEndImageContext()
+    }
+    
+    private func drawCharacterBox() {
+        
+        UIGraphicsBeginImageContext(self.characterBoxImageView.frame.size)
+        let context = UIGraphicsGetCurrentContext()
+        
+        self.characterBoxImageView.image?.drawInRect(CGRect(x: 0, y: 0, width: self.characterBoxImageView.frame.width, height: self.characterBoxImageView.frame.height))
+        
+        // Draw character rect
+        CGContextClearRect(context, characterBox!)
+        CGContextSetLineWidth(context, characterBoxThickness)
+        CGContextSetStrokeColorWithColor(context, UIColor.blueColor().CGColor)
+        CGContextAddRect(context, self.characterBox!)
+        CGContextStrokePath(context)
+        self.characterBoxImageView.image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        // TODO: Animate rect to be less snappy
     }
     
     private func updateRect(inout rect: CGRect, minX: CGFloat?, maxX: CGFloat?, minY: CGFloat?, maxY: CGFloat?) {

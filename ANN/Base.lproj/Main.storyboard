@@ -190,13 +190,21 @@
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Kei-CD-Fpt">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="480"/>
                                     </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="35F-VI-cMp">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="480"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstItem="35F-VI-cMp" firstAttribute="leading" secondItem="HPE-bd-KhR" secondAttribute="leading" id="0UX-bb-Sgm"/>
                                     <constraint firstAttribute="bottom" secondItem="Kei-CD-Fpt" secondAttribute="bottom" id="AqC-nV-hHp"/>
+                                    <constraint firstItem="35F-VI-cMp" firstAttribute="top" secondItem="HPE-bd-KhR" secondAttribute="top" id="I0Q-6G-ex2"/>
+                                    <constraint firstAttribute="bottom" secondItem="35F-VI-cMp" secondAttribute="bottom" id="I2Z-i2-uKI"/>
                                     <constraint firstAttribute="trailing" secondItem="Kei-CD-Fpt" secondAttribute="trailing" id="V0p-zb-QKG"/>
                                     <constraint firstItem="Kei-CD-Fpt" firstAttribute="top" secondItem="HPE-bd-KhR" secondAttribute="top" id="e6J-FZ-DhA"/>
                                     <constraint firstItem="Kei-CD-Fpt" firstAttribute="leading" secondItem="HPE-bd-KhR" secondAttribute="leading" id="jnJ-Nl-Zvh"/>
+                                    <constraint firstAttribute="trailing" secondItem="35F-VI-cMp" secondAttribute="trailing" id="mOw-Ko-ura"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -215,6 +223,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="characterBoxImageView" destination="35F-VI-cMp" id="2sJ-Lu-Y9y"/>
                         <outlet property="drawingImageView" destination="Kei-CD-Fpt" id="rEM-AS-ux0"/>
                     </connections>
                 </viewController>
