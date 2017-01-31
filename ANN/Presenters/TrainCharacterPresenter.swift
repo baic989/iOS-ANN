@@ -16,10 +16,14 @@ class TrainCharacterPresenter: DrawViewControllerDelegateProtocol {
     }
     
     func okButtonPressed() {
-        //Implement me
+        if let viewController = viewController {
+            viewController.processImage()
+        }
     }
     
     func clearButtonPressed() {
-        // Implement me
+        if let viewController = viewController {
+            viewController.clearCanvas()
+        }
     }
 }

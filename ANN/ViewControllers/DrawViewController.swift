@@ -36,6 +36,17 @@ class DrawViewController: UIViewController {
         presenter.clearButtonPressed()
     }
     
+    // MARK: - Internal -
+    internal func processImage() {
+        
+    }
+    
+    internal func clearCanvas() {
+        drawingImageView.image = nil
+        characterBoxImageView.image = nil
+        characterBox = nil
+    }
+    
     // MARK: - Drawing -
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         
