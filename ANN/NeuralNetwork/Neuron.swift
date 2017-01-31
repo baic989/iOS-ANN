@@ -63,4 +63,14 @@ class Neuron {
     private func sigmoidDerivative(output: Double) -> Double {
         return output * (1.0 - output)
     }
+    
+//    /// Hyperbolic tangent activation function.
+//    private func hyperbolicTangent(x: Float) -> Float {
+//        return tanh(x)
+//    }
+//    
+//    /// Derivative for the hyperbolic tangent activation function.
+//    private func hyperbolicTangentDerivative(y: Float) -> Float {
+//        return 1 - (y * y)
+//    }
 }
