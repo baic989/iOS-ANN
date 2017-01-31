@@ -8,7 +8,19 @@
 
 import UIKit
 
-class TrainCharacterPresenter {
+class TrainCharacterPresenter: DrawViewControllerDelegateProtocol {
     
-    let viewController: DrawViewController
+    weak var viewController: DrawViewController?
+    
+    init(viewController: DrawViewController) {
+        self.viewController = viewController
+    }
+    
+    func okButtonPressed() {
+        //Implement me
+    }
+    
+    func clearButtonPressed() {
+        // Implement me
+    }
 }
