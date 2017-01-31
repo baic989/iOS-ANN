@@ -18,8 +18,4 @@ class ClassifyCharacterPresenter: DrawViewControllerDelegateProtocol {
     func okButtonPressed() {
         //Implement me
     }
-    
-    func clearButtonPressed() {
-        // Implement me
-    }
 }

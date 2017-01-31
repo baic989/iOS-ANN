@@ -9,5 +9,4 @@ import UIKit
 
 protocol DrawViewControllerDelegateProtocol {
     func okButtonPressed()
-    func clearButtonPressed()
 }

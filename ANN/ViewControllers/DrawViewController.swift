@@ -33,7 +33,7 @@ class DrawViewController: UIViewController {
         presenter.okButtonPressed()
     }
     @IBAction func clearButtonPressed(sender: UIButton) {
-        presenter.clearButtonPressed()
+        clearCanvas()
     }
     
     // MARK: - Internal -

@@ -20,10 +20,4 @@ class TrainCharacterPresenter: DrawViewControllerDelegateProtocol {
             viewController.processImage()
         }
     }
-    
-    func clearButtonPressed() {
-        if let viewController = viewController {
-            viewController.clearCanvas()
-        }
-    }
 }
