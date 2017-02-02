@@ -36,6 +36,9 @@ class DrawViewController: UIViewController {
     @IBAction func clearButtonPressed(sender: UIButton) {
         clearCanvas()
     }
+    @IBAction func cancelButtonPressed(sender: UIButton) {
+        dismissViewControllerAnimated(true, completion: nil)
+    }
     
     // MARK: - Internal -
     internal func processImage() {
@@ -48,6 +51,7 @@ class DrawViewController: UIViewController {
                 
                 let pixelsArray = pixelizeImage(scaledImage)
 
+                // TODO:
                 // add expected outputs to output array
                 // feed the network
                 // try classification with new letter
@@ -130,6 +134,10 @@ class DrawViewController: UIViewController {
     }
     
     // MARK: - Helpers -
+    override func prefersStatusBarHidden() -> Bool {
+        return true
+    }
+    
     private func drawLine(fromPoint: CGPoint, toPoint: CGPoint) {
         
         // Begin context

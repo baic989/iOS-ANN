@@ -64,4 +64,8 @@ class MainViewController: UIViewController {
     
     @IBAction func testNetworkButtonPressed(sender: UIButton) {
     }
+    
+    override func prefersStatusBarHidden() -> Bool {
+        return true
+    }
 }
