@@ -18,6 +18,7 @@ class DrawViewController: UIViewController {
     private let lineWidth: CGFloat = 10.0
     private let characterBoxThickness: CGFloat = 1.0
     private var lastPoint = CGPointZero
+    private let pickerViewData = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"]
 
     // MARK: - Outlets -
     @IBOutlet weak var drawingImageView: UIImageView!
@@ -42,16 +43,42 @@ class DrawViewController: UIViewController {
         if let characterBox = characterBox {
             if let croppedImage = drawingImageView.image?.cropImageWithRect(characterBox) {
                 
-                let size = CGSize(width: 20.0, height: 20.0)
+                let size = CGSize(width: 40.0, height: 40.0)
                 let scaledImage = croppedImage.scaleImageToSize(size)
                 
-                print("")
+                let pixelsArray = pixelizeImage(scaledImage)
+
+                // add expected outputs to output array
+                // feed the network
+                // try classification with new letter
+                
             } else {
                 // TODO: Show cropping error
             }
         } else {
             // TODO: Show charBox error
         }
+    }
+    
+    private func pixelizeImage(image: UIImage) -> [Double] {
+        
+        let pixelData = CGDataProviderCopyData(CGImageGetDataProvider(image.CGImage))
+        let data: UnsafePointer<UInt8> = CFDataGetBytePtr(pixelData)
+        var pixelsArray = [Double]()
+        let bytesPerRow = CGImageGetBytesPerRow(image.CGImage)
+        let bytesPerPixel = (CGImageGetBitsPerPixel(image.CGImage) / 8)
+        var position = 0
+        for _ in 0..<Int(image.size.height) {
+            for _ in 0..<Int(image.size.width) {
+                let alpha = Float(data[position + 3])
+                pixelsArray.append(Double(alpha / 255))
+                position += Int(bytesPerPixel)
+            }
+            if position % Int(bytesPerRow) != 0 {
+                position += (Int(bytesPerRow) - (position % Int(bytesPerRow)))
+            }
+        }
+        return pixelsArray
     }
     
     internal func clearCanvas() {
@@ -154,5 +181,21 @@ class DrawViewController: UIViewController {
             y: minY ?? rect.minY,
             width: (maxX ?? rect.maxX) - (minX ?? rect.minX),
             height: (maxY ?? rect.maxY) - (minY ?? rect.minY))
+    }
+}
+
+extension DrawViewController: UIPickerViewDataSource {
+    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return pickerViewData.count
+    }
+}
+
+extension DrawViewController: UIPickerViewDelegate {
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
+        return pickerViewData[row]
     }
 }

@@ -188,20 +188,55 @@
                                 <rect key="frame" x="0.0" y="70" width="600" height="480"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Kei-CD-Fpt">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="480"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="440"/>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="35F-VI-cMp">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="480"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="440"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </imageView>
+                                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CDE-LN-bCN">
+                                        <rect key="frame" x="0.0" y="440" width="600" height="40"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Training letter: " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kxh-oI-2Qw">
+                                                <rect key="frame" x="40" y="11" width="440" height="21"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YP6-rd-2Ib">
+                                                <rect key="frame" x="520" y="-61" width="30" height="162"/>
+                                                <color key="backgroundColor" red="0.50196081399917603" green="0.50196081399917603" blue="0.50196081399917603" alpha="1" colorSpace="calibratedRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="30" id="q4g-YZ-zGg"/>
+                                                </constraints>
+                                                <connections>
+                                                    <outlet property="dataSource" destination="vWK-ij-YfU" id="FUB-zF-Sse"/>
+                                                    <outlet property="delegate" destination="vWK-ij-YfU" id="ucr-qs-5OV"/>
+                                                </connections>
+                                            </pickerView>
+                                        </subviews>
+                                        <color key="backgroundColor" red="0.50196081399917603" green="0.50196081399917603" blue="0.50196081399917603" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstItem="YP6-rd-2Ib" firstAttribute="top" secondItem="CDE-LN-bCN" secondAttribute="top" id="80N-lT-X5b"/>
+                                            <constraint firstAttribute="bottom" secondItem="YP6-rd-2Ib" secondAttribute="bottom" id="PqS-pm-wJg"/>
+                                            <constraint firstAttribute="trailing" secondItem="YP6-rd-2Ib" secondAttribute="trailing" constant="50" id="euO-84-PB7"/>
+                                            <constraint firstItem="kxh-oI-2Qw" firstAttribute="leading" secondItem="CDE-LN-bCN" secondAttribute="leading" constant="40" id="k8x-bd-9t7"/>
+                                            <constraint firstAttribute="height" constant="40" id="lie-50-Ayr"/>
+                                            <constraint firstAttribute="centerY" secondItem="kxh-oI-2Qw" secondAttribute="centerY" constant="-1.5" id="mbR-uo-5qc"/>
+                                            <constraint firstItem="YP6-rd-2Ib" firstAttribute="leading" secondItem="kxh-oI-2Qw" secondAttribute="trailing" constant="40" id="usG-9N-ydy"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="35F-VI-cMp" firstAttribute="leading" secondItem="HPE-bd-KhR" secondAttribute="leading" id="0UX-bb-Sgm"/>
-                                    <constraint firstAttribute="bottom" secondItem="Kei-CD-Fpt" secondAttribute="bottom" id="AqC-nV-hHp"/>
+                                    <constraint firstItem="CDE-LN-bCN" firstAttribute="top" secondItem="35F-VI-cMp" secondAttribute="bottom" id="3o0-mX-IpS"/>
                                     <constraint firstItem="35F-VI-cMp" firstAttribute="top" secondItem="HPE-bd-KhR" secondAttribute="top" id="I0Q-6G-ex2"/>
-                                    <constraint firstAttribute="bottom" secondItem="35F-VI-cMp" secondAttribute="bottom" id="I2Z-i2-uKI"/>
+                                    <constraint firstItem="CDE-LN-bCN" firstAttribute="leading" secondItem="HPE-bd-KhR" secondAttribute="leading" id="MCU-Sn-byP"/>
+                                    <constraint firstAttribute="bottom" secondItem="CDE-LN-bCN" secondAttribute="bottom" id="RP7-RT-o2V"/>
+                                    <constraint firstItem="CDE-LN-bCN" firstAttribute="top" secondItem="Kei-CD-Fpt" secondAttribute="bottom" id="Rcc-a5-Uo5"/>
                                     <constraint firstAttribute="trailing" secondItem="Kei-CD-Fpt" secondAttribute="trailing" id="V0p-zb-QKG"/>
+                                    <constraint firstAttribute="trailing" secondItem="CDE-LN-bCN" secondAttribute="trailing" id="dON-Zp-Tum"/>
                                     <constraint firstItem="Kei-CD-Fpt" firstAttribute="top" secondItem="HPE-bd-KhR" secondAttribute="top" id="e6J-FZ-DhA"/>
                                     <constraint firstItem="Kei-CD-Fpt" firstAttribute="leading" secondItem="HPE-bd-KhR" secondAttribute="leading" id="jnJ-Nl-Zvh"/>
                                     <constraint firstAttribute="trailing" secondItem="35F-VI-cMp" secondAttribute="trailing" id="mOw-Ko-ura"/>
