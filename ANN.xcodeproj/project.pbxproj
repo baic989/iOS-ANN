@@ -20,6 +20,8 @@
 		3B8B8FE11E40AAFF008FCDBD /* TrainCharacterPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8B8FE01E40AAFF008FCDBD /* TrainCharacterPresenter.swift */; };
 		3B8B8FE31E40AB17008FCDBD /* ClassifyCharacterPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8B8FE21E40AB17008FCDBD /* ClassifyCharacterPresenter.swift */; };
 		3B8B8FE61E40ABD2008FCDBD /* DrawViewControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8B8FE51E40ABD2008FCDBD /* DrawViewControllerProtocol.swift */; };
+		3B99912C1E43624900A1BAC6 /* UIImage+Cropping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B99912B1E43624900A1BAC6 /* UIImage+Cropping.swift */; };
+		3B99912E1E4362AB00A1BAC6 /* UIImage+Scaling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B99912D1E4362AB00A1BAC6 /* UIImage+Scaling.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +52,8 @@
 		3B8B8FE01E40AAFF008FCDBD /* TrainCharacterPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrainCharacterPresenter.swift; sourceTree = "<group>"; };
 		3B8B8FE21E40AB17008FCDBD /* ClassifyCharacterPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassifyCharacterPresenter.swift; sourceTree = "<group>"; };
 		3B8B8FE51E40ABD2008FCDBD /* DrawViewControllerProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawViewControllerProtocol.swift; sourceTree = "<group>"; };
+		3B99912B1E43624900A1BAC6 /* UIImage+Cropping.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Cropping.swift"; sourceTree = "<group>"; };
+		3B99912D1E4362AB00A1BAC6 /* UIImage+Scaling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Scaling.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +95,7 @@
 		3B627DCC1E37590D004A066A /* ANN */ = {
 			isa = PBXGroup;
 			children = (
+				3B99912A1E4361BE00A1BAC6 /* Extensions */,
 				3B8B8FE41E40ABB1008FCDBD /* Protocols */,
 				3B627DEF1E375F5F004A066A /* NeuralNetwork */,
 				3B627DF01E375F5F004A066A /* ViewControllers */,
@@ -163,6 +168,15 @@
 				3B8B8FE51E40ABD2008FCDBD /* DrawViewControllerProtocol.swift */,
 			);
 			path = Protocols;
+			sourceTree = "<group>";
+		};
+		3B99912A1E4361BE00A1BAC6 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				3B99912B1E43624900A1BAC6 /* UIImage+Cropping.swift */,
+				3B99912D1E4362AB00A1BAC6 /* UIImage+Scaling.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -270,9 +284,11 @@
 				3B8B8FE61E40ABD2008FCDBD /* DrawViewControllerProtocol.swift in Sources */,
 				3B627DD01E37590D004A066A /* AppDelegate.swift in Sources */,
 				3B627DF21E375FE2004A066A /* MainViewController.swift in Sources */,
+				3B99912C1E43624900A1BAC6 /* UIImage+Cropping.swift in Sources */,
 				3B8B8FE31E40AB17008FCDBD /* ClassifyCharacterPresenter.swift in Sources */,
 				3B627DF41E376052004A066A /* NeuralNetwork.swift in Sources */,
 				3B627DF61E3760D1004A066A /* Layer.swift in Sources */,
+				3B99912E1E4362AB00A1BAC6 /* UIImage+Scaling.swift in Sources */,
 				3B627DF81E376116004A066A /* Neuron.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

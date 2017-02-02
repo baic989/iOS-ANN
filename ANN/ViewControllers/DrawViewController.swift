@@ -39,6 +39,19 @@ class DrawViewController: UIViewController {
     // MARK: - Internal -
     internal func processImage() {
         
+        if let characterBox = characterBox {
+            if let croppedImage = drawingImageView.image?.cropImageWithRect(characterBox) {
+                
+                let size = CGSize(width: 20.0, height: 20.0)
+                let scaledImage = croppedImage.scaleImageToSize(size)
+                
+                print("")
+            } else {
+                // TODO: Show cropping error
+            }
+        } else {
+            // TODO: Show charBox error
+        }
     }
     
     internal func clearCanvas() {
@@ -73,15 +86,16 @@ class DrawViewController: UIViewController {
             self.drawLine(lastPoint, toPoint: point)
             self.drawCharacterBox()
             
+            // Update character box's dimensions
             if point.x < self.characterBox!.minX {
-                self.updateRect(&self.characterBox!, minX: point.x - self.lineWidth - 1, maxX: nil, minY: nil, maxY: nil)
+                self.updateCharacterBox(&self.characterBox!, minX: point.x - self.lineWidth - 1, maxX: nil, minY: nil, maxY: nil)
             } else if point.x > self.characterBox!.maxX {
-                self.updateRect(&self.characterBox!, minX: nil, maxX: point.x + self.lineWidth + 1, minY: nil, maxY: nil)
+                self.updateCharacterBox(&self.characterBox!, minX: nil, maxX: point.x + self.lineWidth + 1, minY: nil, maxY: nil)
             }
             if point.y < self.characterBox!.minY {
-                self.updateRect(&self.characterBox!, minX: nil, maxX: nil, minY: point.y - self.lineWidth - 1, maxY: nil)
+                self.updateCharacterBox(&self.characterBox!, minX: nil, maxX: nil, minY: point.y - self.lineWidth - 1, maxY: nil)
             } else if point.y > self.characterBox!.maxY {
-                self.updateRect(&self.characterBox!, minX: nil, maxX: nil, minY: nil, maxY: point.y + self.lineWidth + 1)
+                self.updateCharacterBox(&self.characterBox!, minX: nil, maxX: nil, minY: nil, maxY: point.y + self.lineWidth + 1)
             }
             
             self.lastPoint = point
@@ -133,7 +147,9 @@ class DrawViewController: UIViewController {
         // TODO: Animate rect to be less snappy
     }
     
-    private func updateRect(inout rect: CGRect, minX: CGFloat?, maxX: CGFloat?, minY: CGFloat?, maxY: CGFloat?) {
+    // CGRect is a struct and therefore passed by value, 
+    // so the parameter must be declared as inout and passed by reference
+    private func updateCharacterBox(inout rect: CGRect, minX: CGFloat?, maxX: CGFloat?, minY: CGFloat?, maxY: CGFloat?) {
         rect = CGRect(x: minX ?? rect.minX,
             y: minY ?? rect.minY,
             width: (maxX ?? rect.maxX) - (minX ?? rect.minX),
