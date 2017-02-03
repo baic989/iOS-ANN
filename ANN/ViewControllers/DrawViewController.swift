@@ -81,7 +81,7 @@ class DrawViewController: UIViewController {
                 let scaledImage = croppedImage.scaleImageToSize(size)
                 let pixelsArray = pixelizeImage(scaledImage)
                 
-                saveCharacterPixelsArray(pixelsArray)
+                saveCharacterPixelsAndOutput(pixelsArray)
             } else {
                 // TODO: Show cropping error
             }
@@ -160,7 +160,7 @@ class DrawViewController: UIViewController {
     }
     
     // MARK: - Helpers -
-    func saveCharacterPixelsArray(pixelsArray: [Int]) {
+    func saveCharacterPixelsAndOutput(pixelsArray: [Int]) {
         
         // First save character pixels
         arrayOfPixelizedCharacters.append(pixelsArray)
@@ -189,6 +189,15 @@ class DrawViewController: UIViewController {
         userDefaults.setValue(arrayOfOutputs, forKey: characterOuputArrayKey)
         
         userDefaults.synchronize()
+    }
+    
+    func loadCharacterPixelsAndOutput() -> ([[Int]], [[Int]]) {
+        
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        let characterPixelsArray = userDefaults.arrayForKey(characterPixelsArrayKey) as [[Int]]
+        let characterOutputArray = userDefaults.arrayForKey(characterOuputArrayKey) as [[Int]]
+        
+        return (characterPixelsArray, characterOutputArray)
     }
     
     private func drawLine(fromPoint: CGPoint, toPoint: CGPoint) {
