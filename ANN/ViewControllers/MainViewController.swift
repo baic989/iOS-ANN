@@ -9,50 +9,15 @@ import UIKit
 
 class MainViewController: UIViewController {
 
+    // MARK: - Lifecycle -
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        createNeuralNetwork()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
-    func createNeuralNetwork(){
-        
-        // Imaginary data for 2 classes
-        let trainingData = [[0, 1, 1, 0],
-                            [0, 0, 0, 0],
-                            [1, 0, 1, 0],
-                            [1, 0, 0, 1],
-                            [0, 1, 0, 1]]
-        
-        // Imaginary outputs for 2 classes
-        let expectedData = [[1, 0], [0, 1], [1, 0], [1, 0], [1, 0]]
-        
-        let neuralNetwork = NeuralNetwork(topology: [trainingData[0].count, 3, expectedData[0].count])
-        
-        //neuralNetwork.trainNetwork(trainingData, outputData: expectedData, numberOfEpochs: 20, learningRate: 0.5)
-        //neuralNetwork.feed([[1, 1, 1, 1], [0, 0, 0, 1]])
-        
-        // Uncomment to print initial weights and biases
-        // Note that input layer's neuron's weights and bias are default
-//        for layer in neuralNetwork.layers {
-//            
-//            for neuron in layer.neurons {
-//                print("WEIGHTS: \(neuron.weights) \n")
-//                print("BIAS: \(neuron.bias) \n\n")
-//            }
-//        }
-    }
-    
-    
+    // MARK: - IBActions -
     @IBAction func feedSampleDataButtonPressed(sender: UIButton) {
         
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let drawViewController = storyboard.instantiateViewControllerWithIdentifier("DrawViewController") as DrawViewController
+        let drawViewController = initDrawViewController()
         let drawViewPresenter = TrainCharacterPresenter(viewController: drawViewController)
         drawViewController.presenter = drawViewPresenter
         
@@ -63,8 +28,23 @@ class MainViewController: UIViewController {
     }
     
     @IBAction func testNetworkButtonPressed(sender: UIButton) {
+        
+        let drawViewController = initDrawViewController()
+        let drawViewPresenter = ClassifyCharacterPresenter(viewController: drawViewController)
+        drawViewController.presenter = drawViewPresenter
+        
+        presentViewController(drawViewController, animated: true, completion: nil)
     }
     
+    // MARK: - Navigation -
+    private func initDrawViewController() -> DrawViewController {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let drawViewController = storyboard.instantiateViewControllerWithIdentifier("DrawViewController") as DrawViewController
+        
+        return drawViewController
+    }
+    
+    // MARK: - Setup -
     override func prefersStatusBarHidden() -> Bool {
         return true
     }

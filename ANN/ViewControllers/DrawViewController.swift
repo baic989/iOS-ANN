@@ -10,23 +10,35 @@ import Foundation
 
 class DrawViewController: UIViewController {
     
-    // MARK: - Properties -
+    // MARK: - Public Properties -
     var presenter: DrawViewControllerDelegateProtocol!
     
-    // Character box will be drawn around the character
-    private var characterBox: CGRect?
+    // MARK: - Private properties -
     private let lineWidth: CGFloat = 10.0
     private let characterBoxThickness: CGFloat = 1.0
-    private var lastPoint = CGPointZero
     private let pickerViewData = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"]
+    // TODO: Refactor these constants and view controller identifiers also
+    private let characterPixelsArrayKey = "characterPixelsArrayKey"
+    private let characterOuputArrayKey = "characterOuputArrayKey"
+    
+    private var lastPoint = CGPointZero
+    private var characterBox: CGRect?
+    private var arrayOfPixelizedCharacters: [[Int]] = []
+    private var arrayOfOutputs: [[Int]] = []
 
     // MARK: - Outlets -
     @IBOutlet weak var drawingImageView: UIImageView!
     @IBOutlet weak var characterBoxImageView: UIImageView!
+    @IBOutlet weak var characterPickerView: UIPickerView!
     
     // MARK: - Lifecycle -
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    // MARK: - Setup -
+    override func prefersStatusBarHidden() -> Bool {
+        return true
     }
     
     // MARK: - Delegate methods -
@@ -40,6 +52,25 @@ class DrawViewController: UIViewController {
         dismissViewControllerAnimated(true, completion: nil)
     }
     
+    // MARK: - Neural network -
+    func createNeuralNetwork(inputData: [[Int]], outputData: [[Int]]){
+        
+        let neuralNetwork = NeuralNetwork(topology: [inputData[0].count, 3, outputData[0].count])
+        
+        neuralNetwork.trainNetwork(inputData, outputData: outputData, numberOfEpochs: 2000, learningRate: 0.5)
+        //neuralNetwork.feed([[1, 1, 1, 1], [0, 0, 0, 1]])
+        
+        // Uncomment to print initial weights and biases
+        // Note that input layer's neuron's weights and bias are default
+        //        for layer in neuralNetwork.layers {
+        //
+        //            for neuron in layer.neurons {
+        //                print("WEIGHTS: \(neuron.weights) \n")
+        //                print("BIAS: \(neuron.bias) \n\n")
+        //            }
+        //        }
+    }
+    
     // MARK: - Internal -
     internal func processImage() {
         
@@ -48,14 +79,9 @@ class DrawViewController: UIViewController {
                 
                 let size = CGSize(width: 40.0, height: 40.0)
                 let scaledImage = croppedImage.scaleImageToSize(size)
-                
                 let pixelsArray = pixelizeImage(scaledImage)
-
-                // TODO:
-                // add expected outputs to output array
-                // feed the network
-                // try classification with new letter
                 
+                saveCharacterPixelsArray(pixelsArray)
             } else {
                 // TODO: Show cropping error
             }
@@ -64,18 +90,18 @@ class DrawViewController: UIViewController {
         }
     }
     
-    private func pixelizeImage(image: UIImage) -> [Double] {
+    private func pixelizeImage(image: UIImage) -> [Int] {
         
         let pixelData = CGDataProviderCopyData(CGImageGetDataProvider(image.CGImage))
         let data: UnsafePointer<UInt8> = CFDataGetBytePtr(pixelData)
-        var pixelsArray = [Double]()
+        var pixelsArray = [Int]()
         let bytesPerRow = CGImageGetBytesPerRow(image.CGImage)
         let bytesPerPixel = (CGImageGetBitsPerPixel(image.CGImage) / 8)
         var position = 0
         for _ in 0..<Int(image.size.height) {
             for _ in 0..<Int(image.size.width) {
                 let alpha = Float(data[position + 3])
-                pixelsArray.append(Double(alpha / 255))
+                pixelsArray.append(Int(alpha / 255))
                 position += Int(bytesPerPixel)
             }
             if position % Int(bytesPerRow) != 0 {
@@ -134,8 +160,35 @@ class DrawViewController: UIViewController {
     }
     
     // MARK: - Helpers -
-    override func prefersStatusBarHidden() -> Bool {
-        return true
+    func saveCharacterPixelsArray(pixelsArray: [Int]) {
+        
+        // First save character pixels
+        arrayOfPixelizedCharacters.append(pixelsArray)
+        
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        userDefaults.setValue(arrayOfPixelizedCharacters, forKey: characterPixelsArrayKey)
+        
+        
+        // Then save the correct output for that character
+        // The array of outputs will be filled with zeroes except
+        // at the index of the selected character
+        // For example output array for B will be [0, 1, 0, 0, 0, ...]
+        var outputArrayForCharacter = Array(0..<pickerViewData.count)
+        
+        for index in 0..<pickerViewData.count {
+            
+            let selectedCharacterIndex = characterPickerView.selectedRowInComponent(0)
+            let character = pickerViewData[selectedCharacterIndex]
+            
+            if character == pickerViewData[index] {
+                outputArrayForCharacter[index] = 1
+            }
+        }
+        
+        arrayOfOutputs.append(outputArrayForCharacter)
+        userDefaults.setValue(arrayOfOutputs, forKey: characterOuputArrayKey)
+        
+        userDefaults.synchronize()
     }
     
     private func drawLine(fromPoint: CGPoint, toPoint: CGPoint) {
@@ -179,7 +232,7 @@ class DrawViewController: UIViewController {
         self.characterBoxImageView.image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
-        // TODO: Animate rect to be less snappy
+        // TODO: Animate rect to be less snappy if possible
     }
     
     // CGRect is a struct and therefore passed by value, 
