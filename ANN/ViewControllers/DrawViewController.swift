@@ -82,6 +82,10 @@ class DrawViewController: UIViewController {
                 let pixelsArray = pixelizeImage(scaledImage)
                 
                 saveCharacterPixelsAndOutput(pixelsArray)
+                
+                let pixels = loadCharacterPixelsArray()
+                let outputs = loadCharacterOutputArray()
+                print("")
             } else {
                 // TODO: Show cropping error
             }
@@ -168,12 +172,13 @@ class DrawViewController: UIViewController {
         let userDefaults = NSUserDefaults.standardUserDefaults()
         userDefaults.setValue(arrayOfPixelizedCharacters, forKey: characterPixelsArrayKey)
         
+        userDefaults.synchronize()
         
         // Then save the correct output for that character
         // The array of outputs will be filled with zeroes except
         // at the index of the selected character
         // For example output array for B will be [0, 1, 0, 0, 0, ...]
-        var outputArrayForCharacter = Array(0..<pickerViewData.count)
+        var outputArrayForCharacter = Array(count: pickerViewData.count, repeatedValue: 0)
         
         for index in 0..<pickerViewData.count {
             
@@ -191,13 +196,19 @@ class DrawViewController: UIViewController {
         userDefaults.synchronize()
     }
     
-    func loadCharacterPixelsAndOutput() -> ([[Int]], [[Int]]) {
+    func loadCharacterPixelsArray() -> [[Int]] {
         
         let userDefaults = NSUserDefaults.standardUserDefaults()
         let characterPixelsArray = userDefaults.arrayForKey(characterPixelsArrayKey) as [[Int]]
-        let characterOutputArray = userDefaults.arrayForKey(characterOuputArrayKey) as [[Int]]
         
-        return (characterPixelsArray, characterOutputArray)
+        return characterPixelsArray
+    }
+    
+    func loadCharacterOutputArray() -> [[Int]] {
+        
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        let characterOutputsArray = userDefaults.arrayForKey(characterOuputArrayKey) as [[Int]]
+        return characterOutputsArray
     }
     
     private func drawLine(fromPoint: CGPoint, toPoint: CGPoint) {
