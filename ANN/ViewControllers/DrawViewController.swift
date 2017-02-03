@@ -52,46 +52,27 @@ class DrawViewController: UIViewController {
         dismissViewControllerAnimated(true, completion: nil)
     }
     
-    // MARK: - Neural network -
-    func createNeuralNetwork(inputData: [[Int]], outputData: [[Int]]){
-        
-        let neuralNetwork = NeuralNetwork(topology: [inputData[0].count, 3, outputData[0].count])
-        
-        neuralNetwork.trainNetwork(inputData, outputData: outputData, numberOfEpochs: 2000, learningRate: 0.5)
-        //neuralNetwork.feed([[1, 1, 1, 1], [0, 0, 0, 1]])
-        
-        // Uncomment to print initial weights and biases
-        // Note that input layer's neuron's weights and bias are default
-        //        for layer in neuralNetwork.layers {
-        //
-        //            for neuron in layer.neurons {
-        //                print("WEIGHTS: \(neuron.weights) \n")
-        //                print("BIAS: \(neuron.bias) \n\n")
-        //            }
-        //        }
-    }
-    
     // MARK: - Internal -
     internal func processImage() {
         
         if let characterBox = characterBox {
             if let croppedImage = drawingImageView.image?.cropImageWithRect(characterBox) {
                 
-                let size = CGSize(width: 40.0, height: 40.0)
+                let size = CGSize(width: 20.0, height: 20.0)
                 let scaledImage = croppedImage.scaleImageToSize(size)
                 let pixelsArray = pixelizeImage(scaledImage)
                 
                 saveCharacterPixelsAndOutput(pixelsArray)
-                
-                let pixels = loadCharacterPixelsArray()
-                let outputs = loadCharacterOutputArray()
-                print("")
             } else {
                 // TODO: Show cropping error
             }
         } else {
             // TODO: Show charBox error
         }
+    }
+    
+    internal func classifyImage() {
+        
     }
     
     private func pixelizeImage(image: UIImage) -> [Int] {
@@ -194,21 +175,6 @@ class DrawViewController: UIViewController {
         userDefaults.setValue(arrayOfOutputs, forKey: characterOuputArrayKey)
         
         userDefaults.synchronize()
-    }
-    
-    func loadCharacterPixelsArray() -> [[Int]] {
-        
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        let characterPixelsArray = userDefaults.arrayForKey(characterPixelsArrayKey) as [[Int]]
-        
-        return characterPixelsArray
-    }
-    
-    func loadCharacterOutputArray() -> [[Int]] {
-        
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        let characterOutputsArray = userDefaults.arrayForKey(characterOuputArrayKey) as [[Int]]
-        return characterOutputsArray
     }
     
     private func drawLine(fromPoint: CGPoint, toPoint: CGPoint) {

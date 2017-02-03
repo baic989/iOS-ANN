@@ -42,10 +42,12 @@ class NeuralNetwork {
                 let result = forwardPropagete(inputRow).map {
                     round($0)
                 }
-                print("Expected: \(outputRow) Prediction: \(result) \n")
+                //print("Expected: \(outputRow)\n Prediction: \(result) \n\n")
                 backwardPropagate(outputRow)
                 updateWeightsAndBias(inputRow, learningRate: learningRate)
             }
+            
+            print("Training \((index/numberOfEpochs)*100)% complete\n\n")
         }
     }
     

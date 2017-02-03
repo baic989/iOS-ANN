@@ -16,6 +16,8 @@ class ClassifyCharacterPresenter: DrawViewControllerDelegateProtocol {
     }
     
     func okButtonPressed() {
-        //Implement me
+        if let viewController = viewController {
+            viewController.classifyImage()
+        }
     }
 }
