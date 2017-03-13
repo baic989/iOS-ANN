@@ -25,6 +25,11 @@
 		797F3E171E77124500DAF78F /* InteractorInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797F3E161E77124500DAF78F /* InteractorInterface.swift */; };
 		797F3E191E77125B00DAF78F /* PresenterInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797F3E181E77125B00DAF78F /* PresenterInterface.swift */; };
 		797F3E1B1E77126700DAF78F /* ViewInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797F3E1A1E77126700DAF78F /* ViewInterface.swift */; };
+		797F3E201E7743A000DAF78F /* MainMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797F3E1F1E7743A000DAF78F /* MainMenuViewController.swift */; };
+		797F3E221E7743B300DAF78F /* MainMenuPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797F3E211E7743B300DAF78F /* MainMenuPresenter.swift */; };
+		797F3E241E7743BC00DAF78F /* MainMenuInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797F3E231E7743BC00DAF78F /* MainMenuInteractor.swift */; };
+		797F3E261E7743CB00DAF78F /* MainMenuWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797F3E251E7743CB00DAF78F /* MainMenuWireframe.swift */; };
+		797F3E281E7743DB00DAF78F /* MainMenuInterfaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797F3E271E7743DB00DAF78F /* MainMenuInterfaces.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +65,11 @@
 		797F3E161E77124500DAF78F /* InteractorInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InteractorInterface.swift; sourceTree = "<group>"; };
 		797F3E181E77125B00DAF78F /* PresenterInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresenterInterface.swift; sourceTree = "<group>"; };
 		797F3E1A1E77126700DAF78F /* ViewInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewInterface.swift; sourceTree = "<group>"; };
+		797F3E1F1E7743A000DAF78F /* MainMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenuViewController.swift; sourceTree = "<group>"; };
+		797F3E211E7743B300DAF78F /* MainMenuPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenuPresenter.swift; sourceTree = "<group>"; };
+		797F3E231E7743BC00DAF78F /* MainMenuInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenuInteractor.swift; sourceTree = "<group>"; };
+		797F3E251E7743CB00DAF78F /* MainMenuWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenuWireframe.swift; sourceTree = "<group>"; };
+		797F3E271E7743DB00DAF78F /* MainMenuInterfaces.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenuInterfaces.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -208,8 +218,21 @@
 		797F3E1D1E771D3C00DAF78F /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				797F3E1E1E77438600DAF78F /* MainMenu */,
 			);
 			path = Modules;
+			sourceTree = "<group>";
+		};
+		797F3E1E1E77438600DAF78F /* MainMenu */ = {
+			isa = PBXGroup;
+			children = (
+				797F3E1F1E7743A000DAF78F /* MainMenuViewController.swift */,
+				797F3E211E7743B300DAF78F /* MainMenuPresenter.swift */,
+				797F3E231E7743BC00DAF78F /* MainMenuInteractor.swift */,
+				797F3E251E7743CB00DAF78F /* MainMenuWireframe.swift */,
+				797F3E271E7743DB00DAF78F /* MainMenuInterfaces.swift */,
+			);
+			path = MainMenu;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -319,13 +342,18 @@
 				3B8B8FE11E40AAFF008FCDBD /* TrainCharacterPresenter.swift in Sources */,
 				3B688B091E3F58CA00056F1F /* DrawViewController.swift in Sources */,
 				3B8B8FE61E40ABD2008FCDBD /* DrawViewControllerProtocol.swift in Sources */,
+				797F3E221E7743B300DAF78F /* MainMenuPresenter.swift in Sources */,
 				797F3E1B1E77126700DAF78F /* ViewInterface.swift in Sources */,
+				797F3E281E7743DB00DAF78F /* MainMenuInterfaces.swift in Sources */,
 				797F3E0F1E77108300DAF78F /* UIImageExtensions.swift in Sources */,
+				797F3E201E7743A000DAF78F /* MainMenuViewController.swift in Sources */,
+				797F3E261E7743CB00DAF78F /* MainMenuWireframe.swift in Sources */,
 				3B627DD01E37590D004A066A /* AppDelegate.swift in Sources */,
 				3B627DF21E375FE2004A066A /* MainViewController.swift in Sources */,
 				3B8B8FE31E40AB17008FCDBD /* ClassifyCharacterPresenter.swift in Sources */,
 				3B627DF41E376052004A066A /* NeuralNetwork.swift in Sources */,
 				797F3E191E77125B00DAF78F /* PresenterInterface.swift in Sources */,
+				797F3E241E7743BC00DAF78F /* MainMenuInteractor.swift in Sources */,
 				3B627DF61E3760D1004A066A /* Layer.swift in Sources */,
 				3B627DF81E376116004A066A /* Neuron.swift in Sources */,
 				797F3E151E77123700DAF78F /* BaseWireframe.swift in Sources */,
