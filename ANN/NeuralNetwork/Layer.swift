@@ -24,13 +24,13 @@ class Layer {
         neurons = []
         self.position = position
 
-        for i in 0..<numberOfNeurons {
+        for _ in 0..<numberOfNeurons {
             
             neurons.append(Neuron(position: position))
         }
     }
     
-    func equals(other: Layer) -> Bool {
+    func equals(_ other: Layer) -> Bool {
         return id == other.id
     }
 }

@@ -14,17 +14,17 @@ class DrawViewController: UIViewController {
     var presenter: DrawViewControllerDelegateProtocol!
     
     // MARK: - Private properties -
-    private let lineWidth: CGFloat = 10.0
-    private let characterBoxThickness: CGFloat = 1.0
-    private let pickerViewData = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"]
+    fileprivate let lineWidth: CGFloat = 10.0
+    fileprivate let characterBoxThickness: CGFloat = 1.0
+    fileprivate let pickerViewData = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"]
     // TODO: Refactor these constants and view controller identifiers also
-    private let characterPixelsArrayKey = "characterPixelsArrayKey"
-    private let characterOuputArrayKey = "characterOuputArrayKey"
+    fileprivate let characterPixelsArrayKey = "characterPixelsArrayKey"
+    fileprivate let characterOuputArrayKey = "characterOuputArrayKey"
     
-    private var lastPoint = CGPointZero
-    private var characterBox: CGRect?
-    private var arrayOfPixelizedCharacters: [[Int]] = []
-    private var arrayOfOutputs: [[Int]] = []
+    fileprivate var lastPoint = CGPoint.zero
+    fileprivate var characterBox: CGRect?
+    fileprivate var arrayOfPixelizedCharacters: [[Int]] = []
+    fileprivate var arrayOfOutputs: [[Int]] = []
 
     // MARK: - Outlets -
     @IBOutlet weak var drawingImageView: UIImageView!
@@ -37,19 +37,19 @@ class DrawViewController: UIViewController {
     }
     
     // MARK: - Setup -
-    override func prefersStatusBarHidden() -> Bool {
+    override var prefersStatusBarHidden : Bool {
         return true
     }
     
     // MARK: - Delegate methods -
-    @IBAction func okButtonPressed(sender: UIButton) {
+    @IBAction func okButtonPressed(_ sender: UIButton) {
         presenter.okButtonPressed()
     }
-    @IBAction func clearButtonPressed(sender: UIButton) {
+    @IBAction func clearButtonPressed(_ sender: UIButton) {
         clearCanvas()
     }
-    @IBAction func cancelButtonPressed(sender: UIButton) {
-        dismissViewControllerAnimated(true, completion: nil)
+    @IBAction func cancelButtonPressed(_ sender: UIButton) {
+        dismiss(animated: true, completion: nil)
     }
     
     // MARK: - Internal -
@@ -75,13 +75,13 @@ class DrawViewController: UIViewController {
         
     }
     
-    private func pixelizeImage(image: UIImage) -> [Int] {
+    fileprivate func pixelizeImage(_ image: UIImage) -> [Int] {
         
-        let pixelData = CGDataProviderCopyData(CGImageGetDataProvider(image.CGImage))
+        let pixelData = image.cgImage?.dataProvider?.data
         let data: UnsafePointer<UInt8> = CFDataGetBytePtr(pixelData)
         var pixelsArray = [Int]()
-        let bytesPerRow = CGImageGetBytesPerRow(image.CGImage)
-        let bytesPerPixel = (CGImageGetBitsPerPixel(image.CGImage) / 8)
+        let bytesPerRow = image.cgImage?.bytesPerRow
+        let bytesPerPixel = ((image.cgImage?.bitsPerPixel)! / 8)
         var position = 0
         for _ in 0..<Int(image.size.height) {
             for _ in 0..<Int(image.size.width) {
@@ -89,8 +89,8 @@ class DrawViewController: UIViewController {
                 pixelsArray.append(Int(alpha / 255))
                 position += Int(bytesPerPixel)
             }
-            if position % Int(bytesPerRow) != 0 {
-                position += (Int(bytesPerRow) - (position % Int(bytesPerRow)))
+            if position % Int(bytesPerRow!) != 0 {
+                position += (Int(bytesPerRow!) - (position % Int(bytesPerRow!)))
             }
         }
         return pixelsArray
@@ -103,10 +103,12 @@ class DrawViewController: UIViewController {
     }
     
     // MARK: - Drawing -
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        
         
         // Get the first touched point
-        if let point = touches.allObjects.first?.locationInView(drawingImageView) {
+        if let point = touches.first?.location(in: drawingImageView) {
             
             // Start tracking coordinates of the character
             if self.characterBox == nil {
@@ -120,10 +122,10 @@ class DrawViewController: UIViewController {
         }
     }
     
-    override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         // Get the first touched point
-        if let point = touches.allObjects.first?.locationInView(drawingImageView) {
+        if let point = touches.first?.location(in: drawingImageView) {
 
             self.drawLine(lastPoint, toPoint: point)
             self.drawCharacterBox()
@@ -145,12 +147,12 @@ class DrawViewController: UIViewController {
     }
     
     // MARK: - Helpers -
-    func saveCharacterPixelsAndOutput(pixelsArray: [Int]) {
+    func saveCharacterPixelsAndOutput(_ pixelsArray: [Int]) {
         
         // First save character pixels
         arrayOfPixelizedCharacters.append(pixelsArray)
         
-        let userDefaults = NSUserDefaults.standardUserDefaults()
+        let userDefaults = UserDefaults.standard
         userDefaults.setValue(arrayOfPixelizedCharacters, forKey: characterPixelsArrayKey)
         
         userDefaults.synchronize()
@@ -159,11 +161,11 @@ class DrawViewController: UIViewController {
         // The array of outputs will be filled with zeroes except
         // at the index of the selected character
         // For example output array for B will be [0, 1, 0, 0, 0, ...]
-        var outputArrayForCharacter = Array(count: pickerViewData.count, repeatedValue: 0)
+        var outputArrayForCharacter = Array(repeating: 0, count: pickerViewData.count)
         
         for index in 0..<pickerViewData.count {
             
-            let selectedCharacterIndex = characterPickerView.selectedRowInComponent(0)
+            let selectedCharacterIndex = characterPickerView.selectedRow(inComponent: 0)
             let character = pickerViewData[selectedCharacterIndex]
             
             if character == pickerViewData[index] {
@@ -177,23 +179,23 @@ class DrawViewController: UIViewController {
         userDefaults.synchronize()
     }
     
-    private func drawLine(fromPoint: CGPoint, toPoint: CGPoint) {
+    fileprivate func drawLine(_ fromPoint: CGPoint, toPoint: CGPoint) {
         
         // Begin context
         UIGraphicsBeginImageContext(self.drawingImageView.frame.size)
         let context = UIGraphicsGetCurrentContext()
         
         // Store current image (lines drawn) in context
-        self.drawingImageView.image?.drawInRect(CGRect(x: 0, y: 0, width: self.drawingImageView.frame.width, height: self.drawingImageView.frame.height))
+        self.drawingImageView.image?.draw(in: CGRect(x: 0, y: 0, width: self.drawingImageView.frame.width, height: self.drawingImageView.frame.height))
         
         // Add new line to image
-        CGContextMoveToPoint(context, fromPoint.x, fromPoint.y)
-        CGContextAddLineToPoint(context, toPoint.x, toPoint.y)
-        CGContextSetLineCap(context, kCGLineCapRound)
-        CGContextSetLineWidth(context, lineWidth)
-        CGContextSetRGBStrokeColor(context, 0, 0, 0, 1.0)
-        CGContextSetBlendMode(context, kCGBlendModeNormal)
-        CGContextStrokePath(context)
+        context?.move(to: CGPoint(x: fromPoint.x, y: fromPoint.y))
+        context?.addLine(to: CGPoint(x: toPoint.x, y: toPoint.y))
+        context?.setLineCap(.round)
+        context?.setLineWidth(lineWidth)
+        context?.setStrokeColor(red: 0, green: 0, blue: 0, alpha: 1.0)
+        context?.setBlendMode(.normal)
+        context?.strokePath()
         
         // Store modified image back to imageView
         self.drawingImageView.image = UIGraphicsGetImageFromCurrentImageContext()
@@ -202,19 +204,19 @@ class DrawViewController: UIViewController {
         UIGraphicsEndImageContext()
     }
     
-    private func drawCharacterBox() {
+    fileprivate func drawCharacterBox() {
         
         UIGraphicsBeginImageContext(self.characterBoxImageView.frame.size)
         let context = UIGraphicsGetCurrentContext()
         
-        self.characterBoxImageView.image?.drawInRect(CGRect(x: 0, y: 0, width: self.characterBoxImageView.frame.width, height: self.characterBoxImageView.frame.height))
+        self.characterBoxImageView.image?.draw(in: CGRect(x: 0, y: 0, width: self.characterBoxImageView.frame.width, height: self.characterBoxImageView.frame.height))
         
         // Draw character rect
-        CGContextClearRect(context, characterBox!)
-        CGContextSetLineWidth(context, characterBoxThickness)
-        CGContextSetStrokeColorWithColor(context, UIColor.blueColor().CGColor)
-        CGContextAddRect(context, self.characterBox!)
-        CGContextStrokePath(context)
+        context?.clear(characterBox!)
+        context?.setLineWidth(characterBoxThickness)
+        context?.setStrokeColor(UIColor.blue.cgColor)
+        context?.addRect(self.characterBox!)
+        context?.strokePath()
         self.characterBoxImageView.image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
@@ -223,7 +225,7 @@ class DrawViewController: UIViewController {
     
     // CGRect is a struct and therefore passed by value, 
     // so the parameter must be declared as inout and passed by reference
-    private func updateCharacterBox(inout rect: CGRect, minX: CGFloat?, maxX: CGFloat?, minY: CGFloat?, maxY: CGFloat?) {
+    fileprivate func updateCharacterBox(_ rect: inout CGRect, minX: CGFloat?, maxX: CGFloat?, minY: CGFloat?, maxY: CGFloat?) {
         rect = CGRect(x: minX ?? rect.minX,
             y: minY ?? rect.minY,
             width: (maxX ?? rect.maxX) - (minX ?? rect.minX),
@@ -232,17 +234,17 @@ class DrawViewController: UIViewController {
 }
 
 extension DrawViewController: UIPickerViewDataSource {
-    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
     
-    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return pickerViewData.count
     }
 }
 
 extension DrawViewController: UIPickerViewDelegate {
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return pickerViewData[row]
     }
 }

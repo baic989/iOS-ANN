@@ -17,12 +17,12 @@ enum PositionInNetwork {
 class NeuralNetwork {
     
     //MARK: - Properties -
-    private var layers:[Layer] = []
+    fileprivate var layers:[Layer] = []
     
     // Network topology is an array of integers which represents the structure
     // of the network i.e. [2, 3, 2] creates a network of 3 layers. 2 input neurons
     // 3 hidden neurons and 2 output neurons
-    private let networkTopology: [Int]
+    fileprivate let networkTopology: [Int]
     
     //MARK: - Lifecycle -
     init(topology: [Int]){
@@ -32,11 +32,11 @@ class NeuralNetwork {
     }
     
     // MARK: - Public -
-    func trainNetwork(inputData: [[Int]], outputData: [[Int]], numberOfEpochs: Int, learningRate: Double) {
+    func trainNetwork(_ inputData: [[Int]], outputData: [[Int]], numberOfEpochs: Int, learningRate: Double) {
         
         for index in 0..<numberOfEpochs {
             
-            for (inputRow, outputRow) in Zip2(inputData, outputData) {
+            for (inputRow, outputRow) in zip(inputData, outputData) {
                 
                 loadDataIntoInputLayer(inputRow)
                 let result = forwardPropagete(inputRow).map {
@@ -51,7 +51,7 @@ class NeuralNetwork {
         }
     }
     
-    func feed(inputData: [[Int]]) {
+    func feed(_ inputData: [[Int]]) {
         
         print("REAL DATA\n")
         
@@ -66,7 +66,7 @@ class NeuralNetwork {
     }
     
     //MARK: - Helpers -
-    private func initNetwork() {
+    fileprivate func initNetwork() {
         
         let inputLayerSize = networkTopology.first
         let outputLayerSize = networkTopology.last
@@ -101,11 +101,11 @@ class NeuralNetwork {
         initWeightsAndBias()
     }
     
-    private func loadDataIntoInputLayer(data: [Int]) {
+    fileprivate func loadDataIntoInputLayer(_ data: [Int]) {
         
         if let inputLayer = layers.first {
             
-            for (neuron, dataValue) in Zip2(inputLayer.neurons, data) {
+            for (neuron, dataValue) in zip(inputLayer.neurons, data) {
                 neuron.value = Double(dataValue)
             }
         } else {
@@ -117,7 +117,7 @@ class NeuralNetwork {
         }
     }
     
-    private func initWeightsAndBias() {
+    fileprivate func initWeightsAndBias() {
         for i in 1..<layers.count {
             
             let currentLayer = layers[i]
@@ -129,7 +129,7 @@ class NeuralNetwork {
             for j in 0..<currentLayer.neurons.count {
                 let currentNeuron = currentLayer.neurons[j]
                 
-                for k in 0..<feedLayer.neurons.count {
+                for _ in 0..<feedLayer.neurons.count {
                     currentNeuron.weights.append(randomWeight())
                 }
                 
@@ -138,7 +138,7 @@ class NeuralNetwork {
         }
     }
     
-    private func updateWeightsAndBias(inputData: [Int], learningRate: Double) {
+    fileprivate func updateWeightsAndBias(_ inputData: [Int], learningRate: Double) {
         
         for i in 0..<layers.count {
             
@@ -169,11 +169,11 @@ class NeuralNetwork {
         }
     }
     
-    private func randomWeight() -> Double {
+    fileprivate func randomWeight() -> Double {
         return Double(arc4random()) / Double(UINT32_MAX)
     }
     
-    private func getPreviousLayer(currentLayer: Layer) -> Layer? {
+    fileprivate func getPreviousLayer(_ currentLayer: Layer) -> Layer? {
         
         for index in 0..<layers.count {
             if layers[index].equals(currentLayer) {
@@ -184,7 +184,7 @@ class NeuralNetwork {
         return nil
     }
     
-    private func forwardPropagete(inputData: [Int]) -> [Double]{
+    fileprivate func forwardPropagete(_ inputData: [Int]) -> [Double]{
         
         var inputs = inputData.map {
             Double($0)
@@ -208,13 +208,13 @@ class NeuralNetwork {
         return inputs
     }
     
-    private func backwardPropagate(expectedData: [Int]) {
+    fileprivate func backwardPropagate(_ expectedData: [Int]) {
         
         // Reverse the layers order so that we start with output layer
         // and move backwards
-        for layer in layers.reverse() {
+        for layer in layers.reversed() {
             if layer.position == .output {
-                for (neuron, expectedValue) in Zip2(layer.neurons, expectedData) {
+                for (neuron, expectedValue) in zip(layer.neurons, expectedData) {
                     neuron.calculateError(Double(expectedValue))
                 }
             } else {

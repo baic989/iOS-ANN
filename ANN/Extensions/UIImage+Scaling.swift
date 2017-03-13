@@ -9,23 +9,23 @@ import UIKit
 
 extension UIImage {
     
-    func scaleImageToSize(size: CGSize) -> UIImage {
+    func scaleImageToSize(_ size: CGSize) -> UIImage {
         
         UIGraphicsBeginImageContextWithOptions(size, false, 1.0)
-        let context = UIGraphicsGetCurrentContext()
+        guard let context = UIGraphicsGetCurrentContext() else { return UIImage() }
         
         // kCGInterpolationNone - There is no smoothing of pixels after scaling (the image is not blurred)
         // which is important for pixelizing the image for neural network input
-        CGContextSetInterpolationQuality(context, kCGInterpolationNone)
-        self.drawInRect(CGRect(origin: CGPointZero, size: size))
+        context.interpolationQuality = .none
+        self.draw(in: CGRect(origin: CGPoint.zero, size: size))
         
-        let imageRef = CGBitmapContextCreateImage(context)! as CoreImage.CGImage
+        let imageRef = (context.makeImage())! as CoreImage.CGImage
         
         // try
         // let newImage = UIGraphicsGetImageFromCurrentImageContext()
-        let newImage = UIImage(CGImage: imageRef, scale: 1.0, orientation: UIImageOrientation.Up)
+        let newImage = UIImage(cgImage: imageRef, scale: 1.0, orientation: UIImageOrientation.up)
         UIGraphicsEndImageContext()
         
-        return newImage!
+        return newImage
     }
 }

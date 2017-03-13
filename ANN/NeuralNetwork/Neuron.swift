@@ -31,18 +31,18 @@ class Neuron {
     }
     
     // MARK: - Helpers -
-    func activate(inputs: [Double]) {
+    func activate(_ inputs: [Double]) {
         
         value = bias
         
-        for (weight, input) in Zip2(weights, inputs) {
+        for (weight, input) in zip(weights, inputs) {
             value += weight * input
         }
         
         value = sigmoid(value)
     }
     
-    func calculateError(expectedOutput: Double) {
+    func calculateError(_ expectedOutput: Double) {
         
         if position == .output {
             error = expectedOutput - value
@@ -55,11 +55,11 @@ class Neuron {
         delta = error * sigmoidDerivative(value)
     }
     
-    private func sigmoid(input: Double) -> Double {
+    fileprivate func sigmoid(_ input: Double) -> Double {
         return 1 / (1 + pow(M_E, -input))
     }
     
-    private func sigmoidDerivative(output: Double) -> Double {
+    fileprivate func sigmoidDerivative(_ output: Double) -> Double {
         return output * (1.0 - output)
     }
     

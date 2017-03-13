@@ -9,9 +9,9 @@ import UIKit
 
 extension UIImage {
     
-    func cropImageWithRect(rect: CGRect) -> UIImage {
-        let imageRef = CGImageCreateWithImageInRect(self.CGImage!, rect)
-        let newImage = UIImage(CGImage: imageRef!)
-        return newImage!
+    func cropImageWithRect(_ rect: CGRect) -> UIImage {
+        let imageRef = self.cgImage!.cropping(to: rect)
+        let newImage = UIImage(cgImage: imageRef!)
+        return newImage
     }
 }

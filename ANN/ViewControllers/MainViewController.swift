@@ -15,16 +15,16 @@ class MainViewController: UIViewController {
     }
     
     // MARK: - IBActions -
-    @IBAction func feedSampleDataButtonPressed(sender: UIButton) {
+    @IBAction func feedSampleDataButtonPressed(_ sender: UIButton) {
         
         let drawViewController = initDrawViewController()
         let drawViewPresenter = TrainCharacterPresenter(viewController: drawViewController)
         drawViewController.presenter = drawViewPresenter
         
-        presentViewController(drawViewController, animated: true, completion: nil)
+        present(drawViewController, animated: true, completion: nil)
     }
     
-    @IBAction func trainNetworkButtonPressed(sender: UIButton) {
+    @IBAction func trainNetworkButtonPressed(_ sender: UIButton) {
         // Load data from userdefaults
         // train network
         
@@ -34,17 +34,17 @@ class MainViewController: UIViewController {
         createNeuralNetwork(pixelsArray, outputData: outputsArray)
     }
     
-    @IBAction func testNetworkButtonPressed(sender: UIButton) {
+    @IBAction func testNetworkButtonPressed(_ sender: UIButton) {
         
         let drawViewController = initDrawViewController()
         let drawViewPresenter = ClassifyCharacterPresenter(viewController: drawViewController)
         drawViewController.presenter = drawViewPresenter
         
-        presentViewController(drawViewController, animated: true, completion: nil)
+        present(drawViewController, animated: true, completion: nil)
     }
     
     // MARK: - Neural network -
-    func createNeuralNetwork(inputData: [[Int]], outputData: [[Int]]){
+    func createNeuralNetwork(_ inputData: [[Int]], outputData: [[Int]]){
         
         let neuralNetwork = NeuralNetwork(topology: [inputData[0].count, 600, outputData[0].count])
         
@@ -63,15 +63,15 @@ class MainViewController: UIViewController {
     }
     
     // MARK: - Navigation -
-    private func initDrawViewController() -> DrawViewController {
+    fileprivate func initDrawViewController() -> DrawViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let drawViewController = storyboard.instantiateViewControllerWithIdentifier("DrawViewController") as DrawViewController
+        let drawViewController = storyboard.instantiateViewController(withIdentifier: "DrawViewController") as! DrawViewController
         
         return drawViewController
     }
     
     // MARK: - Setup -
-    override func prefersStatusBarHidden() -> Bool {
+    override var prefersStatusBarHidden : Bool {
         return true
     }
     
@@ -79,16 +79,16 @@ class MainViewController: UIViewController {
     // TODO: Refactor constants
     func loadCharacterPixelsArray() -> [[Int]] {
         
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        let characterPixelsArray = userDefaults.arrayForKey("characterPixelsArrayKey") as [[Int]]
+        let userDefaults = UserDefaults.standard
+        let characterPixelsArray = userDefaults.array(forKey: "characterPixelsArrayKey") as! [[Int]]
         
         return characterPixelsArray
     }
     
     func loadCharacterOutputArray() -> [[Int]] {
         
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        let characterOutputsArray = userDefaults.arrayForKey("characterOuputArrayKey") as [[Int]]
+        let userDefaults = UserDefaults.standard
+        let characterOutputsArray = userDefaults.array(forKey: "characterOuputArrayKey") as! [[Int]]
         return characterOutputsArray
     }
 }
