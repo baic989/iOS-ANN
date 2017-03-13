@@ -44,7 +44,6 @@
 
 /* Begin PBXFileReference section */
 		3B627DCA1E37590D004A066A /* ANN.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ANN.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		3B627DCE1E37590D004A066A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3B627DCF1E37590D004A066A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3B627DD41E37590D004A066A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3B627DD61E37590D004A066A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -60,6 +59,7 @@
 		3B8B8FE01E40AAFF008FCDBD /* TrainCharacterPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrainCharacterPresenter.swift; sourceTree = "<group>"; };
 		3B8B8FE21E40AB17008FCDBD /* ClassifyCharacterPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassifyCharacterPresenter.swift; sourceTree = "<group>"; };
 		3B8B8FE51E40ABD2008FCDBD /* DrawViewControllerProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawViewControllerProtocol.swift; sourceTree = "<group>"; };
+		790707A51E7752A500ED1B14 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		797F3E0E1E77108300DAF78F /* UIImageExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageExtensions.swift; sourceTree = "<group>"; };
 		797F3E141E77123700DAF78F /* BaseWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseWireframe.swift; sourceTree = "<group>"; };
 		797F3E161E77124500DAF78F /* InteractorInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InteractorInterface.swift; sourceTree = "<group>"; };
@@ -198,9 +198,9 @@
 		797F3E121E77122300DAF78F /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				790707A51E7752A500ED1B14 /* Info.plist */,
 				3B627DCF1E37590D004A066A /* AppDelegate.swift */,
 				3B627DD61E37590D004A066A /* Images.xcassets */,
-				3B627DCE1E37590D004A066A /* Info.plist */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -488,7 +488,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 68RXFZ5MN7;
-				INFOPLIST_FILE = ANN/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/ANN/Common/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hrvoje.ANN;
@@ -502,7 +502,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 68RXFZ5MN7;
-				INFOPLIST_FILE = ANN/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/ANN/Common/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hrvoje.ANN;
