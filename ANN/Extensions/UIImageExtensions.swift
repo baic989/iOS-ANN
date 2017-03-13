@@ -1,13 +1,20 @@
 //
-//  UIImage+Scaling.swift
+//  UIImageExtensions.swift
 //  ANN
 //
-//  Created by Hrvoje on 02/02/17.
+//  Created by user125215 on 3/13/17.
+//  Copyright © 2017 Hrvoje Baic. All rights reserved.
 //
 
 import UIKit
 
 extension UIImage {
+    
+    func cropImageWithRect(_ rect: CGRect) -> UIImage {
+        let imageRef = self.cgImage!.cropping(to: rect)
+        let newImage = UIImage(cgImage: imageRef!)
+        return newImage
+    }
     
     func scaleImageToSize(_ size: CGSize) -> UIImage {
         

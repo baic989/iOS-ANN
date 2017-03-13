@@ -20,8 +20,11 @@
 		3B8B8FE11E40AAFF008FCDBD /* TrainCharacterPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8B8FE01E40AAFF008FCDBD /* TrainCharacterPresenter.swift */; };
 		3B8B8FE31E40AB17008FCDBD /* ClassifyCharacterPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8B8FE21E40AB17008FCDBD /* ClassifyCharacterPresenter.swift */; };
 		3B8B8FE61E40ABD2008FCDBD /* DrawViewControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8B8FE51E40ABD2008FCDBD /* DrawViewControllerProtocol.swift */; };
-		3B99912C1E43624900A1BAC6 /* UIImage+Cropping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B99912B1E43624900A1BAC6 /* UIImage+Cropping.swift */; };
-		3B99912E1E4362AB00A1BAC6 /* UIImage+Scaling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B99912D1E4362AB00A1BAC6 /* UIImage+Scaling.swift */; };
+		797F3E0F1E77108300DAF78F /* UIImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797F3E0E1E77108300DAF78F /* UIImageExtensions.swift */; };
+		797F3E151E77123700DAF78F /* BaseWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797F3E141E77123700DAF78F /* BaseWireframe.swift */; };
+		797F3E171E77124500DAF78F /* InteractorInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797F3E161E77124500DAF78F /* InteractorInterface.swift */; };
+		797F3E191E77125B00DAF78F /* PresenterInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797F3E181E77125B00DAF78F /* PresenterInterface.swift */; };
+		797F3E1B1E77126700DAF78F /* ViewInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797F3E1A1E77126700DAF78F /* ViewInterface.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,8 +55,11 @@
 		3B8B8FE01E40AAFF008FCDBD /* TrainCharacterPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrainCharacterPresenter.swift; sourceTree = "<group>"; };
 		3B8B8FE21E40AB17008FCDBD /* ClassifyCharacterPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassifyCharacterPresenter.swift; sourceTree = "<group>"; };
 		3B8B8FE51E40ABD2008FCDBD /* DrawViewControllerProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawViewControllerProtocol.swift; sourceTree = "<group>"; };
-		3B99912B1E43624900A1BAC6 /* UIImage+Cropping.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Cropping.swift"; sourceTree = "<group>"; };
-		3B99912D1E4362AB00A1BAC6 /* UIImage+Scaling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Scaling.swift"; sourceTree = "<group>"; };
+		797F3E0E1E77108300DAF78F /* UIImageExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageExtensions.swift; sourceTree = "<group>"; };
+		797F3E141E77123700DAF78F /* BaseWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseWireframe.swift; sourceTree = "<group>"; };
+		797F3E161E77124500DAF78F /* InteractorInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InteractorInterface.swift; sourceTree = "<group>"; };
+		797F3E181E77125B00DAF78F /* PresenterInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresenterInterface.swift; sourceTree = "<group>"; };
+		797F3E1A1E77126700DAF78F /* ViewInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewInterface.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +106,9 @@
 				3B627DEF1E375F5F004A066A /* NeuralNetwork */,
 				3B627DF01E375F5F004A066A /* ViewControllers */,
 				3B8B8FDF1E40AAD8008FCDBD /* Presenters */,
+				797F3E101E77122300DAF78F /* Architecture */,
+				797F3E121E77122300DAF78F /* Common */,
+				797F3E131E77122300DAF78F /* Models */,
 				3B627DCF1E37590D004A066A /* AppDelegate.swift */,
 				3B627DD31E37590D004A066A /* Main.storyboard */,
 				3B627DD61E37590D004A066A /* Images.xcassets */,
@@ -173,10 +182,42 @@
 		3B99912A1E4361BE00A1BAC6 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				3B99912B1E43624900A1BAC6 /* UIImage+Cropping.swift */,
-				3B99912D1E4362AB00A1BAC6 /* UIImage+Scaling.swift */,
+				797F3E0E1E77108300DAF78F /* UIImageExtensions.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		797F3E101E77122300DAF78F /* Architecture */ = {
+			isa = PBXGroup;
+			children = (
+				797F3E111E77122300DAF78F /* Base */,
+			);
+			path = Architecture;
+			sourceTree = "<group>";
+		};
+		797F3E111E77122300DAF78F /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				797F3E141E77123700DAF78F /* BaseWireframe.swift */,
+				797F3E161E77124500DAF78F /* InteractorInterface.swift */,
+				797F3E181E77125B00DAF78F /* PresenterInterface.swift */,
+				797F3E1A1E77126700DAF78F /* ViewInterface.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		797F3E121E77122300DAF78F /* Common */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		797F3E131E77122300DAF78F /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -224,7 +265,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0820;
-				ORGANIZATIONNAME = Algebra;
+				ORGANIZATIONNAME = "Hrvoje Baic";
 				TargetAttributes = {
 					3B627DC91E37590D004A066A = {
 						CreatedOnToolsVersion = 6.1.1;
@@ -282,17 +323,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				797F3E171E77124500DAF78F /* InteractorInterface.swift in Sources */,
 				3B8B8FE11E40AAFF008FCDBD /* TrainCharacterPresenter.swift in Sources */,
 				3B688B091E3F58CA00056F1F /* DrawViewController.swift in Sources */,
 				3B8B8FE61E40ABD2008FCDBD /* DrawViewControllerProtocol.swift in Sources */,
+				797F3E1B1E77126700DAF78F /* ViewInterface.swift in Sources */,
+				797F3E0F1E77108300DAF78F /* UIImageExtensions.swift in Sources */,
 				3B627DD01E37590D004A066A /* AppDelegate.swift in Sources */,
 				3B627DF21E375FE2004A066A /* MainViewController.swift in Sources */,
-				3B99912C1E43624900A1BAC6 /* UIImage+Cropping.swift in Sources */,
 				3B8B8FE31E40AB17008FCDBD /* ClassifyCharacterPresenter.swift in Sources */,
 				3B627DF41E376052004A066A /* NeuralNetwork.swift in Sources */,
+				797F3E191E77125B00DAF78F /* PresenterInterface.swift in Sources */,
 				3B627DF61E3760D1004A066A /* Layer.swift in Sources */,
-				3B99912E1E4362AB00A1BAC6 /* UIImage+Scaling.swift in Sources */,
 				3B627DF81E376116004A066A /* Neuron.swift in Sources */,
+				797F3E151E77123700DAF78F /* BaseWireframe.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -372,7 +416,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -411,7 +455,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
