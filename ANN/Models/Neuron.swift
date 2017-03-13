@@ -64,6 +64,7 @@ class Neuron {
         return output * (1.0 - output)
     }
     
+    // Use as alternative algorithm
 //    /// Hyperbolic tangent activation function.
 //    private func hyperbolicTangent(x: Float) -> Float {
 //        return tanh(x)

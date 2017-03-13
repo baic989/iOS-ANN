@@ -101,29 +101,18 @@
 		3B627DCC1E37590D004A066A /* ANN */ = {
 			isa = PBXGroup;
 			children = (
+				797F3E1D1E771D3C00DAF78F /* Modules */,
 				3B99912A1E4361BE00A1BAC6 /* Extensions */,
 				3B8B8FE41E40ABB1008FCDBD /* Protocols */,
-				3B627DEF1E375F5F004A066A /* NeuralNetwork */,
 				3B627DF01E375F5F004A066A /* ViewControllers */,
 				3B8B8FDF1E40AAD8008FCDBD /* Presenters */,
 				797F3E101E77122300DAF78F /* Architecture */,
 				797F3E121E77122300DAF78F /* Common */,
 				797F3E131E77122300DAF78F /* Models */,
-				3B627DCF1E37590D004A066A /* AppDelegate.swift */,
 				3B627DD31E37590D004A066A /* Main.storyboard */,
-				3B627DD61E37590D004A066A /* Images.xcassets */,
 				3B627DD81E37590D004A066A /* LaunchScreen.xib */,
-				3B627DCD1E37590D004A066A /* Supporting Files */,
 			);
 			path = ANN;
-			sourceTree = "<group>";
-		};
-		3B627DCD1E37590D004A066A /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				3B627DCE1E37590D004A066A /* Info.plist */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		3B627DE21E37590D004A066A /* ANNTests */ = {
@@ -141,16 +130,6 @@
 				3B627DE41E37590D004A066A /* Info.plist */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		3B627DEF1E375F5F004A066A /* NeuralNetwork */ = {
-			isa = PBXGroup;
-			children = (
-				3B627DF31E376052004A066A /* NeuralNetwork.swift */,
-				3B627DF51E3760D1004A066A /* Layer.swift */,
-				3B627DF71E376116004A066A /* Neuron.swift */,
-			);
-			path = NeuralNetwork;
 			sourceTree = "<group>";
 		};
 		3B627DF01E375F5F004A066A /* ViewControllers */ = {
@@ -209,6 +188,9 @@
 		797F3E121E77122300DAF78F /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				3B627DCF1E37590D004A066A /* AppDelegate.swift */,
+				3B627DD61E37590D004A066A /* Images.xcassets */,
+				3B627DCE1E37590D004A066A /* Info.plist */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -216,8 +198,18 @@
 		797F3E131E77122300DAF78F /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				3B627DF31E376052004A066A /* NeuralNetwork.swift */,
+				3B627DF51E3760D1004A066A /* Layer.swift */,
+				3B627DF71E376116004A066A /* Neuron.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		797F3E1D1E771D3C00DAF78F /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Modules;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
