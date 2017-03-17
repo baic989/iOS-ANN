@@ -15,10 +15,16 @@ enum PositionInNetwork {
     case output
 }
 
-class NeuralNetwork {
+class NeuralNetwork: NSCoding {
     
     //MARK: - Properties -
     fileprivate var layers:[Layer] = []
+    
+    fileprivate struct PropertyKey {
+        
+        static let topology = "topology"
+        static let layers = "layers"
+    }
     
     // Network topology is an array of integers which represents the structure
     // of the network i.e. [2, 3, 2] creates a network of 3 layers. 2 input neurons
@@ -30,6 +36,28 @@ class NeuralNetwork {
         
         networkTopology = topology
         initNetwork()
+    }
+    
+    private init(topology: [Int], layers: [Layer]) {
+        self.networkTopology = topology
+        self.layers = layers
+    }
+    
+    required convenience init?(coder aDecoder: NSCoder) {
+        
+        guard let topology = aDecoder.decodeObject(forKey: PropertyKey.topology) as? [Int],
+              let layers = aDecoder.decodeObject(forKey: PropertyKey.layers) as? [Layer]
+            else {
+                return nil
+        }
+        
+        self.init(topology: topology, layers: layers)
+    }
+    
+    func encode(with aCoder: NSCoder) {
+        
+        aCoder.encode(networkTopology, forKey: PropertyKey.topology)
+        aCoder.encode(layers, forKey: PropertyKey.layers)
     }
     
     // MARK: - Public -
@@ -176,11 +204,12 @@ class NeuralNetwork {
     
     fileprivate func getPreviousLayer(_ currentLayer: Layer) -> Layer? {
         
-        for index in 0..<layers.count {
-            if layers[index].equals(currentLayer) {
-                return layers[index + 1]
-            }
-        }
+        // TODO: Fix
+//        for index in 0..<layers.count {
+//            if layers[index].equals(currentLayer) {
+//                return layers[index + 1]
+//            }
+//        }
         
         return nil
     }

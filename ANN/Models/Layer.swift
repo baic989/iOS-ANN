@@ -8,20 +8,21 @@
 
 import UIKit
 
-// TODO: Refactor
-// The version of Swift that I'm stuck with doesn't
-// support static/class variables ...
-private var class_id: Int = 0
-
-class Layer {
+class Layer: NSCoder {
     
-    var id: Int
+    static var id: Int = 0
     var neurons:[Neuron]
     var position: PositionInNetwork
     
+    fileprivate struct PropertyKey {
+        static let neurons = "neurons"
+        static let position = "position"
+    }
+    
+    // MARK: - Lifecycle -
     init(numberOfNeurons: Int, position: PositionInNetwork){
         
-        id = class_id + 1
+        Layer.id = Layer.id + 1
         neurons = []
         self.position = position
 
@@ -31,7 +32,25 @@ class Layer {
         }
     }
     
-    func equals(_ other: Layer) -> Bool {
-        return id == other.id
+    private init(neurons: [Neuron], position: PositionInNetwork) {
+        Layer.id = Layer.id + 1
+        self.neurons = neurons
+        self.position = position
+    }
+    
+    required convenience init?(coder aDecoder: NSCoder) {
+        
+        guard let neurons = aDecoder.decodeObject(forKey: PropertyKey.neurons) as? [Neuron],
+              let position = aDecoder.decodeObject(forKey: PropertyKey.position) as? PositionInNetwork
+            else {
+                return nil
+        }
+        
+        self.init(neurons: neurons, position: position)
+    }
+    
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(neurons, forKey: PropertyKey.neurons)
+        aCoder.encode(position, forKey: PropertyKey.position)
     }
 }

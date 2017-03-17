@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Neuron {
+class Neuron: NSCoding {
     
     // MARK: - Properties -
     var weights: [Double]
@@ -20,6 +20,18 @@ class Neuron {
     // Delta is the proposed change to fix the error
     var delta: Double
     var position: PositionInNetwork
+    
+    fileprivate struct PropertyKey {
+        
+        static let weights = "weights"
+        static let bias = "bias"
+        static let value = "value"
+        static let error = "error"
+        static let delta = "delta"
+        static let position = "positon"
+        
+        private init() {}
+    }
 
     // MARK: - Lifecycle -
     init(position: PositionInNetwork) {
@@ -29,6 +41,41 @@ class Neuron {
         error = 0.0
         delta = 0.0
         self.position = position
+    }
+    
+    init(weights: [Double], bias: Double, value: Double, error: Double, delta: Double, position: PositionInNetwork) {
+        self.weights = weights
+        self.bias = bias
+        self.value = value
+        self.error = error
+        self.delta = delta
+        self.position = position
+    }
+    
+    required convenience init?(coder aDecoder: NSCoder) {
+        
+        guard let weights = aDecoder.decodeObject(forKey: PropertyKey.weights) as? [Double],
+              let bias = aDecoder.decodeObject(forKey: PropertyKey.bias) as? Double,
+              let value = aDecoder.decodeObject(forKey: PropertyKey.value) as? Double,
+              let error = aDecoder.decodeObject(forKey: PropertyKey.error) as? Double,
+              let delta = aDecoder.decodeObject(forKey: PropertyKey.delta) as? Double,
+              let position = aDecoder.decodeObject(forKey: PropertyKey.position) as? PositionInNetwork
+            else {
+                return nil
+        }
+        
+        self.init(weights: weights, bias: bias, value: value, error: error, delta: delta, position: position)
+    }
+    
+    // Encode
+    func encode(with aCoder: NSCoder) {
+
+        aCoder.encode(weights, forKey: PropertyKey.weights)
+        aCoder.encode(bias, forKey: PropertyKey.bias)
+        aCoder.encode(value, forKey: PropertyKey.value)
+        aCoder.encode(error, forKey: PropertyKey.error)
+        aCoder.encode(delta, forKey: PropertyKey.delta)
+        aCoder.encode(position, forKey: PropertyKey.position)
     }
     
     // MARK: - Helpers -
