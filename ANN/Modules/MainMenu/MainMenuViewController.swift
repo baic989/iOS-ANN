@@ -17,6 +17,10 @@ final class MainMenuViewController: UIViewController {
         view.backgroundColor = .red
     }
     
+    // MARK: - Override -
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
 }
 
 // MARK: - Extensions -
