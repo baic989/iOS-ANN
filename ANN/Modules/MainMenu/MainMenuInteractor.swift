@@ -7,3 +7,9 @@
 //
 
 import Foundation
+
+final class MainMenuInteractor {
+}
+
+extension MainMenuInteractor: MainMenuInteractorInterface {
+}

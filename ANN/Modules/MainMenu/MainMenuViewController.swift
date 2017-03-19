@@ -6,4 +6,20 @@
 //  Copyright © 2017 Hrvoje Baic. All rights reserved.
 //
 
-import Foundation
+import UIKit
+
+final class MainMenuViewController: UIViewController {
+    
+    var presenter: MainMenuPresenterInterface!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .red
+    }
+    
+}
+
+// MARK: - Extensions -
+
+extension MainMenuViewController: MainMenuViewInterface {
+}

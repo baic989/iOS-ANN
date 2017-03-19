@@ -116,9 +116,9 @@
 				3B8B8FE41E40ABB1008FCDBD /* Protocols */,
 				3B627DF01E375F5F004A066A /* ViewControllers */,
 				3B8B8FDF1E40AAD8008FCDBD /* Presenters */,
-				797F3E101E77122300DAF78F /* Architecture */,
 				797F3E121E77122300DAF78F /* Common */,
 				797F3E131E77122300DAF78F /* Models */,
+				797F3E101E77122300DAF78F /* Architecture */,
 				3B627DD31E37590D004A066A /* Main.storyboard */,
 				3B627DD81E37590D004A066A /* LaunchScreen.xib */,
 			);
