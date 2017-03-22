@@ -17,7 +17,7 @@ final class MainMenuViewController: UIViewController {
     let trainButton: UIButton = {
         let button = UIButton()
         button.setTitle("TRAIN", for: .normal)
-//        button.setTitleColor(.menuButtonPurple, for: .normal)
+        button.setTitleColor(.menuBackground, for: .normal)
         button.backgroundColor = .menuButton
         button.translatesAutoresizingMaskIntoConstraints = false
     
@@ -29,15 +29,19 @@ final class MainMenuViewController: UIViewController {
         button.setTitle("TEST", for: .normal)
         button.setTitleColor(.menuBackground, for: .normal)
         button.backgroundColor = .menuButton
-        button.translatesAutoresizingMaskIntoConstraints = false
         
         return button
     }()
     
+    var closeNeuronViews: [UIView] = []
+    var distantNeuronViews: [UIView] = []
+    
+    // MARK: - Lifecycle -
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .menuBackground
         
+        view.backgroundColor = .menuBackground
         setupViews()
     }
     
@@ -46,6 +50,11 @@ final class MainMenuViewController: UIViewController {
         
         setCornerRadiusAndShadowFor(view: trainButton)
         setCornerRadiusAndShadowFor(view: testButton)
+        
+        for view in closeNeuronViews {
+            setCornerRadiusAndShadowFor(view: view)
+            drawSynapsePathsFor(view: view)
+        }
     }
     
     // MARK: - Helpers -
@@ -53,14 +62,63 @@ final class MainMenuViewController: UIViewController {
     fileprivate func setupViews() {
         setupTrainButton()
         setupTestButton()
+        setupNeuronViews()
+    }
+    
+    fileprivate func setupNeuronViews() {
+        
+        for viewIndex in 0..<6 {
+            
+            let neuronView = UIView()
+            var verticalOffset: CGFloat = 3
+            var horizontalOffset = -self.view.frame.width/2
+            var isOnTop = true
+            
+            neuronView.backgroundColor = .menuButton
+            
+            if viewIndex >= 3 {
+                horizontalOffset = horizontalOffset * -1
+            }
+            
+            if viewIndex == 1 || viewIndex == 4 {
+                verticalOffset = self.view.frame.height
+            }
+            
+            if viewIndex == 2 || viewIndex == 5 {
+                isOnTop = false
+            }
+            
+            
+            setupConstraintsForMenu(view: neuronView, isOnTop: isOnTop, verticalOffset: verticalOffset, horizontalOffset: horizontalOffset, width: 55)
+            closeNeuronViews.append(neuronView)
+        }
+    }
+    
+    fileprivate func drawSynapsePathsFor(view: UIView) {
+        
+        // ??
+        let viewCenter = CGPoint(x: view.frame.midX, y: view.frame.midY)
+        let buttonCenter = CGPoint(x: trainButton.frame.midX, y: trainButton.frame.midY)
+        
+        let path = UIBezierPath()
+        path.move(to: viewCenter)
+        path.addLine(to: buttonCenter)
+        path.close()
+        
+        let layer = CAShapeLayer()
+        layer.path = path.cgPath
+        layer.strokeColor = UIColor.black.cgColor
+        layer.lineWidth = 5.0
+        
+        view.layer.addSublayer(layer)
     }
     
     fileprivate func setupTrainButton() {
-        setupConstraintsForMenu(button: trainButton, isOnTop: true)
+        setupConstraintsForMenu(view: trainButton, isOnTop: true, verticalOffset: 5, horizontalOffset: 0, width: 75)
     }
     
     fileprivate func setupTestButton() {
-        setupConstraintsForMenu(button: testButton, isOnTop: false)
+        setupConstraintsForMenu(view: testButton, isOnTop: false, verticalOffset: 5, horizontalOffset: 0, width: 75)
     }
     
     fileprivate func setCornerRadiusAndShadowFor(view: UIView) {
@@ -72,20 +130,21 @@ final class MainMenuViewController: UIViewController {
         view.layer.shadowOpacity = 0.5
     }
     
-    fileprivate func setupConstraintsForMenu(button: UIButton, isOnTop: Bool) {
-        view.addSubview(button)
+    fileprivate func setupConstraintsForMenu(view: UIView, isOnTop: Bool, verticalOffset: CGFloat, horizontalOffset: CGFloat, width: CGFloat) {
         
-        var verticalOffset = view.frame.height / 5
+        self.view.addSubview(view)
         
-        verticalOffset = isOnTop ? -verticalOffset : verticalOffset
+        var verticalOffsetConstant = self.view.frame.height / verticalOffset
         
-        let horizontalConstraint = NSLayoutConstraint(item: button, attribute: .centerX, relatedBy: .equal, toItem: view, attribute: .centerX, multiplier: 1, constant: 0)
-        let verticalConstraint = NSLayoutConstraint(item: button, attribute: .centerY, relatedBy: .equal, toItem: view, attribute: .centerY, multiplier: 1, constant: verticalOffset)
+        verticalOffsetConstant = isOnTop ? -verticalOffsetConstant : verticalOffsetConstant
         
-        view.addConstraint(horizontalConstraint)
-        view.addConstraint(verticalConstraint)
-        view.addConstraintsWithFormat(format: "H:[v0(100)]", views: button)
-        view.addConstraintsWithFormat(format: "V:[v0(100)]", views: button)
+        let horizontalConstraint = NSLayoutConstraint(item: view, attribute: .centerX, relatedBy: .equal, toItem: self.view, attribute: .centerX, multiplier: 1, constant: horizontalOffset)
+        let verticalConstraint = NSLayoutConstraint(item: view, attribute: .centerY, relatedBy: .equal, toItem: self.view, attribute: .centerY, multiplier: 1, constant: verticalOffsetConstant)
+        
+        self.view.addConstraint(horizontalConstraint)
+        self.view.addConstraint(verticalConstraint)
+        self.view.addConstraintsWithFormat(format: "H:[v0(\(width))]", views: view)
+        self.view.addConstraintsWithFormat(format: "V:[v0(\(width))]", views: view)
         
         horizontalConstraint.isActive = true
         verticalConstraint.isActive = true
