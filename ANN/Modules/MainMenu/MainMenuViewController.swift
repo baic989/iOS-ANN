@@ -20,6 +20,8 @@ final class MainMenuViewController: UIViewController {
         button.setTitleColor(.menuBackground, for: .normal)
         button.backgroundColor = .menuButton
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(trainButtonTouchDown), for: .touchDown)
+        button.addTarget(self, action: #selector(trainButtonTouchUp), for: .touchUpInside)
     
         return button
     }()
@@ -29,6 +31,8 @@ final class MainMenuViewController: UIViewController {
         button.setTitle("TEST", for: .normal)
         button.setTitleColor(.menuBackground, for: .normal)
         button.backgroundColor = .menuButton
+        button.addTarget(self, action: #selector(testButtonTouchDown), for: .touchDown)
+        button.addTarget(self, action: #selector(testButtonTouchUp), for: .touchUpInside)
         
         return button
     }()
@@ -176,6 +180,45 @@ final class MainMenuViewController: UIViewController {
         
         horizontalConstraint.isActive = true
         verticalConstraint.isActive = true
+    }
+    
+    fileprivate func touchDownAnimationFor(button: UIButton, withCompletion completion: ((_ finished: Bool) -> ())?) {
+        
+        UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseOut, animations: {
+            button.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
+        }) { finished in
+            completion?(finished)
+        }
+    }
+    
+    fileprivate func touchUpAnimationFor(button: UIButton, withCompletion completion: @escaping (_ finished: Bool) -> ()) {
+        
+        UIView.animate(withDuration: 0.2, animations: {
+                        button.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+        }) { finished in
+            completion(finished)
+        }
+    }
+    
+    // MARK: - Button actions -
+    func trainButtonTouchDown() {
+        touchDownAnimationFor(button: trainButton, withCompletion: nil)
+    }
+    
+    func trainButtonTouchUp() {
+        touchUpAnimationFor(button: trainButton) { finished in
+            // do something
+        }
+    }
+    
+    func testButtonTouchDown() {
+        touchDownAnimationFor(button: testButton, withCompletion: nil)
+    }
+    
+    func testButtonTouchUp() {
+        touchUpAnimationFor(button: testButton) { finished in
+            // do something
+        }
     }
     
     // MARK: - Override -
