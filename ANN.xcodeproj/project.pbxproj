@@ -20,6 +20,7 @@
 		3B8B8FE11E40AAFF008FCDBD /* TrainCharacterPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8B8FE01E40AAFF008FCDBD /* TrainCharacterPresenter.swift */; };
 		3B8B8FE31E40AB17008FCDBD /* ClassifyCharacterPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8B8FE21E40AB17008FCDBD /* ClassifyCharacterPresenter.swift */; };
 		3B8B8FE61E40ABD2008FCDBD /* DrawViewControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8B8FE51E40ABD2008FCDBD /* DrawViewControllerProtocol.swift */; };
+		793EFE4C1E82BABF0089C16C /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793EFE4B1E82BABF0089C16C /* UIViewExtensions.swift */; };
 		797F3E0F1E77108300DAF78F /* UIImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797F3E0E1E77108300DAF78F /* UIImageExtensions.swift */; };
 		797F3E151E77123700DAF78F /* BaseWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797F3E141E77123700DAF78F /* BaseWireframe.swift */; };
 		797F3E171E77124500DAF78F /* InteractorInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797F3E161E77124500DAF78F /* InteractorInterface.swift */; };
@@ -60,6 +61,7 @@
 		3B8B8FE21E40AB17008FCDBD /* ClassifyCharacterPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassifyCharacterPresenter.swift; sourceTree = "<group>"; };
 		3B8B8FE51E40ABD2008FCDBD /* DrawViewControllerProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawViewControllerProtocol.swift; sourceTree = "<group>"; };
 		790707A51E7752A500ED1B14 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		793EFE4B1E82BABF0089C16C /* UIViewExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
 		797F3E0E1E77108300DAF78F /* UIImageExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageExtensions.swift; sourceTree = "<group>"; };
 		797F3E141E77123700DAF78F /* BaseWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseWireframe.swift; sourceTree = "<group>"; };
 		797F3E161E77124500DAF78F /* InteractorInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InteractorInterface.swift; sourceTree = "<group>"; };
@@ -172,6 +174,7 @@
 			isa = PBXGroup;
 			children = (
 				797F3E0E1E77108300DAF78F /* UIImageExtensions.swift */,
+				793EFE4B1E82BABF0089C16C /* UIViewExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -344,6 +347,7 @@
 				3B8B8FE61E40ABD2008FCDBD /* DrawViewControllerProtocol.swift in Sources */,
 				797F3E221E7743B300DAF78F /* MainMenuPresenter.swift in Sources */,
 				797F3E1B1E77126700DAF78F /* ViewInterface.swift in Sources */,
+				793EFE4C1E82BABF0089C16C /* UIViewExtensions.swift in Sources */,
 				797F3E281E7743DB00DAF78F /* MainMenuInterfaces.swift in Sources */,
 				797F3E0F1E77108300DAF78F /* UIImageExtensions.swift in Sources */,
 				797F3E201E7743A000DAF78F /* MainMenuViewController.swift in Sources */,
