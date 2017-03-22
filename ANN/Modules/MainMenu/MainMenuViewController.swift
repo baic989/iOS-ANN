@@ -55,6 +55,9 @@ final class MainMenuViewController: UIViewController {
             setCornerRadiusAndShadowFor(view: view)
             drawSynapsePathsFor(view: view)
         }
+        
+        view.bringSubview(toFront: trainButton)
+        view.bringSubview(toFront: testButton)
     }
     
     // MARK: - Helpers -
@@ -96,21 +99,46 @@ final class MainMenuViewController: UIViewController {
     
     fileprivate func drawSynapsePathsFor(view: UIView) {
         
-        // ??
-        let viewCenter = CGPoint(x: view.frame.midX, y: view.frame.midY)
-        let buttonCenter = CGPoint(x: trainButton.frame.midX, y: trainButton.frame.midY)
+        // Get points for bezier path relative to superview
+        // Point for our neuron view
+        let viewRectInSuperview = view.convert(view.frame, from: self.view)
+        let viewPointInSuperview = CGPoint(x: viewRectInSuperview.midX, y: viewRectInSuperview.midY)
         
-        let path = UIBezierPath()
-        path.move(to: viewCenter)
-        path.addLine(to: buttonCenter)
-        path.close()
+        // Point for train button
+        let trainButtonRectInSuperview = view.convert(trainButton.frame, from: self.view)
+        let trainButtonPointInSuperview = CGPoint(x: trainButtonRectInSuperview.midX, y: trainButtonRectInSuperview.midY)
         
-        let layer = CAShapeLayer()
-        layer.path = path.cgPath
-        layer.strokeColor = UIColor.black.cgColor
-        layer.lineWidth = 5.0
+        // Point for test button
+        let testButtonRectInSuperview = view.convert(testButton.frame, from: self.view)
+        let testButtonPointInSuperview = CGPoint(x: testButtonRectInSuperview.midX, y: testButtonRectInSuperview.midY)
         
-        view.layer.addSublayer(layer)
+        // Add path from views to train button
+        let trainPath = UIBezierPath()
+        trainPath.move(to: viewPointInSuperview)
+        trainPath.addLine(to: trainButtonPointInSuperview)
+        trainPath.close()
+        
+        // Add path for views to test button
+        let testPath = UIBezierPath()
+        testPath.move(to: viewPointInSuperview)
+        testPath.addLine(to: testButtonPointInSuperview)
+        testPath.close()
+        
+        // Make layer for train button
+        let trainLayer = CAShapeLayer()
+        trainLayer.path = trainPath.cgPath
+        trainLayer.strokeColor = UIColor.menuButton.cgColor
+        trainLayer.lineWidth = 3.0
+        
+        // Make lazer for test button
+        let testLayer = CAShapeLayer()
+        testLayer.path = testPath.cgPath
+        testLayer.strokeColor = UIColor.menuButton.cgColor
+        testLayer.lineWidth = 3.0
+        
+        // Add layers to main view
+        view.layer.addSublayer(trainLayer)
+        view.layer.addSublayer(testLayer)
     }
     
     fileprivate func setupTrainButton() {
