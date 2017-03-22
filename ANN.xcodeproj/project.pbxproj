@@ -21,6 +21,7 @@
 		3B8B8FE31E40AB17008FCDBD /* ClassifyCharacterPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8B8FE21E40AB17008FCDBD /* ClassifyCharacterPresenter.swift */; };
 		3B8B8FE61E40ABD2008FCDBD /* DrawViewControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8B8FE51E40ABD2008FCDBD /* DrawViewControllerProtocol.swift */; };
 		793EFE4C1E82BABF0089C16C /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793EFE4B1E82BABF0089C16C /* UIViewExtensions.swift */; };
+		793EFE4E1E82CFDC0089C16C /* UIColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793EFE4D1E82CFDC0089C16C /* UIColorExtensions.swift */; };
 		797F3E0F1E77108300DAF78F /* UIImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797F3E0E1E77108300DAF78F /* UIImageExtensions.swift */; };
 		797F3E151E77123700DAF78F /* BaseWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797F3E141E77123700DAF78F /* BaseWireframe.swift */; };
 		797F3E171E77124500DAF78F /* InteractorInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797F3E161E77124500DAF78F /* InteractorInterface.swift */; };
@@ -62,6 +63,7 @@
 		3B8B8FE51E40ABD2008FCDBD /* DrawViewControllerProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawViewControllerProtocol.swift; sourceTree = "<group>"; };
 		790707A51E7752A500ED1B14 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		793EFE4B1E82BABF0089C16C /* UIViewExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
+		793EFE4D1E82CFDC0089C16C /* UIColorExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtensions.swift; sourceTree = "<group>"; };
 		797F3E0E1E77108300DAF78F /* UIImageExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageExtensions.swift; sourceTree = "<group>"; };
 		797F3E141E77123700DAF78F /* BaseWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseWireframe.swift; sourceTree = "<group>"; };
 		797F3E161E77124500DAF78F /* InteractorInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InteractorInterface.swift; sourceTree = "<group>"; };
@@ -175,6 +177,7 @@
 			children = (
 				797F3E0E1E77108300DAF78F /* UIImageExtensions.swift */,
 				793EFE4B1E82BABF0089C16C /* UIViewExtensions.swift */,
+				793EFE4D1E82CFDC0089C16C /* UIColorExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -356,6 +359,7 @@
 				3B627DF21E375FE2004A066A /* MainViewController.swift in Sources */,
 				3B8B8FE31E40AB17008FCDBD /* ClassifyCharacterPresenter.swift in Sources */,
 				3B627DF41E376052004A066A /* NeuralNetwork.swift in Sources */,
+				793EFE4E1E82CFDC0089C16C /* UIColorExtensions.swift in Sources */,
 				797F3E191E77125B00DAF78F /* PresenterInterface.swift in Sources */,
 				797F3E241E7743BC00DAF78F /* MainMenuInteractor.swift in Sources */,
 				3B627DF61E3760D1004A066A /* Layer.swift in Sources */,
