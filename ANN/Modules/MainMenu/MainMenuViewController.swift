@@ -194,7 +194,7 @@ final class MainMenuViewController: UIViewController {
     fileprivate func touchUpAnimationFor(button: UIButton, withCompletion completion: @escaping (_ finished: Bool) -> ()) {
 
         UIView.animate(withDuration: 0.3, animations: {
-            button.transform = CGAffineTransform(scaleX: 2.0, y: 2.0)
+            button.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
         }) { finished in
             completion(finished)
         }
@@ -209,8 +209,8 @@ final class MainMenuViewController: UIViewController {
         
 //        view.sendSubview(toBack: testButton)
         
-        touchUpAnimationFor(button: trainButton) { finished in
-            // navigate
+        touchUpAnimationFor(button: trainButton) { [weak self] finished in
+            self?.presenter.didPressTrainButton()
         }
     }
     
@@ -219,8 +219,8 @@ final class MainMenuViewController: UIViewController {
     }
     
     func testButtonTouchUp() {
-        touchUpAnimationFor(button: testButton) { finished in
-            // navigate
+        touchUpAnimationFor(button: testButton) { [weak self] finished in
+            self?.presenter.didPressTestButton()
         }
     }
     

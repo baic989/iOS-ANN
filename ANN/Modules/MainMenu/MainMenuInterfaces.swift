@@ -7,6 +7,8 @@
 //
 
 enum MainMenuNavigationOption {
+    case trainScreen
+    case testScreen
 }
 
 protocol MainMenuWireframeInterface: WireframeInterface {
@@ -17,6 +19,8 @@ protocol MainMenuViewInterface: ViewInterface {
 }
 
 protocol MainMenuPresenterInterface: PresenterInterface {
+    func didPressTrainButton()
+    func didPressTestButton()
 }
 
 protocol MainMenuInteractorInterface: InteractorInterface {

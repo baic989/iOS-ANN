@@ -29,4 +29,12 @@ final class MainMenuPresenter {
 // MARK: - Extensions -
 
 extension MainMenuPresenter: MainMenuPresenterInterface {
+    
+    func didPressTrainButton() {
+        _wireframe.navigate(to: .trainScreen)
+    }
+    
+    func didPressTestButton() {
+        _wireframe.navigate(to: .testScreen)
+    }
 }

@@ -25,6 +25,13 @@ final class MainMenuWireframe: BaseWireframe {
         show(moduleViewController, with: transition, animated: animated)
     }
     
+    func navigateToTrainScreen() {
+        
+    }
+    
+    func navigateToTestScreen() {
+        
+    }
 }
 
 // MARK: - Extensions -
@@ -32,6 +39,12 @@ final class MainMenuWireframe: BaseWireframe {
 extension MainMenuWireframe: MainMenuWireframeInterface {
     
     func navigate(to option: MainMenuNavigationOption) {
+        switch option {
+        case .trainScreen:
+            navigateToTrainScreen()
+        case .testScreen:
+            navigateToTestScreen()
+        }
     }
     
 }
