@@ -193,12 +193,14 @@ final class MainMenuViewController: UIViewController {
     
     fileprivate func touchUpAnimationFor(button: UIButton, withCompletion completion: @escaping (_ finished: Bool) -> ()) {
         
-        UIView.animate(withDuration: 0.1) { 
+        UIView.animate(withDuration: 0.1) {
             button.titleLabel?.alpha = 0.0
         }
+        
+        let scale = (self.view.frame.height / button.frame.height) * 1.5
 
         UIView.animate(withDuration: 0.3, animations: {
-            button.transform = CGAffineTransform(scaleX: 10.0, y: 10.0)
+            button.transform = CGAffineTransform(scaleX: scale, y: scale)
         }) { finished in
             completion(finished)
         }
