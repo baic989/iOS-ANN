@@ -10,12 +10,15 @@ import UIKit
 
 final class DrawingViewController: UIViewController {
     
+    // MARK: - Properties -
     var presenter: DrawingPresenterInterface!
     
+    // MARK: - Lifecycle -
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
+    // MARK: - Helpers -
 }
 
 // MARK: - Extensions -
