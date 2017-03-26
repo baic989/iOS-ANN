@@ -6,4 +6,18 @@
 //  Copyright © 2017 Hrvoje Baic. All rights reserved.
 //
 
-import Foundation
+enum DrawingNavigationOption {
+}
+
+protocol DrawingWireframeInterface: WireframeInterface {
+    func navigate(to option: DrawingNavigationOption)
+}
+
+protocol DrawingViewInterface: ViewInterface {
+}
+
+protocol DrawingPresenterInterface: PresenterInterface {
+}
+
+protocol DrawingInteractorInterface: InteractorInterface {
+}
