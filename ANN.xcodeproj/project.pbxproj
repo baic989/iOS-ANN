@@ -32,6 +32,11 @@
 		797F3E241E7743BC00DAF78F /* MainMenuInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797F3E231E7743BC00DAF78F /* MainMenuInteractor.swift */; };
 		797F3E261E7743CB00DAF78F /* MainMenuWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797F3E251E7743CB00DAF78F /* MainMenuWireframe.swift */; };
 		797F3E281E7743DB00DAF78F /* MainMenuInterfaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797F3E271E7743DB00DAF78F /* MainMenuInterfaces.swift */; };
+		79FB47361E8847C100B559DC /* DrawingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FB47351E8847C100B559DC /* DrawingViewController.swift */; };
+		79FB47381E8847CD00B559DC /* DrawingPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FB47371E8847CD00B559DC /* DrawingPresenter.swift */; };
+		79FB473A1E8847D800B559DC /* DrawingInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FB47391E8847D700B559DC /* DrawingInteractor.swift */; };
+		79FB473C1E8847E300B559DC /* DrawingWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FB473B1E8847E300B559DC /* DrawingWireframe.swift */; };
+		79FB473E1E8847EC00B559DC /* DrawingInterfaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FB473D1E8847EC00B559DC /* DrawingInterfaces.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +79,11 @@
 		797F3E231E7743BC00DAF78F /* MainMenuInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenuInteractor.swift; sourceTree = "<group>"; };
 		797F3E251E7743CB00DAF78F /* MainMenuWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenuWireframe.swift; sourceTree = "<group>"; };
 		797F3E271E7743DB00DAF78F /* MainMenuInterfaces.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenuInterfaces.swift; sourceTree = "<group>"; };
+		79FB47351E8847C100B559DC /* DrawingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawingViewController.swift; sourceTree = "<group>"; };
+		79FB47371E8847CD00B559DC /* DrawingPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawingPresenter.swift; sourceTree = "<group>"; };
+		79FB47391E8847D700B559DC /* DrawingInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawingInteractor.swift; sourceTree = "<group>"; };
+		79FB473B1E8847E300B559DC /* DrawingWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawingWireframe.swift; sourceTree = "<group>"; };
+		79FB473D1E8847EC00B559DC /* DrawingInterfaces.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawingInterfaces.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -225,6 +235,7 @@
 			isa = PBXGroup;
 			children = (
 				797F3E1E1E77438600DAF78F /* MainMenu */,
+				79FB47341E8847A000B559DC /* Drawing */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -239,6 +250,18 @@
 				797F3E271E7743DB00DAF78F /* MainMenuInterfaces.swift */,
 			);
 			path = MainMenu;
+			sourceTree = "<group>";
+		};
+		79FB47341E8847A000B559DC /* Drawing */ = {
+			isa = PBXGroup;
+			children = (
+				79FB47351E8847C100B559DC /* DrawingViewController.swift */,
+				79FB47371E8847CD00B559DC /* DrawingPresenter.swift */,
+				79FB47391E8847D700B559DC /* DrawingInteractor.swift */,
+				79FB473B1E8847E300B559DC /* DrawingWireframe.swift */,
+				79FB473D1E8847EC00B559DC /* DrawingInterfaces.swift */,
+			);
+			path = Drawing;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -346,6 +369,7 @@
 			files = (
 				797F3E171E77124500DAF78F /* InteractorInterface.swift in Sources */,
 				3B8B8FE11E40AAFF008FCDBD /* TrainCharacterPresenter.swift in Sources */,
+				79FB473E1E8847EC00B559DC /* DrawingInterfaces.swift in Sources */,
 				3B688B091E3F58CA00056F1F /* DrawViewController.swift in Sources */,
 				3B8B8FE61E40ABD2008FCDBD /* DrawViewControllerProtocol.swift in Sources */,
 				797F3E221E7743B300DAF78F /* MainMenuPresenter.swift in Sources */,
@@ -353,14 +377,18 @@
 				793EFE4C1E82BABF0089C16C /* UIViewExtensions.swift in Sources */,
 				797F3E281E7743DB00DAF78F /* MainMenuInterfaces.swift in Sources */,
 				797F3E0F1E77108300DAF78F /* UIImageExtensions.swift in Sources */,
+				79FB473A1E8847D800B559DC /* DrawingInteractor.swift in Sources */,
+				79FB47381E8847CD00B559DC /* DrawingPresenter.swift in Sources */,
 				797F3E201E7743A000DAF78F /* MainMenuViewController.swift in Sources */,
 				797F3E261E7743CB00DAF78F /* MainMenuWireframe.swift in Sources */,
 				3B627DD01E37590D004A066A /* AppDelegate.swift in Sources */,
 				3B627DF21E375FE2004A066A /* MainViewController.swift in Sources */,
 				3B8B8FE31E40AB17008FCDBD /* ClassifyCharacterPresenter.swift in Sources */,
 				3B627DF41E376052004A066A /* NeuralNetwork.swift in Sources */,
+				79FB473C1E8847E300B559DC /* DrawingWireframe.swift in Sources */,
 				793EFE4E1E82CFDC0089C16C /* UIColorExtensions.swift in Sources */,
 				797F3E191E77125B00DAF78F /* PresenterInterface.swift in Sources */,
+				79FB47361E8847C100B559DC /* DrawingViewController.swift in Sources */,
 				797F3E241E7743BC00DAF78F /* MainMenuInteractor.swift in Sources */,
 				3B627DF61E3760D1004A066A /* Layer.swift in Sources */,
 				3B627DF81E376116004A066A /* Neuron.swift in Sources */,
