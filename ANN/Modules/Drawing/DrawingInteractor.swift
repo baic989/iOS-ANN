@@ -7,3 +7,10 @@
 //
 
 import Foundation
+
+final class DrawingInteractor {
+}
+
+extension DrawingInteractor: DrawingInteractorInterface {
+}
+
