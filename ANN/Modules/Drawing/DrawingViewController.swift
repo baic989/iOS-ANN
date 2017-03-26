@@ -6,4 +6,19 @@
 //  Copyright © 2017 Hrvoje Baic. All rights reserved.
 //
 
-import Foundation
+import UIKit
+
+final class DrawingViewController: UIViewController {
+    
+    var presenter: DrawingPresenterInterface!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+    
+}
+
+// MARK: - Extensions -
+
+extension DrawingViewController: DrawingViewInterface {
+}
