@@ -12,15 +12,15 @@ final class DrawingWireframe: BaseWireframe {
     
     // MARK: - Module setup -
     
-    func configureModule(with viewController: DrawingViewController) {
+    func configureModule(with viewController: DrawingViewController, navigationOption: MainMenuNavigationOption) {
         let interactor = DrawingInteractor()
-        let presenter = DrawingPresenter(wireframe: self, view: viewController, interactor: interactor)
+        let presenter = DrawingPresenter(wireframe: self, view: viewController, interactor: interactor, navigationOption: navigationOption)
         viewController.presenter = presenter
     }
     
-    func show(with transition: Transition, animated: Bool = true) {
+    func show(with transition: Transition, navigationOption: MainMenuNavigationOption, animated: Bool = true) {
         let moduleViewController = DrawingViewController()
-        configureModule(with: moduleViewController)
+        configureModule(with: moduleViewController, navigationOption: navigationOption)
         
         show(moduleViewController, with: transition, animated: animated)
     }
@@ -31,6 +31,5 @@ final class DrawingWireframe: BaseWireframe {
 extension DrawingWireframe: DrawingWireframeInterface {
     
     func navigate(to option: DrawingNavigationOption) {
-        
     }
 }

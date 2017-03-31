@@ -15,15 +15,16 @@ final class DrawingPresenter {
     fileprivate weak var _view: DrawingViewInterface?
     fileprivate var _interactor: DrawingInteractorInterface
     fileprivate var _wireframe: DrawingWireframeInterface
+    fileprivate var _navigationOption: MainMenuNavigationOption
     
     // MARK: - Lifecycle -
     
-    init (wireframe: DrawingWireframeInterface, view: DrawingViewInterface, interactor: DrawingInteractorInterface) {
+    init (wireframe: DrawingWireframeInterface, view: DrawingViewInterface, interactor: DrawingInteractorInterface, navigationOption: MainMenuNavigationOption) {
         _wireframe = wireframe
         _view = view
         _interactor = interactor
+        _navigationOption = navigationOption
     }
-    
 }
 
 // MARK: - Extensions -
