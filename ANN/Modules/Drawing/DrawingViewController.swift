@@ -22,12 +22,25 @@ final class DrawingViewController: UIViewController {
         return imageView
     }()
     
-    fileprivate let characterPickerView: UIPickerView = {
+    fileprivate lazy var characterPickerView: UIPickerView = {
         let pickerView = UIPickerView()
+        pickerView.dataSource = self
+        pickerView.delegate = self
+        pickerView.backgroundColor = .menuButton
+        pickerView.tintColor = .white // help
+        
         return pickerView
     }()
     
-    //fileprivate let characterBoxImageView: UIImageView
+    fileprivate let titleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Draw into empty area below."
+        label.textAlignment = .center
+        label.backgroundColor = .menuButton
+        label.textColor = .white
+        
+        return label
+    }()
     
     fileprivate let lineWidth: CGFloat = 15.0
     fileprivate let characterBoxThickness: CGFloat = 10.0
@@ -42,10 +55,32 @@ final class DrawingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .red
+        
+        setupViews()
     }
     
     // MARK: - Helpers -
+    fileprivate func setupViews() {
+        
+        let controlButtonsStackView = UIStackView()
+        let letterPickerStackView = UIStackView()
+        
+        view.addSubview(controlButtonsStackView)
+        view.addSubview(letterPickerStackView)
+        view.addSubview(titleLabel)
+        
+        view.addConstraintsWithFormat(format: "H:|[v0]|", views: controlButtonsStackView)
+        view.addConstraintsWithFormat(format: "V:[v0(50)]|", views: controlButtonsStackView)
+        
+        view.addConstraintsWithFormat(format: "H:|[v0]|", views: letterPickerStackView)
+        view.addConstraintsWithFormat(format: "V:[v0(50)]-[v1]", views: letterPickerStackView, controlButtonsStackView)
+        
+        view.addConstraintsWithFormat(format: "H:|[v0]|", views: titleLabel)
+        view.addConstraintsWithFormat(format: "V:|[v0(50)]", views: titleLabel)
+        
+        letterPickerStackView.addArrangedSubview(characterPickerView)
+        
+    }
     
     internal func classifyImage() {
     }
