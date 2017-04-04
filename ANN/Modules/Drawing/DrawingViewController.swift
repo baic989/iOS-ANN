@@ -275,8 +275,11 @@ final class DrawingViewController: UIViewController {
 
 extension DrawingViewController: UIPickerViewDataSource, UIPickerViewDelegate {
     
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return pickerViewData[row]
+    func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
+        
+        let rowTitle = pickerViewData[row]
+        
+        return NSAttributedString(string: rowTitle, attributes: [NSForegroundColorAttributeName:UIColor.menuBackground])
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
