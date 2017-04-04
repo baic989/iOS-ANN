@@ -55,7 +55,7 @@ final class DrawingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = .menuBackground
         
         setupViews()
     }
@@ -82,10 +82,10 @@ final class DrawingViewController: UIViewController {
         view.addConstraintsWithFormat(format: "V:|[v0(50)]", views: titleLabel)
         
         view.addConstraintsWithFormat(format: "H:|[v0]|", views: characterBoxImageView)
-        view.addConstraintsWithFormat(format: "V:|[v0]-[v1]-[v2]|", views: titleLabel, characterBoxImageView, controlButtonsStackView)
+        view.addConstraintsWithFormat(format: "V:[v0]-[v1]-[v2]", views: titleLabel, characterBoxImageView, letterPickerStackView)
         
         view.addConstraintsWithFormat(format: "H:|[v0]|", views: drawingImageView)
-        view.addConstraintsWithFormat(format: "V:|[v0]-[v1]-[v2]|", views: titleLabel, drawingImageView, controlButtonsStackView)
+        view.addConstraintsWithFormat(format: "V:[v0]-[v1]-[v2]", views: titleLabel, drawingImageView, letterPickerStackView)
         
         letterPickerStackView.addArrangedSubview(characterPickerView)
         // add control buttons to sv
