@@ -42,6 +42,20 @@ final class DrawingViewController: UIViewController {
         return label
     }()
     
+    fileprivate let okButton: UIButton = {
+        let button = UIButton()
+        button.addTarget(self, action: #selector(okButtonPressed), for: .touchUpInside)
+        button.setTitle("OK", for: .normal)
+        return button
+    }()
+    
+    fileprivate let clearButton: UIButton = {
+        let button = UIButton()
+        button.addTarget(self, action: #selector(clearButtonPressed), for: .touchUpInside)
+        button.setTitle("Clear", for: .normal)
+        return button
+    }()
+    
     fileprivate let lineWidth: CGFloat = 10.0
     fileprivate let characterBoxThickness: CGFloat = 5.0
     fileprivate let pickerViewData = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"]
@@ -92,23 +106,7 @@ final class DrawingViewController: UIViewController {
         
     }
     
-    internal func classifyImage() {
-    }
     
-    fileprivate func processImage() {
-        
-        guard let croppedImage = drawingImageView.image?.cropImageWith(rect: characterBox) else {
-            // error
-            return
-        }
-        
-        let size = CGSize(width: 20.0, height: 20.0)
-        guard let scaledImage = croppedImage.scaleImageTo(size: size) else { return }
-        
-        let pixelsArray = pixelize(image: scaledImage)
-        
-        saveCharacterPixelsAndOutput(pixelsArray)
-    }
     
     fileprivate func pixelize(image: UIImage) -> [Int] {
         
@@ -269,6 +267,16 @@ final class DrawingViewController: UIViewController {
             lastPoint = point
         }
     }
+    
+    // MARK: - Button actions -
+    
+    func okButtonPressed() {
+        
+    }
+    
+    func clearButtonPressed() {
+        
+    }
 }
 
 // MARK: - Extensions -
@@ -292,4 +300,22 @@ extension DrawingViewController: UIPickerViewDataSource, UIPickerViewDelegate {
 }
 
 extension DrawingViewController: DrawingViewInterface {
+    
+    internal func classifyImage() {
+    }
+    
+    internal func processImage() {
+        
+        guard let croppedImage = drawingImageView.image?.cropImageWith(rect: characterBox) else {
+            // error
+            return
+        }
+        
+        let size = CGSize(width: 20.0, height: 20.0)
+        guard let scaledImage = croppedImage.scaleImageTo(size: size) else { return }
+        
+        let pixelsArray = pixelize(image: scaledImage)
+        
+        saveCharacterPixelsAndOutput(pixelsArray)
+    }
 }

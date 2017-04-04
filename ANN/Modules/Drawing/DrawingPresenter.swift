@@ -30,4 +30,14 @@ final class DrawingPresenter {
 // MARK: - Extensions -
 
 extension DrawingPresenter: DrawingPresenterInterface {
+    
+    internal func okButtonPressed() {
+        switch _navigationOption {
+        case .testScreen:
+            _view?.classifyImage()
+        case .trainScreen:
+            _view?.processImage()
+        }
+    }
+
 }

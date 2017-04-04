@@ -14,9 +14,12 @@ protocol DrawingWireframeInterface: WireframeInterface {
 }
 
 protocol DrawingViewInterface: ViewInterface {
+    func processImage()
+    func classifyImage()
 }
 
 protocol DrawingPresenterInterface: PresenterInterface {
+    func okButtonPressed()
 }
 
 protocol DrawingInteractorInterface: InteractorInterface {
