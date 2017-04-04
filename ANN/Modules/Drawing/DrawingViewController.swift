@@ -27,7 +27,7 @@ final class DrawingViewController: UIViewController {
         pickerView.dataSource = self
         pickerView.delegate = self
         pickerView.backgroundColor = .menuButton
-        pickerView.tintColor = .white // help
+        pickerView.tintColor = .white
         
         return pickerView
     }()
@@ -42,8 +42,8 @@ final class DrawingViewController: UIViewController {
         return label
     }()
     
-    fileprivate let lineWidth: CGFloat = 15.0
-    fileprivate let characterBoxThickness: CGFloat = 10.0
+    fileprivate let lineWidth: CGFloat = 10.0
+    fileprivate let characterBoxThickness: CGFloat = 5.0
     fileprivate let pickerViewData = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"]
     fileprivate var arrayOfPixelizedCharacters: [[Int]] = []
     fileprivate var arrayOfOutputs: [[Int]] = []
@@ -55,6 +55,7 @@ final class DrawingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
         
         setupViews()
     }
@@ -68,6 +69,8 @@ final class DrawingViewController: UIViewController {
         view.addSubview(controlButtonsStackView)
         view.addSubview(letterPickerStackView)
         view.addSubview(titleLabel)
+        view.addSubview(characterBoxImageView)
+        view.addSubview(drawingImageView)
         
         view.addConstraintsWithFormat(format: "H:|[v0]|", views: controlButtonsStackView)
         view.addConstraintsWithFormat(format: "V:[v0(50)]|", views: controlButtonsStackView)
@@ -78,7 +81,14 @@ final class DrawingViewController: UIViewController {
         view.addConstraintsWithFormat(format: "H:|[v0]|", views: titleLabel)
         view.addConstraintsWithFormat(format: "V:|[v0(50)]", views: titleLabel)
         
+        view.addConstraintsWithFormat(format: "H:|[v0]|", views: characterBoxImageView)
+        view.addConstraintsWithFormat(format: "V:|[v0]-[v1]-[v2]|", views: titleLabel, characterBoxImageView, controlButtonsStackView)
+        
+        view.addConstraintsWithFormat(format: "H:|[v0]|", views: drawingImageView)
+        view.addConstraintsWithFormat(format: "V:|[v0]-[v1]-[v2]|", views: titleLabel, drawingImageView, controlButtonsStackView)
+        
         letterPickerStackView.addArrangedSubview(characterPickerView)
+        // add control buttons to sv
         
     }
     
