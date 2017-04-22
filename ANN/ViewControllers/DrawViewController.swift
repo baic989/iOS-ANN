@@ -57,11 +57,11 @@ class DrawViewController: UIViewController {
     internal func processImage() {
         
         if let characterBox = characterBox {
-            if let croppedImage = drawingImageView.image?.cropImageWithRect(characterBox) {
+            if let croppedImage = drawingImageView.image?.cropImageWith(rect: characterBox) {
                 
                 let size = CGSize(width: 20.0, height: 20.0)
-                let scaledImage = croppedImage.scaleImageToSize(size)
-                let pixelsArray = pixelizeImage(scaledImage)
+                let scaledImage = croppedImage.scaleImageTo(size: size)
+                let pixelsArray = pixelizeImage(scaledImage!)
                 
                 saveCharacterPixelsAndOutput(pixelsArray)
             } else {

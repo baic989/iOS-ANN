@@ -12,6 +12,10 @@ final class DrawingViewController: UIViewController {
     
     // MARK: - Properties -
     
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+    
     fileprivate let drawingImageView: UIImageView = {
         let imageView = UIImageView()
         return imageView
