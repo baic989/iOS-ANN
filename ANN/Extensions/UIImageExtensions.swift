@@ -16,7 +16,6 @@ extension UIImage {
     }
     
     func scaleImageTo(size: CGSize) -> UIImage? {
-        
         UIGraphicsBeginImageContextWithOptions(size, false, 1.0)
         guard let context = UIGraphicsGetCurrentContext() else { return nil }
         

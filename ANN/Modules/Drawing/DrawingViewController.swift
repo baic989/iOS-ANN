@@ -46,21 +46,36 @@ final class DrawingViewController: UIViewController {
         return label
     }()
     
+    // Saves the image into pixels array
     fileprivate let okButton: UIButton = {
         let button = UIButton()
         button.addTarget(self, action: #selector(okButtonPressed), for: .touchUpInside)
         button.setTitle("OK", for: .normal)
+        button.setTitleColor(.menuButton, for: .normal)
         return button
     }()
     
+    // Clears the drawing area
     fileprivate let clearButton: UIButton = {
         let button = UIButton()
         button.addTarget(self, action: #selector(clearButtonPressed), for: .touchUpInside)
         button.setTitle("Clear", for: .normal)
+        button.setTitleColor(.menuButton, for: .normal)
         return button
     }()
     
-    fileprivate let lineWidth: CGFloat = 10.0
+    // Trains the network with the pixelized saved letters
+    fileprivate let trainButton: UIButton = {
+        let button = UIButton()
+        button.addTarget(self, action: #selector(trainButtonPressed), for: .touchUpInside)
+        button.setTitle("Train", for: .normal)
+        button.setTitleColor(.menuButton, for: .normal)
+        return button
+    }()
+    
+    fileprivate let characterPixelsArrayKey = "characterPixelsArrayKey"
+    fileprivate let characterOuputArrayKey = "characterOuputArrayKey"
+    fileprivate let lineWidth: CGFloat = 35.0
     fileprivate let characterBoxThickness: CGFloat = 5.0
     fileprivate let pickerViewData = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"]
     fileprivate var arrayOfPixelizedCharacters: [[Int]] = []
@@ -82,6 +97,7 @@ final class DrawingViewController: UIViewController {
     fileprivate func setupViews() {
         
         let controlButtonsStackView = UIStackView()
+        controlButtonsStackView.distribution = .fillEqually
         let letterPickerStackView = UIStackView()
         
         view.addSubview(controlButtonsStackView)
@@ -106,11 +122,11 @@ final class DrawingViewController: UIViewController {
         view.addConstraintsWithFormat(format: "V:[v0]-[v1]-[v2]", views: titleLabel, drawingImageView, letterPickerStackView)
         
         letterPickerStackView.addArrangedSubview(characterPickerView)
-        // add control buttons to sv
+        controlButtonsStackView.addArrangedSubview(okButton)
+        controlButtonsStackView.addArrangedSubview(clearButton)
+        controlButtonsStackView.addArrangedSubview(trainButton)
         
     }
-    
-    
     
     fileprivate func pixelize(image: UIImage) -> [Int] {
         
@@ -200,33 +216,33 @@ final class DrawingViewController: UIViewController {
         // refactor
         
         // First save character pixels
-//        arrayOfPixelizedCharacters.append(pixelsArray)
-//        
-//        let userDefaults = UserDefaults.standard
-//        userDefaults.setValue(arrayOfPixelizedCharacters, forKey: characterPixelsArrayKey)
-//        
-//        userDefaults.synchronize()
-//        
-//        // Then save the correct output for that character
-//        // The array of outputs will be filled with zeroes except
-//        // at the index of the selected character
-//        // For example output array for B will be [0, 1, 0, 0, 0, ...]
-//        var outputArrayForCharacter = Array(repeating: 0, count: pickerViewData.count)
-//        
-//        for index in 0..<pickerViewData.count {
-//            
-//            let selectedCharacterIndex = characterPickerView.selectedRow(inComponent: 0)
-//            let character = pickerViewData[selectedCharacterIndex]
-//            
-//            if character == pickerViewData[index] {
-//                outputArrayForCharacter[index] = 1
-//            }
-//        }
-//        
-//        arrayOfOutputs.append(outputArrayForCharacter)
-//        userDefaults.setValue(arrayOfOutputs, forKey: characterOuputArrayKey)
-//        
-//        userDefaults.synchronize()
+        arrayOfPixelizedCharacters.append(pixelsArray)
+        
+        let userDefaults = UserDefaults.standard
+        userDefaults.setValue(arrayOfPixelizedCharacters, forKey: characterPixelsArrayKey)
+        
+        userDefaults.synchronize()
+        
+        // Then save the correct output for that character
+        // The array of outputs will be filled with zeroes except
+        // at the index of the selected character
+        // For example output array for B will be [0, 1, 0, 0, 0, ...]
+        var outputArrayForCharacter = Array(repeating: 0, count: pickerViewData.count)
+        
+        for index in 0..<pickerViewData.count {
+            
+            let selectedCharacterIndex = characterPickerView.selectedRow(inComponent: 0)
+            let character = pickerViewData[selectedCharacterIndex]
+            
+            if character == pickerViewData[index] {
+                outputArrayForCharacter[index] = 1
+            }
+        }
+        
+        arrayOfOutputs.append(outputArrayForCharacter)
+        userDefaults.setValue(arrayOfOutputs, forKey: characterOuputArrayKey)
+        
+        userDefaults.synchronize()
     }
     
     // MARK: - Drawing -
@@ -275,11 +291,17 @@ final class DrawingViewController: UIViewController {
     // MARK: - Button actions -
     
     func okButtonPressed() {
-        
+        presenter.okButtonPressed()
     }
     
     func clearButtonPressed() {
-        
+        clearCanvas()
+    }
+    
+    func trainButtonPressed() {
+        // check if network exists
+        // if yes load and append new values
+        // train and save network
     }
 }
 
@@ -321,5 +343,7 @@ extension DrawingViewController: DrawingViewInterface {
         let pixelsArray = pixelize(image: scaledImage)
         
         saveCharacterPixelsAndOutput(pixelsArray)
+        
+        clearCanvas()
     }
 }
