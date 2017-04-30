@@ -74,12 +74,10 @@ final class DrawingViewController: UIViewController {
     }()
     
     fileprivate let characterPixelsArrayKey = "characterPixelsArrayKey"
-    fileprivate let characterOuputArrayKey = "characterOuputArrayKey"
     fileprivate let lineWidth: CGFloat = 35.0
     fileprivate let characterBoxThickness: CGFloat = 5.0
     fileprivate let pickerViewData = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"]
-    fileprivate var arrayOfPixelizedCharacters: [[Int]] = []
-    fileprivate var arrayOfOutputs: [[Int]] = []
+    fileprivate var characterPixelsArray: [[[Int]]] = []
     fileprivate var lastPoint = CGPoint.zero
     fileprivate var characterBox = CGRect.zero
     var presenter: DrawingPresenterInterface!
@@ -211,37 +209,21 @@ final class DrawingViewController: UIViewController {
                       height: (maxY ?? rect.maxY) - (minY ?? rect.minY))
     }
     
-    func saveCharacterPixelsAndOutput(_ pixelsArray: [Int]) {
-        
-        // refactor
-        
-        // First save character pixels
-        arrayOfPixelizedCharacters.append(pixelsArray)
-        
-        let userDefaults = UserDefaults.standard
-        userDefaults.setValue(arrayOfPixelizedCharacters, forKey: characterPixelsArrayKey)
-        
-        userDefaults.synchronize()
-        
+    func saveCharacterPixels(_ pixelsArray: [Int]) {
+
         // Then save the correct output for that character
         // The array of outputs will be filled with zeroes except
         // at the index of the selected character
         // For example output array for B will be [0, 1, 0, 0, 0, ...]
         var outputArrayForCharacter = Array(repeating: 0, count: pickerViewData.count)
+        let selectedCharacterIndex = characterPickerView.selectedRow(inComponent: 0)
+        outputArrayForCharacter[selectedCharacterIndex] = 1
         
-        for index in 0..<pickerViewData.count {
-            
-            let selectedCharacterIndex = characterPickerView.selectedRow(inComponent: 0)
-            let character = pickerViewData[selectedCharacterIndex]
-            
-            if character == pickerViewData[index] {
-                outputArrayForCharacter[index] = 1
-            }
-        }
+        // Save character pixels
+        characterPixelsArray[selectedCharacterIndex].append(pixelsArray)
         
-        arrayOfOutputs.append(outputArrayForCharacter)
-        userDefaults.setValue(arrayOfOutputs, forKey: characterOuputArrayKey)
-        
+        let userDefaults = UserDefaults.standard
+        userDefaults.setValue(characterPixelsArray, forKey: characterPixelsArrayKey)
         userDefaults.synchronize()
     }
     
@@ -302,6 +284,15 @@ final class DrawingViewController: UIViewController {
         // check if network exists
         // if yes load and append new values
         // train and save network
+        let selectedCharacterIndex = characterPickerView.selectedRow(inComponent: 0)
+        let inputData = characterPixelsArray[selectedCharacterIndex]
+        
+        var outputData = Array(repeating: 0, count: pickerViewData.count)
+        outputData[selectedCharacterIndex] = 1
+        
+        let neuralNetwork = NeuralNetwork(topology: [characterPixelsArray.count, 600, pickerViewData.count])
+        
+        neuralNetwork.trainNetwork(inputData, outputData: outputData, numberOfEpochs: 1000, learningRate: 0.5)
     }
 }
 
@@ -342,7 +333,7 @@ extension DrawingViewController: DrawingViewInterface {
         
         let pixelsArray = pixelize(image: scaledImage)
         
-        saveCharacterPixelsAndOutput(pixelsArray)
+        saveCharacterPixels(pixelsArray)
         
         clearCanvas()
     }
