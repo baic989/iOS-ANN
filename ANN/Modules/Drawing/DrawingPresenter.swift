@@ -31,6 +31,18 @@ final class DrawingPresenter {
 
 extension DrawingPresenter: DrawingPresenterInterface {
     
+    func setupUI() {
+        
+        switch _navigationOption {
+        case .testScreen:
+            _view?.trainButton.isHidden = true
+            _view?.characterPickerView.isHidden = true
+        case .trainScreen:
+            _view?.trainButton.isHidden = false
+            _view?.characterPickerView.isHidden = false
+        }
+    }
+    
     internal func okButtonPressed() {
         switch _navigationOption {
         case .testScreen:

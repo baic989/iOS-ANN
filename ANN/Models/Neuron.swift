@@ -8,117 +8,82 @@
 
 import UIKit
 
-class Neuron: NSCoding {
+class Neuron {
     
     // MARK: - Properties -
-    var weights: [Double]
-    var bias: Double
-    // Value is output
-    var value: Double
-    // Error is the error in the output
-    var error: Double
-    // Delta is the proposed change to fix the error
-    var delta: Double
-    var position: PositionInNetwork
     
-    fileprivate struct PropertyKey {
-        
-        static let weights = "weights"
-        static let bias = "bias"
-        static let value = "value"
-        static let error = "error"
-        static let delta = "delta"
-        static let position = "positon"
-        
+    var neuronOutput: Float = 0
+    var neuronError: Float = 0
+    var neuronBias: Float = 0
+    var neuronWeight: Float
+    
+    private struct PropertyKey {
+        static let weight = "neuronWeight"
+        static let bias = "neuronBias"
+        static let error = "neuronError"
         private init() {}
     }
-
+    
     // MARK: - Lifecycle -
-    init(position: PositionInNetwork) {
-        weights = []
-        bias = 1.0
-        value = 0.0
-        error = 0.0
-        delta = 0.0
-        self.position = position
+    
+    init(weight: Float) {
+        neuronWeight = weight
     }
     
-    init(weights: [Double], bias: Double, value: Double, error: Double, delta: Double, position: PositionInNetwork) {
-        self.weights = weights
-        self.bias = bias
-        self.value = value
-        self.error = error
-        self.delta = delta
-        self.position = position
-    }
+    //    private init(weight: Double, bias: Double, value: Double, error: Double, delta: Double, position: PositionInNetwork) {
+    //        neuronWeight = weight
+    //        neuronBias = bias
+    //        neuronError = error
+    //        neuronDelta = delta
+    //        self.neuronPosition = position
+    //
+    //        super.init()
+    //    }
     
-    required convenience init?(coder aDecoder: NSCoder) {
-        
-        guard let weights = aDecoder.decodeObject(forKey: PropertyKey.weights) as? [Double],
-              let bias = aDecoder.decodeObject(forKey: PropertyKey.bias) as? Double,
-              let value = aDecoder.decodeObject(forKey: PropertyKey.value) as? Double,
-              let error = aDecoder.decodeObject(forKey: PropertyKey.error) as? Double,
-              let delta = aDecoder.decodeObject(forKey: PropertyKey.delta) as? Double,
-              let position = aDecoder.decodeObject(forKey: PropertyKey.position) as? PositionInNetwork
-            else {
-                return nil
-        }
-        
-        self.init(weights: weights, bias: bias, value: value, error: error, delta: delta, position: position)
-    }
+    //    required convenience init?(coder aDecoder: NSCoder) {
     
-    // Encode
-    func encode(with aCoder: NSCoder) {
+    //        guard let position = PositionInNetwork(rawValue: aDecoder.decodeInteger(forKey: PropertyKey.position)) else { return }
+    //        let weight = aDecoder.decodeDouble(forKey: PropertyKey.weight)
+    //        let bias = aDecoder.decodeDouble(forKey: PropertyKey.bias)
+    //        let error = aDecoder.decodeDouble(forKey: PropertyKey.error)
+    //        let delta = aDecoder.decodeDouble(forKey: PropertyKey.delta)
+    //
+    //        self.init(weight: weight, bias: bias, value: value, error: error, delta: delta, position: position)
+//}
 
-        aCoder.encode(weights, forKey: PropertyKey.weights)
-        aCoder.encode(bias, forKey: PropertyKey.bias)
-        aCoder.encode(value, forKey: PropertyKey.value)
-        aCoder.encode(error, forKey: PropertyKey.error)
-        aCoder.encode(delta, forKey: PropertyKey.delta)
-        aCoder.encode(position, forKey: PropertyKey.position)
-    }
+    // Encode
+    //    func encode(with aCoder: NSCoder) {
+    //        aCoder.encode(neuronWeight, forKey: PropertyKey.weight)
+    //        aCoder.encode(neuronBias, forKey: PropertyKey.bias)
+    //        aCoder.encode(neuronError, forKey: PropertyKey.error)
+    //        aCoder.encode(neuronDelta, forKey: PropertyKey.delta)
+    //        aCoder.encode(neuronPosition.rawValue, forKey: PropertyKey.position)
+    //    }
     
     // MARK: - Helpers -
-    func activate(_ inputs: [Double]) {
-        
-        value = bias
-        
-        for (weight, input) in zip(weights, inputs) {
-            value += weight * input
-        }
-        
-        value = sigmoid(value)
+    func activate(input: Float) {
+        neuronOutput = input * neuronWeight + neuronBias
     }
     
-    func calculateError(_ expectedOutput: Double) {
-        
-        if position == .output {
-            error = expectedOutput - value
-        }
-        
-        calculateDelta()
-    }
-    
-    func calculateDelta() {
-        delta = error * sigmoidDerivative(value)
-    }
-    
-    fileprivate func sigmoid(_ input: Double) -> Double {
-        return 1 / (1 + pow(M_E, -input))
-    }
-    
-    fileprivate func sigmoidDerivative(_ output: Double) -> Double {
-        return output * (1.0 - output)
-    }
-    
-    // Use as alternative algorithm
-//    /// Hyperbolic tangent activation function.
-//    private func hyperbolicTangent(x: Float) -> Float {
-//        return tanh(x)
+    //    func calculateError(_ expectedOutput: Double) {
+    //        
+//        if neuronPosition == .output {
+//            neuronError = expectedOutput - neuronValue
+//            neuronDelta = neuronError
+//        } else {
+//            calculateDelta()
+//        }
 //    }
-//    
-//    /// Derivative for the hyperbolic tangent activation function.
-//    private func hyperbolicTangentDerivative(y: Float) -> Float {
-//        return 1 - (y * y)
+
+//    func calculateDelta() {
+//        neuronDelta = neuronError * sigmoidDerivative(x: neuronValue)
 //    }
+
+    fileprivate func sigmoid(x: Double) -> Double {
+        return Double(1 / (1 + exp(-x)))
+    }
+    
+    fileprivate func sigmoidDerivative(x: Double) -> Double {
+        return Double(x * (1 - x))
+    }
 }

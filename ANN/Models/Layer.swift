@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Layer: NSCoder {
+class Layer: NSObject, NSCoding {
     
     static var id: Int = 0
     var neurons:[Neuron]
@@ -27,9 +27,10 @@ class Layer: NSCoder {
         self.position = position
 
         for _ in 0..<numberOfNeurons {
-            
             neurons.append(Neuron(position: position))
         }
+        
+        super.init()
     }
     
     private init(neurons: [Neuron], position: PositionInNetwork) {
@@ -41,7 +42,7 @@ class Layer: NSCoder {
     required convenience init?(coder aDecoder: NSCoder) {
         
         guard let neurons = aDecoder.decodeObject(forKey: PropertyKey.neurons) as? [Neuron],
-              let position = aDecoder.decodeObject(forKey: PropertyKey.position) as? PositionInNetwork
+              let position = PositionInNetwork(rawValue: aDecoder.decodeInteger(forKey: PropertyKey.position))
             else {
                 return nil
         }
@@ -51,6 +52,6 @@ class Layer: NSCoder {
     
     func encode(with aCoder: NSCoder) {
         aCoder.encode(neurons, forKey: PropertyKey.neurons)
-        aCoder.encode(position, forKey: PropertyKey.position)
+        aCoder.encode(position.rawValue, forKey: PropertyKey.position)
     }
 }

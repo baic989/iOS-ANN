@@ -26,7 +26,7 @@ final class DrawingViewController: UIViewController {
         return imageView
     }()
     
-    fileprivate lazy var characterPickerView: UIPickerView = {
+    lazy var characterPickerView: UIPickerView = {
         let pickerView = UIPickerView()
         pickerView.dataSource = self
         pickerView.delegate = self
@@ -65,7 +65,7 @@ final class DrawingViewController: UIViewController {
     }()
     
     // Trains the network with the pixelized saved letters
-    fileprivate let trainButton: UIButton = {
+    var trainButton: UIButton = {
         let button = UIButton()
         button.addTarget(self, action: #selector(trainButtonPressed), for: .touchUpInside)
         button.setTitle("Train", for: .normal)
@@ -76,8 +76,9 @@ final class DrawingViewController: UIViewController {
     fileprivate let characterPixelsArrayKey = "characterPixelsArrayKey"
     fileprivate let lineWidth: CGFloat = 35.0
     fileprivate let characterBoxThickness: CGFloat = 5.0
-    fileprivate let pickerViewData = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"]
-    fileprivate var characterPixelsArray: [[[Int]]] = []
+    fileprivate let scaledImageSize = CGSize(width: 10.0, height: 10.0)
+    fileprivate let pickerViewData = ["a", "b"]
+    fileprivate var characterPixelsArray: [[[Int]]]!
     fileprivate var lastPoint = CGPoint.zero
     fileprivate var characterBox = CGRect.zero
     var presenter: DrawingPresenterInterface!
@@ -86,9 +87,11 @@ final class DrawingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .menuBackground
         
+        view.backgroundColor = .menuBackground
+        characterPixelsArray = Array(repeating: [], count: pickerViewData.count) // TODO: Load array from user defaults, if nil then init new one
         setupViews()
+        presenter.setupUI()
     }
     
     // MARK: - Helpers -
@@ -129,14 +132,14 @@ final class DrawingViewController: UIViewController {
     fileprivate func pixelize(image: UIImage) -> [Int] {
         
         let pixelData = image.cgImage?.dataProvider?.data
-        let data: UnsafePointer<UInt8> = CFDataGetBytePtr(pixelData)
+        let dataPointer: UnsafePointer<UInt8> = CFDataGetBytePtr(pixelData)
         var pixelsArray = [Int]()
         let bytesPerRow = image.cgImage?.bytesPerRow
         let bytesPerPixel = ((image.cgImage?.bitsPerPixel)! / 8)
         var position = 0
         for _ in 0..<Int(image.size.height) {
             for _ in 0..<Int(image.size.width) {
-                let alpha = Float(data[position + 3])
+                let alpha = Float(dataPointer[position + 3]) // [r,g,b,a]
                 pixelsArray.append(Int(alpha / 255))
                 position += Int(bytesPerPixel)
             }
@@ -211,7 +214,7 @@ final class DrawingViewController: UIViewController {
     
     func saveCharacterPixels(_ pixelsArray: [Int]) {
 
-        // Then save the correct output for that character
+        // Save the correct output for that character
         // The array of outputs will be filled with zeroes except
         // at the index of the selected character
         // For example output array for B will be [0, 1, 0, 0, 0, ...]
@@ -284,17 +287,36 @@ final class DrawingViewController: UIViewController {
         // check if network exists
         // if yes load and append new values
         // train and save network
-        let selectedCharacterIndex = characterPickerView.selectedRow(inComponent: 0)
-        let inputData = characterPixelsArray[selectedCharacterIndex]
         
-        var outputData = Array(repeating: 0, count: pickerViewData.count)
-        outputData[selectedCharacterIndex] = 1
+        var outputData: [[Int]] = []
         
-        let neuralNetwork = NeuralNetwork(topology: [characterPixelsArray.count, 600, pickerViewData.count])
+        for (index, _) in pickerViewData.enumerated() {
+            var outputDataForLetter = Array(repeating: 0, count: pickerViewData.count)
+            outputDataForLetter[index] = 1
+            outputData.append(outputDataForLetter)
+        }
         
-        neuralNetwork.trainNetwork(inputData, outputData: outputData, numberOfEpochs: 1000, learningRate: 0.5)
+        let numberOfInputs = Int(scaledImageSize.width * scaledImageSize.height)
+        let neuralNetwork = NeuralNetwork(topology: [numberOfInputs, 500, pickerViewData.count])
+        
+        neuralNetwork.trainNetwork(characterPixelsArray, outputData: outputData, numberOfEpochs: 100, learningRate: 0.001)
+        
+        NSKeyedArchiver.archiveRootObject(neuralNetwork, toFile: NeuralNetwork.ArchiveURL.path)
+    }
+    
+    fileprivate func imagePixels() -> [Int] {
+        
+        guard let croppedImage = drawingImageView.image?.cropImageWith(rect: characterBox),
+              let scaledImage = croppedImage.scaleImageTo(size: scaledImageSize)
+        else {
+            return []
+        }
+        
+        return pixelize(image: scaledImage)
     }
 }
+
+
 
 // MARK: - Extensions -
 
@@ -319,22 +341,20 @@ extension DrawingViewController: UIPickerViewDataSource, UIPickerViewDelegate {
 extension DrawingViewController: DrawingViewInterface {
     
     internal func classifyImage() {
+        
+        if let neuralNetwork = NSKeyedUnarchiver.unarchiveObject(withFile: NeuralNetwork.ArchiveURL.path) as? NeuralNetwork {
+            let pixelsArray = imagePixels()
+            neuralNetwork.feed(pixelsArray)
+        } else {
+            print("nema")
+        }
     }
     
     internal func processImage() {
         
-        guard let croppedImage = drawingImageView.image?.cropImageWith(rect: characterBox) else {
-            // error
-            return
-        }
-        
-        let size = CGSize(width: 20.0, height: 20.0)
-        guard let scaledImage = croppedImage.scaleImageTo(size: size) else { return }
-        
-        let pixelsArray = pixelize(image: scaledImage)
+        let pixelsArray = imagePixels()
         
         saveCharacterPixels(pixelsArray)
-        
         clearCanvas()
     }
 }
