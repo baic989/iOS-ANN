@@ -31,7 +31,6 @@ final class MainMenuWireframe: BaseWireframe {
 extension MainMenuWireframe: MainMenuWireframeInterface {
     
     func navigate(to option: MainMenuNavigationOption) {
-        
         let drawingWireframe = DrawingWireframe(navigationController: navigationController)
         drawingWireframe.show(with: .push, navigationOption: option)
     }

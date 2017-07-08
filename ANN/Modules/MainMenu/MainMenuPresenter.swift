@@ -31,10 +31,10 @@ final class MainMenuPresenter {
 extension MainMenuPresenter: MainMenuPresenterInterface {
     
     func didPressTrainButton() {
-        _wireframe.navigate(to: .trainScreen)
+        _wireframe.navigate(to: .train)
     }
     
     func didPressTestButton() {
-        _wireframe.navigate(to: .testScreen)
+        _wireframe.navigate(to: .test)
     }
 }

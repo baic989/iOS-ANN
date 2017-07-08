@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		289B4A631F114669005DA949 /* MainMenuTransitionAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289B4A621F114669005DA949 /* MainMenuTransitionAnimator.swift */; };
 		3B627DD01E37590D004A066A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B627DCF1E37590D004A066A /* AppDelegate.swift */; };
 		3B627DD71E37590D004A066A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3B627DD61E37590D004A066A /* Images.xcassets */; };
 		3B627DDA1E37590D004A066A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B627DD81E37590D004A066A /* LaunchScreen.xib */; };
@@ -44,6 +45,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		289B4A621F114669005DA949 /* MainMenuTransitionAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuTransitionAnimator.swift; sourceTree = "<group>"; };
 		3B627DCA1E37590D004A066A /* ANN.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ANN.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B627DCF1E37590D004A066A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3B627DD61E37590D004A066A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -206,6 +208,7 @@
 				797F3E231E7743BC00DAF78F /* MainMenuInteractor.swift */,
 				797F3E251E7743CB00DAF78F /* MainMenuWireframe.swift */,
 				797F3E271E7743DB00DAF78F /* MainMenuInterfaces.swift */,
+				289B4A621F114669005DA949 /* MainMenuTransitionAnimator.swift */,
 			);
 			path = MainMenu;
 			sourceTree = "<group>";
@@ -324,6 +327,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				289B4A631F114669005DA949 /* MainMenuTransitionAnimator.swift in Sources */,
 				797F3E171E77124500DAF78F /* InteractorInterface.swift in Sources */,
 				79FB473E1E8847EC00B559DC /* DrawingInterfaces.swift in Sources */,
 				797F3E221E7743B300DAF78F /* MainMenuPresenter.swift in Sources */,

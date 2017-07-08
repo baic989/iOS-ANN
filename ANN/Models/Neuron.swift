@@ -15,6 +15,8 @@ class Neuron: NSObject {
     var output: Float = 0
     var bias: Float
     var weights: [Float]
+    
+    // Previous weights store weights 
     var previousWeights: [Float]
     
     // MARK: - Lifecycle -

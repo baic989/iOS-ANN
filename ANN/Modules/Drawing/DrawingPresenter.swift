@@ -34,10 +34,10 @@ extension DrawingPresenter: DrawingPresenterInterface {
     func setupUI() {
         
         switch _navigationOption {
-        case .testScreen:
+        case .test:
             _view?.trainButton.isHidden = true
             _view?.characterPickerView.isHidden = true
-        case .trainScreen:
+        case .train:
             _view?.trainButton.isHidden = false
             _view?.characterPickerView.isHidden = false
         }
@@ -45,9 +45,9 @@ extension DrawingPresenter: DrawingPresenterInterface {
     
     internal func okButtonPressed() {
         switch _navigationOption {
-        case .testScreen:
+        case .test:
             _view?.classifyImage()
-        case .trainScreen:
+        case .train:
             _view?.processImage()
         }
     }

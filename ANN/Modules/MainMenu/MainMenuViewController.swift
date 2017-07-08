@@ -13,6 +13,7 @@ final class MainMenuViewController: UIViewController {
     // MARK: - Properties -
     
     var presenter: MainMenuPresenterInterface!
+    let animator = MainMenuTransitionAnimator()
     
     let trainButton: UIButton = {
         let button = UIButton()
@@ -44,7 +45,7 @@ final class MainMenuViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.navigationController?.delegate = self
         view.backgroundColor = .menuBackground
         setupViews()
     }
@@ -183,26 +184,10 @@ final class MainMenuViewController: UIViewController {
     }
     
     fileprivate func touchDownAnimationFor(button: UIButton, withCompletion completion: ((_ finished: Bool) -> ())?) {
-        
         UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseOut, animations: {
             button.transform = CGAffineTransform(scaleX: 0.90, y: 0.90)
         }) { finished in
             completion?(finished)
-        }
-    }
-    
-    fileprivate func touchUpAnimationFor(button: UIButton, withCompletion completion: @escaping (_ finished: Bool) -> ()) {
-        
-        UIView.animate(withDuration: 0.1) {
-            button.titleLabel?.alpha = 0.0
-        }
-        
-        let scale = (self.view.frame.height / button.frame.height) * 1.5
-
-        UIView.animate(withDuration: 0.3, animations: {
-            button.transform = CGAffineTransform(scaleX: scale, y: scale)
-        }) { finished in
-            completion(finished)
         }
     }
     
@@ -213,10 +198,8 @@ final class MainMenuViewController: UIViewController {
     
     func trainButtonTouchUp() {
         trainButton.layer.zPosition = 1
-        
-        touchUpAnimationFor(button: trainButton) { [weak self] finished in
-            self?.presenter.didPressTrainButton()
-        }
+        animator.navigationOption = .train
+        self.presenter.didPressTrainButton()
     }
     
     func testButtonTouchDown() {
@@ -225,10 +208,8 @@ final class MainMenuViewController: UIViewController {
     
     func testButtonTouchUp() {
         testButton.layer.zPosition = 1
-        
-        touchUpAnimationFor(button: testButton) { [weak self] finished in
-            self?.presenter.didPressTestButton()
-        }
+         animator.navigationOption = .test
+        self.presenter.didPressTestButton()
     }
     
     // MARK: - Override -
@@ -238,6 +219,12 @@ final class MainMenuViewController: UIViewController {
 }
 
 // MARK: - Extensions -
+
+extension MainMenuViewController: UINavigationControllerDelegate {
+    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return animator
+    }
+}
 
 extension MainMenuViewController: MainMenuViewInterface {
 }

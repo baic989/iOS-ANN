@@ -7,8 +7,8 @@
 //
 
 enum MainMenuNavigationOption {
-    case trainScreen
-    case testScreen
+    case train
+    case test
 }
 
 protocol MainMenuWireframeInterface: WireframeInterface {
