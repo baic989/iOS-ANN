@@ -6,52 +6,66 @@
 //  Copyright © 2017 Hrvoje Baic. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
-class Layer: NSObject, NSCoding {
+public class Layer {
     
-    static var id: Int = 0
-    var neurons:[Neuron]
-    var position: PositionInNetwork
-    
-    fileprivate struct PropertyKey {
-        static let neurons = "neurons"
-        static let position = "position"
-    }
+    // MARK: - Properties -
+    private var neurons: [Neuron]
+    private var inputSize: Int
     
     // MARK: - Lifecycle -
-    init(numberOfNeurons: Int, position: PositionInNetwork){
+    
+    init(inputSize: Int, numberOfNeurons: Int) {
         
-        Layer.id = Layer.id + 1
         neurons = []
-        self.position = position
-
+        self.inputSize = inputSize
+        
+        let sign = Float(arc4random_uniform(3) > 1 ? 1 : -1)
+        let bias = Float(arc4random_uniform(2))
+        
         for _ in 0..<numberOfNeurons {
-            neurons.append(Neuron(position: position))
+            
+            var weights: [Float] = []
+            
+            for _ in 0..<inputSize {
+                weights.append(Float(arc4random_uniform(2)) * sign)
+            }
+            
+            neurons.append(Neuron(weights: weights, bias: bias))
+        }
+    }
+    
+    // MARK: - Helpers -
+    
+    func forwardPropagate(inputs: [Float]) -> [Float] {
+        
+        var outputs: [Float] = []
+        
+        for neuron in neurons {
+            outputs.append(neuron.activate(inputs: inputs))
         }
         
-        super.init()
+        return outputs
     }
     
-    private init(neurons: [Neuron], position: PositionInNetwork) {
-        Layer.id = Layer.id + 1
-        self.neurons = neurons
-        self.position = position
-    }
-    
-    required convenience init?(coder aDecoder: NSCoder) {
+    func backPropagate(error: [Float], inputs: [Float], learningRate: Float) -> [Float] {
         
-        guard let neurons = aDecoder.decodeObject(forKey: PropertyKey.neurons) as? [Neuron],
-              let position = PositionInNetwork(rawValue: aDecoder.decodeInteger(forKey: PropertyKey.position))
-            else {
-                return nil
+        var errorsToPropagate = [Float](repeating: 0, count: inputSize)
+        
+        for (indexN, neuron) in neurons.enumerated() {
+            
+            // neuron ne zna svoj error
+            let delta = neuron.deltaFor(error: error[indexN])
+            
+            for (indexW, weight) in neuron.weights.enumerated() {
+                errorsToPropagate[indexW] = errorsToPropagate[indexW] + weight * delta
+                let deltaWeight = inputs[indexW] * delta * learningRate
+                neuron.weights[indexW] = neuron.weights[indexW] + neuron.previousWeights[indexW] * neuron.bias + deltaWeight
+                neuron.previousWeights[indexW] = deltaWeight
+            }
         }
         
-        self.init(neurons: neurons, position: position)
-    }
-    
-    func encode(with aCoder: NSCoder) {
-        aCoder.encode(neurons, forKey: PropertyKey.neurons)
-        aCoder.encode(position.rawValue, forKey: PropertyKey.position)
+        return errorsToPropagate
     }
 }

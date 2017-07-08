@@ -73,12 +73,17 @@ final class DrawingViewController: UIViewController {
         return button
     }()
     
+    fileprivate lazy var neuralNetwork: NeuralNetwork = {
+        let neuralNetWork = NeuralNetwork(inputSize: 64, hiddenSize: 64, outputSize: 2)
+        return neuralNetWork
+    }()
+    
     fileprivate let characterPixelsArrayKey = "characterPixelsArrayKey"
     fileprivate let lineWidth: CGFloat = 35.0
     fileprivate let characterBoxThickness: CGFloat = 5.0
-    fileprivate let scaledImageSize = CGSize(width: 10.0, height: 10.0)
+    fileprivate let scaledImageSize = CGSize(width: 8.0, height: 8.0)
     fileprivate let pickerViewData = ["a", "b"]
-    fileprivate var characterPixelsArray: [[[Int]]]!
+    fileprivate var characterPixelsArray: [[[Float]]]!
     fileprivate var lastPoint = CGPoint.zero
     fileprivate var characterBox = CGRect.zero
     var presenter: DrawingPresenterInterface!
@@ -89,7 +94,7 @@ final class DrawingViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .menuBackground
-        characterPixelsArray = Array(repeating: [], count: pickerViewData.count) // TODO: Load array from user defaults, if nil then init new one
+        characterPixelsArray = Array(repeating: [], count: pickerViewData.count)
         setupViews()
         presenter.setupUI()
     }
@@ -126,7 +131,6 @@ final class DrawingViewController: UIViewController {
         controlButtonsStackView.addArrangedSubview(okButton)
         controlButtonsStackView.addArrangedSubview(clearButton)
         controlButtonsStackView.addArrangedSubview(trainButton)
-        
     }
     
     fileprivate func pixelize(image: UIImage) -> [Int] {
@@ -212,7 +216,7 @@ final class DrawingViewController: UIViewController {
                       height: (maxY ?? rect.maxY) - (minY ?? rect.minY))
     }
     
-    func saveCharacterPixels(_ pixelsArray: [Int]) {
+    func saveCharacterPixels(_ pixelsArray: [Float]) {
 
         // Save the correct output for that character
         // The array of outputs will be filled with zeroes except
@@ -280,6 +284,13 @@ final class DrawingViewController: UIViewController {
     }
     
     func clearButtonPressed() {
+        
+        // REMOVE THIS AFTER TESTING
+        let pixelsArray = imagePixels()
+        let floatingPixels = pixelsArray.map { Float($0) }
+        
+        print(neuralNetwork.predictFor(inputs: floatingPixels))
+        
         clearCanvas()
     }
     
@@ -288,20 +299,32 @@ final class DrawingViewController: UIViewController {
         // if yes load and append new values
         // train and save network
         
-        var outputData: [[Int]] = []
+        var outputData: [[Float]] = []
         
         for (index, _) in pickerViewData.enumerated() {
-            var outputDataForLetter = Array(repeating: 0, count: pickerViewData.count)
+            var outputDataForLetter = Array<Float>(repeating: 0, count: pickerViewData.count)
             outputDataForLetter[index] = 1
             outputData.append(outputDataForLetter)
         }
         
-        let numberOfInputs = Int(scaledImageSize.width * scaledImageSize.height)
-        let neuralNetwork = NeuralNetwork(topology: [numberOfInputs, 500, pickerViewData.count])
+//        let numberOfInputs = Int(scaledImageSize.width * scaledImageSize.height)
+//        let neuralNetwork = NeuralNetwork(topology: [numberOfInputs, 500, pickerViewData.count])
         
-        neuralNetwork.trainNetwork(characterPixelsArray, outputData: outputData, numberOfEpochs: 100, learningRate: 0.001)
+//        neuralNetwork.trainNetwork(characterPixelsArray, outputData: outputData, numberOfEpochs: 100, learningRate: 0.001)
+//        
+//        NSKeyedArchiver.archiveRootObject(neuralNetwork, toFile: NeuralNetwork.ArchiveURL.path)
         
-        NSKeyedArchiver.archiveRootObject(neuralNetwork, toFile: NeuralNetwork.ArchiveURL.path)
+        DispatchQueue.global(qos: DispatchQoS.userInteractive.qosClass).async {
+            for iterations in 0..<50000 {
+                for (character, output) in zip(self.characterPixelsArray, outputData) {
+                    for i in 0..<character.count {
+                        self.neuralNetwork.trainWith(inputs: character[i], targetOutput: output)
+                    }
+                    
+                    print("Iterations: \(iterations)")
+                }
+            }
+        }
     }
     
     fileprivate func imagePixels() -> [Int] {
@@ -342,19 +365,20 @@ extension DrawingViewController: DrawingViewInterface {
     
     internal func classifyImage() {
         
-        if let neuralNetwork = NSKeyedUnarchiver.unarchiveObject(withFile: NeuralNetwork.ArchiveURL.path) as? NeuralNetwork {
-            let pixelsArray = imagePixels()
-            neuralNetwork.feed(pixelsArray)
-        } else {
-            print("nema")
-        }
+//        if let neuralNetwork = NSKeyedUnarchiver.unarchiveObject(withFile: NeuralNetwork.ArchiveURL.path) as? NeuralNetwork {
+//            let pixelsArray = imagePixels()
+//            neuralNetwork.feed(pixelsArray)
+//        } else {
+//            print("nema")
+//        }
     }
     
     internal func processImage() {
         
         let pixelsArray = imagePixels()
+        let floatingPixels = pixelsArray.map { Float($0) }
+        saveCharacterPixels(floatingPixels)
         
-        saveCharacterPixels(pixelsArray)
         clearCanvas()
     }
 }
