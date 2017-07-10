@@ -15,6 +15,10 @@ final class MainMenuViewController: UIViewController {
     var presenter: MainMenuPresenterInterface!
     let animator = MainMenuTransitionAnimator()
     
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+    
     let trainButton: UIButton = {
         let button = UIButton()
         button.setTitle("TRAIN", for: .normal)
@@ -38,13 +42,14 @@ final class MainMenuViewController: UIViewController {
         return button
     }()
     
-    var closeNeuronViews: [UIView] = []
-    var distantNeuronViews: [UIView] = []
+    // Views representing neurons in the UI
+    var neuronViews: [UIView] = []
     
     // MARK: - Lifecycle -
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.navigationController?.delegate = self
         view.backgroundColor = .menuBackground
         setupViews()
@@ -56,11 +61,13 @@ final class MainMenuViewController: UIViewController {
         setCornerRadiusAndShadowFor(view: trainButton)
         setCornerRadiusAndShadowFor(view: testButton)
         
-        for view in closeNeuronViews {
+        // Setup dummy neuron views
+        for view in neuronViews {
             setCornerRadiusAndShadowFor(view: view)
             drawSynapsePathsFor(view: view)
         }
         
+        // Bring buttons above lines (synapses)
         view.bringSubview(toFront: trainButton)
         view.bringSubview(toFront: testButton)
     }
@@ -96,9 +103,8 @@ final class MainMenuViewController: UIViewController {
                 isOnTop = false
             }
             
-            
             setupConstraintsForMenu(view: neuronView, isOnTop: isOnTop, verticalOffset: verticalOffset, horizontalOffset: horizontalOffset, width: 55)
-            closeNeuronViews.append(neuronView)
+            neuronViews.append(neuronView)
         }
     }
     
@@ -183,7 +189,7 @@ final class MainMenuViewController: UIViewController {
         verticalConstraint.isActive = true
     }
     
-    fileprivate func touchDownAnimationFor(button: UIButton, withCompletion completion: ((_ finished: Bool) -> ())?) {
+    fileprivate func animateTouchDownFor(button: UIButton, withCompletion completion: ((_ finished: Bool) -> ())?) {
         UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseOut, animations: {
             button.transform = CGAffineTransform(scaleX: 0.90, y: 0.90)
         }) { finished in
@@ -193,7 +199,7 @@ final class MainMenuViewController: UIViewController {
     
     // MARK: - Button actions -
     func trainButtonTouchDown() {
-        touchDownAnimationFor(button: trainButton, withCompletion: nil)
+        animateTouchDownFor(button: trainButton, withCompletion: nil)
     }
     
     func trainButtonTouchUp() {
@@ -203,18 +209,13 @@ final class MainMenuViewController: UIViewController {
     }
     
     func testButtonTouchDown() {
-        touchDownAnimationFor(button: testButton, withCompletion: nil)
+        animateTouchDownFor(button: testButton, withCompletion: nil)
     }
     
     func testButtonTouchUp() {
         testButton.layer.zPosition = 1
-         animator.navigationOption = .test
+        animator.navigationOption = .test
         self.presenter.didPressTestButton()
-    }
-    
-    // MARK: - Override -
-    override var prefersStatusBarHidden: Bool {
-        return true
     }
 }
 

@@ -9,6 +9,7 @@
 import UIKit
 
 enum DrawingNavigationOption {
+    case back
 }
 
 protocol DrawingWireframeInterface: WireframeInterface {
@@ -18,13 +19,14 @@ protocol DrawingWireframeInterface: WireframeInterface {
 protocol DrawingViewInterface: ViewInterface {
     var trainButton: UIButton { get set }
     var characterPickerView: UIPickerView { get set }
+    
     func processImage()
     func classifyImage()
 }
 
 protocol DrawingPresenterInterface: PresenterInterface {
-    func setupUI()
     func okButtonPressed()
+    func didPressBackButton()
 }
 
 protocol DrawingInteractorInterface: InteractorInterface {

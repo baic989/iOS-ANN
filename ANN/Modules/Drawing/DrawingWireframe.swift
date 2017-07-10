@@ -24,6 +24,11 @@ final class DrawingWireframe: BaseWireframe {
         
         show(moduleViewController, with: transition, animated: animated)
     }
+    
+    // MARK: - Navigation -
+    fileprivate func navigateBack() {
+        popFromNavigationCotroller(animated: true)
+    }
 }
 
 // MARK: - Extensions -
@@ -31,5 +36,9 @@ final class DrawingWireframe: BaseWireframe {
 extension DrawingWireframe: DrawingWireframeInterface {
     
     func navigate(to option: DrawingNavigationOption) {
+        switch option {
+        case .back:
+            navigateBack()
+        }
     }
 }

@@ -16,16 +16,28 @@ final class DrawingViewController: UIViewController {
         return true
     }
     
+    // Touch gesture will draw into this image view
     fileprivate let drawingImageView: UIImageView = {
         let imageView = UIImageView()
         return imageView
     }()
     
+    // A box surrounding the letter
+    // Initially for debug purposes but looks cool
     fileprivate let characterBoxImageView: UIImageView = {
         let imageView = UIImageView()
         return imageView
     }()
     
+    lazy var backButton: UIButton = {
+        let button = UIButton()
+        button.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
+        button.setImage(UIImage(named: "arrow-left"), for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        return button
+    }()
+    
+    // Picker view with all available letters to learn
     lazy var characterPickerView: UIPickerView = {
         let pickerView = UIPickerView()
         pickerView.dataSource = self
@@ -64,7 +76,7 @@ final class DrawingViewController: UIViewController {
         return button
     }()
     
-    // Trains the network with the pixelized saved letters
+    // Trains the network after processing the drawing
     var trainButton: UIButton = {
         let button = UIButton()
         button.addTarget(self, action: #selector(trainButtonPressed), for: .touchUpInside)
@@ -78,14 +90,26 @@ final class DrawingViewController: UIViewController {
         return neuralNetWork
     }()
     
+    // TODO: Extract caonstants to structs
     fileprivate let characterPixelsArrayKey = "characterPixelsArrayKey"
+    
+    // Drawing options
     fileprivate let lineWidth: CGFloat = 35.0
     fileprivate let characterBoxThickness: CGFloat = 5.0
+    fileprivate var characterBoxFrame = CGRect.zero
+    
+    // width x height determines the resolution of the image
     fileprivate let scaledImageSize = CGSize(width: 8.0, height: 8.0)
+    
+    // Picker view data source
     fileprivate let pickerViewData = ["a", "b"]
+    
+    // Array holding all the pixels extracted from the drawn letter
     fileprivate var characterPixelsArray: [[[Float]]]!
+    
+    // References a point at which screen was touched
     fileprivate var lastPoint = CGPoint.zero
-    fileprivate var characterBox = CGRect.zero
+    
     var presenter: DrawingPresenterInterface!
     
     // MARK: - Lifecycle -
@@ -96,10 +120,12 @@ final class DrawingViewController: UIViewController {
         view.backgroundColor = .menuBackground
         characterPixelsArray = Array(repeating: [], count: pickerViewData.count)
         setupViews()
-        presenter.setupUI()
+        presenter.viewDidLoad()
     }
     
     // MARK: - Helpers -
+    
+    // Setup UI
     fileprivate func setupViews() {
         
         let controlButtonsStackView = UIStackView()
@@ -157,7 +183,7 @@ final class DrawingViewController: UIViewController {
     fileprivate func clearCanvas() {
         drawingImageView.image = nil
         characterBoxImageView.image = nil
-        characterBox = .zero
+        characterBoxFrame = .zero
     }
     
     fileprivate func drawLine(fromPoint: CGPoint, toPoint: CGPoint) {
@@ -185,6 +211,7 @@ final class DrawingViewController: UIViewController {
         UIGraphicsEndImageContext()
     }
     
+    // Draws a box around the letter
     fileprivate func drawCharacterBox() {
         
         UIGraphicsBeginImageContext(characterBoxImageView.frame.size)
@@ -194,10 +221,10 @@ final class DrawingViewController: UIViewController {
         characterBoxImageView.image?.draw(in: CGRect(x: 0, y: 0, width: characterBoxImageView.frame.width, height: characterBoxImageView.frame.height))
         
         // Draw character rect
-        context.clear(characterBox)
+        context.clear(characterBoxFrame)
         context.setLineWidth(characterBoxThickness)
         context.setStrokeColor(UIColor.blue.cgColor)
-        context.addRect(characterBox)
+        context.addRect(characterBoxFrame)
         context.strokePath()
         
         characterBoxImageView.image = UIGraphicsGetImageFromCurrentImageContext()
@@ -209,6 +236,7 @@ final class DrawingViewController: UIViewController {
     
     // CGRect is a struct and therefore passed by value,
     // so the parameter must be declared as inout and passed by reference
+    // This method expands the box when drawing out of it's frame
     fileprivate func updateCharacterBox(_ rect: inout CGRect, minX: CGFloat?, maxX: CGFloat?, minY: CGFloat?, maxY: CGFloat?) {
         rect = CGRect(x: minX ?? rect.minX,
                       y: minY ?? rect.minY,
@@ -226,12 +254,13 @@ final class DrawingViewController: UIViewController {
         let selectedCharacterIndex = characterPickerView.selectedRow(inComponent: 0)
         outputArrayForCharacter[selectedCharacterIndex] = 1
         
-        // Save character pixels
+        // Save character pixels to an array
         characterPixelsArray[selectedCharacterIndex].append(pixelsArray)
         
-        let userDefaults = UserDefaults.standard
-        userDefaults.setValue(characterPixelsArray, forKey: characterPixelsArrayKey)
-        userDefaults.synchronize()
+        // TODO: WTF
+//        let userDefaults = UserDefaults.standard
+//        userDefaults.setValue(characterPixelsArray, forKey: characterPixelsArrayKey)
+//        userDefaults.synchronize()
     }
     
     // MARK: - Drawing -
@@ -242,8 +271,8 @@ final class DrawingViewController: UIViewController {
         if let point = touches.first?.location(in: drawingImageView) {
             
             // Start tracking coordinates of the character
-            if self.characterBox == .zero {
-                self.characterBox = CGRect(x: point.x - lineWidth / 2,
+            if characterBoxFrame == .zero {
+                characterBoxFrame = CGRect(x: point.x - lineWidth / 2,
                                            y: point.y - lineWidth / 2,
                                            width: lineWidth,
                                            height: lineWidth)
@@ -283,14 +312,11 @@ final class DrawingViewController: UIViewController {
         presenter.okButtonPressed()
     }
     
+    func backButtonPressed() {
+        self.presenter.didPressBackButton()
+    }
+    
     func clearButtonPressed() {
-        
-        // REMOVE THIS AFTER TESTING
-        let pixelsArray = imagePixels()
-        let floatingPixels = pixelsArray.map { Float($0) }
-        
-        print(neuralNetwork.predictFor(inputs: floatingPixels))
-        
         clearCanvas()
     }
     
@@ -371,6 +397,11 @@ extension DrawingViewController: DrawingViewInterface {
 //        } else {
 //            print("nema")
 //        }
+        
+        let pixelsArray = imagePixels()
+        let floatingPixels = pixelsArray.map { Float($0) }
+        
+        print(neuralNetwork.predictFor(inputs: floatingPixels))
     }
     
     internal func processImage() {

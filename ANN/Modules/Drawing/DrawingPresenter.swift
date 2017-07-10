@@ -25,14 +25,10 @@ final class DrawingPresenter {
         _interactor = interactor
         _navigationOption = navigationOption
     }
-}
-
-// MARK: - Extensions -
-
-extension DrawingPresenter: DrawingPresenterInterface {
     
-    func setupUI() {
-        
+    // MARK: - Helpers -
+    
+    fileprivate func setupUI() {
         switch _navigationOption {
         case .test:
             _view?.trainButton.isHidden = true
@@ -41,6 +37,19 @@ extension DrawingPresenter: DrawingPresenterInterface {
             _view?.trainButton.isHidden = false
             _view?.characterPickerView.isHidden = false
         }
+    }
+}
+
+// MARK: - Extensions -
+
+extension DrawingPresenter: DrawingPresenterInterface {
+    
+    func viewDidLoad() {
+        setupUI()
+    }
+    
+    func didPressBackButton() {
+        _wireframe.navigate(to: .back)
     }
     
     internal func okButtonPressed() {

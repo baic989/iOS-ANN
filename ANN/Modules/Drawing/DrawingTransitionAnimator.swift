@@ -1,16 +1,17 @@
 //
-//  MainMenuTransitionAnimator.swift
+//  DrawingTransitionAnimator.swift
 //  ANN
 //
-//  Created by Super Hrvoje on 08/07/2017.
+//  Created by Super Hrvoje on 10/07/2017.
 //  Copyright © 2017 Hrvoje Baic. All rights reserved.
 //
 
+
 import UIKit
 
-class MainMenuTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning {
+class DrawingTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     
-    var navigationOption: MainMenuNavigationOption = .train
+    var navigationOption: DrawingNavigationOption = .mainMenu
     let animationDuration = 0.4
     var operation: UINavigationControllerOperation = .push
     
@@ -20,29 +21,22 @@ class MainMenuTransitionAnimator: NSObject, UIViewControllerAnimatedTransitionin
     
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         let containerView = transitionContext.containerView
-        guard let fromViewController = transitionContext.viewController(forKey: .from) as? MainMenuViewController else { return }
-        guard let toViewController = transitionContext.viewController(forKey: .to) as? DrawingViewController else { return }
+        guard let fromViewController = transitionContext.viewController(forKey: .from) as? DrawingViewController else { return }
+        guard let toViewController = transitionContext.viewController(forKey: .to) as? MainMenuViewController else { return }
         
         containerView.addSubview(toViewController.view)
         containerView.addSubview(fromViewController.view)
         
-        var button: UIButton
-        switch navigationOption {
-        case .test: button = fromViewController.testButton
-        case .train: button = fromViewController.trainButton
-        }
-        
-        let scale = (fromViewController.view.frame.height / button.frame.height) * 1.5
+        let scale = (fromViewController.view.frame.height / fromViewController.trainButton.frame.height) * 1.5
         toViewController.view.alpha = 0.0
         
         
         UIView.animate(withDuration: 0.01) {
-            
-            button.titleLabel?.alpha = 0
+            fromViewController.trainButton.titleLabel?.alpha = 1
         }
         
         UIView.animate(withDuration: animationDuration / 2, animations: {
-            button.transform = CGAffineTransform(scaleX: scale, y: scale)
+            fromViewController.trainButton.transform = CGAffineTransform(scaleX: scale, y: scale)
             
         }, completion: { finished in
             
