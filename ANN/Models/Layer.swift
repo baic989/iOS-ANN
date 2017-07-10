@@ -61,8 +61,8 @@ public class Layer {
             for (indexW, weight) in neuron.weights.enumerated() {
                 errorsToPropagate[indexW] = errorsToPropagate[indexW] + weight * delta
                 let deltaWeight = inputs[indexW] * delta * learningRate
-                neuron.weights[indexW] = neuron.weights[indexW] + neuron.previousWeights[indexW] * neuron.bias + deltaWeight
-                neuron.previousWeights[indexW] = deltaWeight
+                neuron.weights[indexW] = neuron.weights[indexW] + neuron.storedWeights[indexW] * neuron.bias + deltaWeight
+                neuron.storedWeights[indexW] = deltaWeight
             }
         }
         

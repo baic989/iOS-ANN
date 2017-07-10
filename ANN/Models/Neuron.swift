@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Neuron: NSObject {
+class Neuron: NSObject, NSCoding {
     
     // MARK: - Properties -
     
@@ -16,15 +16,32 @@ class Neuron: NSObject {
     var bias: Float
     var weights: [Float]
     
-    // Previous weights store weights 
-    var previousWeights: [Float]
+    // Stored weights for backpropagation
+    var storedWeights: [Float]
+    
+    private struct PropertyKey {
+        static let biasKey = "bias"
+        static let weightsKey = "weights"
+        
+        private init() {}
+    }
     
     // MARK: - Lifecycle -
     
     init(weights: [Float], bias: Float) {
         self.weights = weights
         self.bias = bias
-        previousWeights = [Float](repeating: 0, count: weights.count)
+        storedWeights = [Float](repeating: 0, count: weights.count)
+    }
+    
+    required convenience init?(coder aDecoder: NSCoder) {
+        guard let weights = aDecoder.decodeObject(forKey: PropertyKey.weightsKey) as? [Float] else { return nil }
+        self.init(weights: weights, bias: aDecoder.decodeFloat(forKey: PropertyKey.biasKey))
+    }
+    
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(bias, forKey: PropertyKey.biasKey)
+        aCoder.encode(weights, forKey: PropertyKey.weightsKey)
     }
     
     // MARK: - Helpers -
@@ -44,11 +61,12 @@ class Neuron: NSObject {
         return (error * sigmoidDerivative(x: output))
     }
 
-    func sigmoid(x: Float) -> Float {
+    private func sigmoid(x: Float) -> Float {
         return 1 / (1 + exp(-x))
     }
     
-    func sigmoidDerivative(x: Float) -> Float {
+    private func sigmoidDerivative(x: Float) -> Float {
         return x * (1 - x)
     }
 }
+
