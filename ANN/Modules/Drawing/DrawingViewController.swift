@@ -159,27 +159,6 @@ final class DrawingViewController: UIViewController {
         controlButtonsStackView.addArrangedSubview(trainButton)
     }
     
-    fileprivate func pixelize(image: UIImage) -> [Int] {
-        
-        let pixelData = image.cgImage?.dataProvider?.data
-        let dataPointer: UnsafePointer<UInt8> = CFDataGetBytePtr(pixelData)
-        var pixelsArray = [Int]()
-        let bytesPerRow = image.cgImage?.bytesPerRow
-        let bytesPerPixel = ((image.cgImage?.bitsPerPixel)! / 8)
-        var position = 0
-        for _ in 0..<Int(image.size.height) {
-            for _ in 0..<Int(image.size.width) {
-                let alpha = Float(dataPointer[position + 3]) // [r,g,b,a]
-                pixelsArray.append(Int(alpha / 255))
-                position += Int(bytesPerPixel)
-            }
-            if position % Int(bytesPerRow!) != 0 {
-                position += (Int(bytesPerRow!) - (position % Int(bytesPerRow!)))
-            }
-        }
-        return pixelsArray
-    }
-    
     fileprivate func clearCanvas() {
         drawingImageView.image = nil
         characterBoxImageView.image = nil
@@ -234,16 +213,6 @@ final class DrawingViewController: UIViewController {
         // TODO: Animate rect to be less snappy if possible
     }
     
-    // CGRect is a struct and therefore passed by value,
-    // so the parameter must be declared as inout and passed by reference
-    // This method expands the box when drawing out of it's frame
-    fileprivate func updateCharacterBox(_ rect: inout CGRect, minX: CGFloat?, maxX: CGFloat?, minY: CGFloat?, maxY: CGFloat?) {
-        rect = CGRect(x: minX ?? rect.minX,
-                      y: minY ?? rect.minY,
-                      width: (maxX ?? rect.maxX) - (minX ?? rect.minX),
-                      height: (maxY ?? rect.maxY) - (minY ?? rect.minY))
-    }
-    
     func saveCharacterPixels(_ pixelsArray: [Float]) {
 
         // Save the correct output for that character
@@ -263,6 +232,16 @@ final class DrawingViewController: UIViewController {
 //        userDefaults.synchronize()
     }
     
+    fileprivate func imagePixels() -> [Int] {
+        guard let croppedImage = drawingImageView.image?.cropImageWith(rect: characterBoxFrame),
+              let scaledImage = croppedImage.scaleImageTo(size: scaledImageSize)
+        else {
+            return []
+        }
+        
+        return presenter.pixelize(image: scaledImage)
+    }
+    
     // MARK: - Drawing -
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -272,10 +251,7 @@ final class DrawingViewController: UIViewController {
             
             // Start tracking coordinates of the character
             if characterBoxFrame == .zero {
-                characterBoxFrame = CGRect(x: point.x - lineWidth / 2,
-                                           y: point.y - lineWidth / 2,
-                                           width: lineWidth,
-                                           height: lineWidth)
+                characterBoxFrame = CGRect(x: point.x - lineWidth / 2, y: point.y - lineWidth / 2, width: lineWidth, height: lineWidth)
             }
             
             lastPoint = point
@@ -291,15 +267,15 @@ final class DrawingViewController: UIViewController {
             drawCharacterBox()
             
             // Update character box's dimensions
-            if point.x < characterBox.minX {
-                updateCharacterBox(&characterBox, minX: point.x - lineWidth - 1, maxX: nil, minY: nil, maxY: nil)
-            } else if point.x > characterBox.maxX {
-                updateCharacterBox(&characterBox, minX: nil, maxX: point.x + self.lineWidth + 1, minY: nil, maxY: nil)
+            if point.x < characterBoxFrame.minX {
+                characterBoxFrame = presenter.updated(characterBox: characterBoxFrame, minX: point.x - lineWidth - 1, maxX: nil, minY: nil, maxY: nil)
+            } else if point.x > characterBoxFrame.maxX {
+                characterBoxFrame = presenter.updated(characterBox: characterBoxFrame, minX: nil, maxX: point.x + self.lineWidth + 1, minY: nil, maxY: nil)
             }
-            if point.y < characterBox.minY {
-                updateCharacterBox(&characterBox, minX: nil, maxX: nil, minY: point.y - lineWidth - 1, maxY: nil)
-            } else if point.y > characterBox.maxY {
-                updateCharacterBox(&characterBox, minX: nil, maxX: nil, minY: nil, maxY: point.y + lineWidth + 1)
+            if point.y < characterBoxFrame.minY {
+                characterBoxFrame = presenter.updated(characterBox: characterBoxFrame, minX: nil, maxX: nil, minY: point.y - lineWidth - 1, maxY: nil)
+            } else if point.y > characterBoxFrame.maxY {
+                characterBoxFrame = presenter.updated(characterBox: characterBoxFrame, minX: nil, maxX: nil, minY: nil, maxY: point.y + lineWidth + 1)
             }
             
             lastPoint = point
@@ -326,20 +302,15 @@ final class DrawingViewController: UIViewController {
         // train and save network
         
         var outputData: [[Float]] = []
-        
         for (index, _) in pickerViewData.enumerated() {
             var outputDataForLetter = Array<Float>(repeating: 0, count: pickerViewData.count)
             outputDataForLetter[index] = 1
             outputData.append(outputDataForLetter)
         }
         
-//        let numberOfInputs = Int(scaledImageSize.width * scaledImageSize.height)
-//        let neuralNetwork = NeuralNetwork(topology: [numberOfInputs, 500, pickerViewData.count])
         
-//        neuralNetwork.trainNetwork(characterPixelsArray, outputData: outputData, numberOfEpochs: 100, learningRate: 0.001)
-//        
-//        NSKeyedArchiver.archiveRootObject(neuralNetwork, toFile: NeuralNetwork.ArchiveURL.path)
         
+        // Dispatch training on another thread
         DispatchQueue.global(qos: DispatchQoS.userInteractive.qosClass).async {
             for iterations in 0..<50000 {
                 for (character, output) in zip(self.characterPixelsArray, outputData) {
@@ -352,22 +323,13 @@ final class DrawingViewController: UIViewController {
             }
         }
     }
-    
-    fileprivate func imagePixels() -> [Int] {
-        
-        guard let croppedImage = drawingImageView.image?.cropImageWith(rect: characterBox),
-              let scaledImage = croppedImage.scaleImageTo(size: scaledImageSize)
-        else {
-            return []
-        }
-        
-        return pixelize(image: scaledImage)
-    }
 }
 
 
 
 // MARK: - Extensions -
+
+//
 
 extension DrawingViewController: UIPickerViewDataSource, UIPickerViewDelegate {
     

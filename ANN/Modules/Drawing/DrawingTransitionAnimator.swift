@@ -11,7 +11,7 @@ import UIKit
 
 class DrawingTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     
-    var navigationOption: DrawingNavigationOption = .mainMenu
+    var navigationOption: DrawingNavigationOption = .back
     let animationDuration = 0.4
     var operation: UINavigationControllerOperation = .push
     

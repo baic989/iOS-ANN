@@ -27,6 +27,8 @@ protocol DrawingViewInterface: ViewInterface {
 protocol DrawingPresenterInterface: PresenterInterface {
     func okButtonPressed()
     func didPressBackButton()
+    func pixelize(image: UIImage) -> [Int]
+    func updated(characterBox: CGRect, minX: CGFloat?, maxX: CGFloat?, minY: CGFloat?, maxY: CGFloat?) -> CGRect
 }
 
 protocol DrawingInteractorInterface: InteractorInterface {
