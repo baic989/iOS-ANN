@@ -20,8 +20,8 @@ class Neuron: NSObject, NSCoding {
     var storedWeights: [Float]
     
     private struct PropertyKey {
-        static let biasKey = "bias"
-        static let weightsKey = "weights"
+        static let biasKey = "biasKey"
+        static let weightsKey = "weightsKey"
         
         private init() {}
     }

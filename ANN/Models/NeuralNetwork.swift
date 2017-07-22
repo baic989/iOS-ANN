@@ -19,7 +19,7 @@ class NeuralNetwork: NSObject, NSCoding {
     var layers: [Layer] = []
     
     private struct PropertyKey {
-        static let layers = "layers"
+        static let layersKey = "layersKey"
         
         private init() {}
     }
@@ -37,11 +37,11 @@ class NeuralNetwork: NSObject, NSCoding {
     
     // NSCoding
     func encode(with aCoder: NSCoder) {
-        aCoder.encode(layers, forKey: PropertyKey.layers)
+        aCoder.encode(layers, forKey: PropertyKey.layersKey)
     }
     
     required convenience init?(coder aDecoder: NSCoder) {
-        guard let layers = aDecoder.decodeObject(forKey: PropertyKey.layers) as? [Layer] else { return nil }
+        guard let layers = aDecoder.decodeObject(forKey: PropertyKey.layersKey) as? [Layer] else { return nil }
         self.init(layers: layers)
     }
     

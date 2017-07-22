@@ -15,8 +15,8 @@ class Layer: NSObject, NSCoding {
     private var inputSize: Int
     
     private struct PropertyKey {
-        static let neurons = "neurons"
-        static let inputSize = "inputSize"
+        static let neuronsKey = "neuronsKey"
+        static let inputSizeKey = "inputSizeKey"
         
         private init() {}
     }
@@ -50,16 +50,13 @@ class Layer: NSObject, NSCoding {
     
     // NSCoding
     func encode(with aCoder: NSCoder) {
-        aCoder.encode(inputSize, forKey: PropertyKey.inputSize)
-        aCoder.encode(neurons, forKey: PropertyKey.neurons)
+        aCoder.encode(inputSize, forKey: PropertyKey.inputSizeKey)
+        aCoder.encode(neurons, forKey: PropertyKey.neuronsKey)
     }
     
     required convenience init?(coder aDecoder: NSCoder) {
-        guard let neurons = aDecoder.decodeObject(forKey: PropertyKey.neurons) as? [Neuron],
-              let inputSize = aDecoder.decodeObject(forKey: PropertyKey.inputSize) as? Int
-        else { return nil }
-        
-        self.init(inputSize: inputSize, neurons: neurons)
+        guard let neurons = aDecoder.decodeObject(forKey: PropertyKey.neuronsKey) as? [Neuron] else { return nil }
+        self.init(inputSize: aDecoder.decodeInteger(forKey: PropertyKey.inputSizeKey), neurons: neurons)
     }
     
     // MARK: - Helpers -
