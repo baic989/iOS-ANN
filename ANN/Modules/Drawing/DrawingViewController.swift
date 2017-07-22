@@ -34,6 +34,7 @@ final class DrawingViewController: UIViewController {
         button.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
         button.setImage(UIImage(named: "arrow-left"), for: .normal)
         button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = .red
         return button
     }()
     
@@ -137,6 +138,7 @@ final class DrawingViewController: UIViewController {
         view.addSubview(titleLabel)
         view.addSubview(characterBoxImageView)
         view.addSubview(drawingImageView)
+        view.addSubview(backButton)
         
         view.addConstraintsWithFormat(format: "H:|[v0]|", views: controlButtonsStackView)
         view.addConstraintsWithFormat(format: "V:[v0(50)]|", views: controlButtonsStackView)
@@ -152,6 +154,9 @@ final class DrawingViewController: UIViewController {
         
         view.addConstraintsWithFormat(format: "H:|[v0]|", views: drawingImageView)
         view.addConstraintsWithFormat(format: "V:[v0]-[v1]-[v2]", views: titleLabel, drawingImageView, letterPickerStackView)
+        
+        view.addConstraintsWithFormat(format: "H:|-15-[v0(30)]", views: backButton)
+        view.addConstraintsWithFormat(format: "V:|-15-[v0(30)]", views: backButton)
         
         letterPickerStackView.addArrangedSubview(characterPickerView)
         controlButtonsStackView.addArrangedSubview(okButton)
@@ -308,28 +313,26 @@ final class DrawingViewController: UIViewController {
             outputData.append(outputDataForLetter)
         }
         
-        
-        
         // Dispatch training on another thread
-        DispatchQueue.global(qos: DispatchQoS.userInteractive.qosClass).async {
-            for iterations in 0..<50000 {
-                for (character, output) in zip(self.characterPixelsArray, outputData) {
+        DispatchQueue.global(qos: DispatchQoS.userInteractive.qosClass).async { [weak self] in
+            guard let strongSelf = self else { return }
+            
+            for iterations in 0..<100 {
+                for (character, output) in zip(strongSelf.characterPixelsArray, outputData) {
                     for i in 0..<character.count {
-                        self.neuralNetwork.trainWith(inputs: character[i], targetOutput: output)
+                        strongSelf.neuralNetwork.trainWith(inputs: character[i], targetOutput: output)
                     }
                     
                     print("Iterations: \(iterations)")
                 }
             }
+            
+            NSKeyedArchiver.archiveRootObject(strongSelf.neuralNetwork, toFile: NeuralNetwork.ArchiveURL.path)
         }
     }
 }
 
-
-
 // MARK: - Extensions -
-
-//
 
 extension DrawingViewController: UIPickerViewDataSource, UIPickerViewDelegate {
     
@@ -353,17 +356,18 @@ extension DrawingViewController: DrawingViewInterface {
     
     internal func classifyImage() {
         
-//        if let neuralNetwork = NSKeyedUnarchiver.unarchiveObject(withFile: NeuralNetwork.ArchiveURL.path) as? NeuralNetwork {
-//            let pixelsArray = imagePixels()
-//            neuralNetwork.feed(pixelsArray)
-//        } else {
-//            print("nema")
-//        }
-        
-        let pixelsArray = imagePixels()
-        let floatingPixels = pixelsArray.map { Float($0) }
-        
-        print(neuralNetwork.predictFor(inputs: floatingPixels))
+        if let neuralNetwork = NSKeyedUnarchiver.unarchiveObject(withFile: NeuralNetwork.ArchiveURL.path) as? NeuralNetwork {
+            let pixelsArray = imagePixels()
+            let floatingPixels = pixelsArray.map { Float($0) }
+            print(neuralNetwork.predictFor(inputs: floatingPixels))
+        } else {
+            let alert = UIAlertController(title: "Error", message: "Couldn't load neural network", preferredStyle: .alert)
+            let action = UIAlertAction(title: "OK", style: .default, handler: { action in
+                alert.dismiss(animated: true, completion: nil)
+            })
+            alert.addAction(action)
+            navigationController?.present(alert, animated: true, completion: nil)
+        }
     }
     
     internal func processImage() {

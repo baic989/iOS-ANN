@@ -12,6 +12,10 @@ class NeuralNetwork: NSObject, NSCoding {
     
     // MARK: - Properties -
     
+    // Place on disk
+    static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
+    static let ArchiveURL = DocumentsDirectory.appendingPathComponent("neuralNetwork")
+    
     var layers: [Layer] = []
     
     private struct PropertyKey {
