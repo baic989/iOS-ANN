@@ -11,9 +11,9 @@ import UIKit
 
 class DrawingTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     
-    var navigationOption: DrawingNavigationOption = .back
+    var navigationOption: MainMenuNavigationOption = .train
     let animationDuration = 0.4
-    var operation: UINavigationControllerOperation = .push
+    var operation: UINavigationControllerOperation = .pop
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return animationDuration
@@ -27,25 +27,21 @@ class DrawingTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning
         containerView.addSubview(toViewController.view)
         containerView.addSubview(fromViewController.view)
         
-        let scale = (fromViewController.view.frame.height / fromViewController.trainButton.frame.height) * 1.5
-        toViewController.view.alpha = 0.0
-        
-        
-        UIView.animate(withDuration: 0.01) {
-            fromViewController.trainButton.titleLabel?.alpha = 1
+        var button: UIButton
+        switch navigationOption {
+        case .test: button = toViewController.testButton
+        case .train: button = toViewController.trainButton
         }
         
         UIView.animate(withDuration: animationDuration / 2, animations: {
-            fromViewController.trainButton.transform = CGAffineTransform(scaleX: scale, y: scale)
+            fromViewController.view.alpha = 0
             
         }, completion: { finished in
-            
             containerView.bringSubview(toFront: toViewController.view)
             
             UIView.animate(withDuration: self.animationDuration / 2, animations: {
-                
-                toViewController.view.alpha = 1
-                
+                button.transform = CGAffineTransform(scaleX: 1, y: 1)
+                button.titleLabel?.alpha = 1
             }, completion: { finished in
                 transitionContext.completeTransition(true)
             })

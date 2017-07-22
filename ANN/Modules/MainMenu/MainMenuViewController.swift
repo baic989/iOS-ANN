@@ -50,7 +50,6 @@ final class MainMenuViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationController?.delegate = self
         view.backgroundColor = .menuBackground
         setupViews()
     }
@@ -70,6 +69,11 @@ final class MainMenuViewController: UIViewController {
         // Bring buttons above lines (synapses)
         view.bringSubview(toFront: trainButton)
         view.bringSubview(toFront: testButton)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.navigationController?.delegate = self
     }
     
     // MARK: - Helpers -
@@ -203,7 +207,8 @@ final class MainMenuViewController: UIViewController {
     }
     
     func trainButtonTouchUp() {
-        trainButton.layer.zPosition = 1
+        trainButton.layer.zPosition = 2
+        testButton.layer.zPosition = 1
         animator.navigationOption = .train
         self.presenter.didPressTrainButton()
     }
@@ -213,7 +218,8 @@ final class MainMenuViewController: UIViewController {
     }
     
     func testButtonTouchUp() {
-        testButton.layer.zPosition = 1
+        testButton.layer.zPosition = 2
+        trainButton.layer.zPosition = 1
         animator.navigationOption = .test
         self.presenter.didPressTestButton()
     }

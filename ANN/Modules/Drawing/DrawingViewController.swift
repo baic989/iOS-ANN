@@ -112,6 +112,7 @@ final class DrawingViewController: UIViewController {
     fileprivate var lastPoint = CGPoint.zero
     
     var presenter: DrawingPresenterInterface!
+    let animator = DrawingTransitionAnimator()
     
     // MARK: - Lifecycle -
     
@@ -122,6 +123,11 @@ final class DrawingViewController: UIViewController {
         characterPixelsArray = Array(repeating: [], count: pickerViewData.count)
         setupViews()
         presenter.viewDidLoad()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        navigationController?.delegate = self
     }
     
     // MARK: - Helpers -
@@ -294,6 +300,7 @@ final class DrawingViewController: UIViewController {
     }
     
     func backButtonPressed() {
+        animator.navigationOption = presenter.navigationOption
         self.presenter.didPressBackButton()
     }
     
@@ -317,7 +324,7 @@ final class DrawingViewController: UIViewController {
         DispatchQueue.global(qos: DispatchQoS.userInteractive.qosClass).async { [weak self] in
             guard let strongSelf = self else { return }
             
-            for iterations in 0..<100 {
+            for iterations in 0..<50000 {
                 for (character, output) in zip(strongSelf.characterPixelsArray, outputData) {
                     for i in 0..<character.count {
                         strongSelf.neuralNetwork.trainWith(inputs: character[i], targetOutput: output)
@@ -349,6 +356,12 @@ extension DrawingViewController: UIPickerViewDataSource, UIPickerViewDelegate {
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return pickerViewData.count
+    }
+}
+
+extension DrawingViewController: UINavigationControllerDelegate {
+    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return animator
     }
 }
 

@@ -25,6 +25,9 @@ protocol DrawingViewInterface: ViewInterface {
 }
 
 protocol DrawingPresenterInterface: PresenterInterface {
+    
+    var navigationOption: MainMenuNavigationOption { get set }
+    
     func okButtonPressed()
     func didPressBackButton()
     func pixelize(image: UIImage) -> [Int]

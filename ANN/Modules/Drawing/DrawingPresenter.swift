@@ -15,7 +15,7 @@ final class DrawingPresenter {
     fileprivate weak var _view: DrawingViewInterface?
     fileprivate var _interactor: DrawingInteractorInterface
     fileprivate var _wireframe: DrawingWireframeInterface
-    fileprivate var _navigationOption: MainMenuNavigationOption
+    var navigationOption: MainMenuNavigationOption
     
     // MARK: - Lifecycle -
     
@@ -23,13 +23,13 @@ final class DrawingPresenter {
         _wireframe = wireframe
         _view = view
         _interactor = interactor
-        _navigationOption = navigationOption
+        self.navigationOption = navigationOption
     }
     
     // MARK: - Helpers -
     
     fileprivate func setupUI() {
-        switch _navigationOption {
+        switch navigationOption {
         case .test:
             _view?.trainButton.isHidden = true
             _view?.characterPickerView.isHidden = true
@@ -87,7 +87,7 @@ extension DrawingPresenter: DrawingPresenterInterface {
     }
     
     internal func okButtonPressed() {
-        switch _navigationOption {
+        switch navigationOption {
         case .test:
             _view?.classifyImage()
         case .train:

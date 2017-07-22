@@ -35,9 +35,7 @@ class MainMenuTransitionAnimator: NSObject, UIViewControllerAnimatedTransitionin
         let scale = (fromViewController.view.frame.height / button.frame.height) * 1.5
         toViewController.view.alpha = 0.0
         
-        
         UIView.animate(withDuration: 0.01) {
-            
             button.titleLabel?.alpha = 0
         }
         
