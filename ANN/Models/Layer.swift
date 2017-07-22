@@ -8,11 +8,18 @@
 
 import Foundation
 
-public class Layer {
+class Layer: NSObject, NSCoding {
     
     // MARK: - Properties -
     private var neurons: [Neuron]
     private var inputSize: Int
+    
+    private struct PropertyKey {
+        static let neurons = "neurons"
+        static let inputSize = "inputSize"
+        
+        private init() {}
+    }
     
     // MARK: - Lifecycle -
     
@@ -34,6 +41,25 @@ public class Layer {
             
             neurons.append(Neuron(weights: weights, bias: bias))
         }
+    }
+    
+    private init(inputSize: Int, neurons: [Neuron]) {
+        self.inputSize = inputSize
+        self.neurons = neurons
+    }
+    
+    // NSCoding
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(inputSize, forKey: PropertyKey.inputSize)
+        aCoder.encode(neurons, forKey: PropertyKey.neurons)
+    }
+    
+    required convenience init?(coder aDecoder: NSCoder) {
+        guard let neurons = aDecoder.decodeObject(forKey: PropertyKey.neurons) as? [Neuron],
+              let inputSize = aDecoder.decodeObject(forKey: PropertyKey.inputSize) as? Int
+        else { return nil }
+        
+        self.init(inputSize: inputSize, neurons: neurons)
     }
     
     // MARK: - Helpers -

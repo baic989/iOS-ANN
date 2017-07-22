@@ -8,17 +8,37 @@
 
 import Foundation
 
-class NeuralNetwork {
+class NeuralNetwork: NSObject, NSCoding {
     
     // MARK: - Properties -
     
     var layers: [Layer] = []
+    
+    private struct PropertyKey {
+        static let layers = "layers"
+        
+        private init() {}
+    }
     
     // MARK: - Lifecycle -
     
     init(inputSize: Int, hiddenSize: Int, outputSize: Int) {
         layers.append(Layer(inputSize: inputSize, numberOfNeurons: hiddenSize))
         layers.append(Layer(inputSize: hiddenSize, numberOfNeurons: outputSize))
+    }
+    
+    private init(layers: [Layer]) {
+        self.layers = layers
+    }
+    
+    // NSCoding
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(layers, forKey: PropertyKey.layers)
+    }
+    
+    required convenience init?(coder aDecoder: NSCoder) {
+        guard let layers = aDecoder.decodeObject(forKey: PropertyKey.layers) as? [Layer] else { return nil }
+        self.init(layers: layers)
     }
     
     // MARK: - Helpers -

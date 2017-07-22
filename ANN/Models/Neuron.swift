@@ -34,6 +34,7 @@ class Neuron: NSObject, NSCoding {
         storedWeights = [Float](repeating: 0, count: weights.count)
     }
     
+    // NSCoding
     required convenience init?(coder aDecoder: NSCoder) {
         guard let weights = aDecoder.decodeObject(forKey: PropertyKey.weightsKey) as? [Float] else { return nil }
         self.init(weights: weights, bias: aDecoder.decodeFloat(forKey: PropertyKey.biasKey))
@@ -69,4 +70,3 @@ class Neuron: NSObject, NSCoding {
         return x * (1 - x)
     }
 }
-
