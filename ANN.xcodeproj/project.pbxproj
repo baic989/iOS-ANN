@@ -96,6 +96,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2812D6EB1F24CEE3001BB625 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		3B627DC11E37590D004A066A = {
 			isa = PBXGroup;
 			children = (
@@ -218,6 +225,7 @@
 		79FB47341E8847A000B559DC /* Drawing */ = {
 			isa = PBXGroup;
 			children = (
+				2812D6EB1F24CEE3001BB625 /* Views */,
 				79FB47351E8847C100B559DC /* DrawingViewController.swift */,
 				79FB47371E8847CD00B559DC /* DrawingPresenter.swift */,
 				79FB47391E8847D700B559DC /* DrawingInteractor.swift */,
@@ -277,7 +285,7 @@
 				TargetAttributes = {
 					3B627DC91E37590D004A066A = {
 						CreatedOnToolsVersion = 6.1.1;
-						DevelopmentTeam = 68RXFZ5MN7;
+						DevelopmentTeam = UNZ52NC6K6;
 						LastSwiftMigration = 0820;
 					};
 					3B627DDE1E37590D004A066A = {
@@ -476,7 +484,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 68RXFZ5MN7;
+				DEVELOPMENT_TEAM = UNZ52NC6K6;
 				INFOPLIST_FILE = "$(SRCROOT)/ANN/Common/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -490,7 +498,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 68RXFZ5MN7;
+				DEVELOPMENT_TEAM = UNZ52NC6K6;
 				INFOPLIST_FILE = "$(SRCROOT)/ANN/Common/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

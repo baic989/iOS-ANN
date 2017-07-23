@@ -91,6 +91,30 @@ final class DrawingViewController: UIViewController {
         return neuralNetWork
     }()
     
+    fileprivate let indicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        indicator.hidesWhenStopped = true
+        return indicator
+    }()
+    
+    fileprivate let indicatorView: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = 8
+        view.layer.masksToBounds = true
+        view.backgroundColor = .menuButton
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.alpha = 0
+        return view
+    }()
+    
+    fileprivate let indicatorLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .white
+        return label
+    }()
+    
     // TODO: Extract caonstants to structs
     fileprivate let characterPixelsArrayKey = "characterPixelsArrayKey"
     
@@ -103,7 +127,7 @@ final class DrawingViewController: UIViewController {
     fileprivate let scaledImageSize = CGSize(width: 8.0, height: 8.0)
     
     // Picker view data source
-    fileprivate let pickerViewData = ["a", "b"]
+    fileprivate let pickerViewData = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
     
     // Array holding all the pixels extracted from the drawn letter
     fileprivate var characterPixelsArray: [[[Float]]]!
@@ -146,6 +170,10 @@ final class DrawingViewController: UIViewController {
         view.addSubview(drawingImageView)
         view.addSubview(backButton)
         
+        view.addSubview(indicatorView)
+        indicatorView.addSubview(indicatorLabel)
+        indicatorView.addSubview(indicator)
+        
         view.addConstraintsWithFormat(format: "H:|[v0]|", views: controlButtonsStackView)
         view.addConstraintsWithFormat(format: "V:[v0(50)]|", views: controlButtonsStackView)
         
@@ -168,6 +196,15 @@ final class DrawingViewController: UIViewController {
         controlButtonsStackView.addArrangedSubview(okButton)
         controlButtonsStackView.addArrangedSubview(clearButton)
         controlButtonsStackView.addArrangedSubview(trainButton)
+        
+        view.addConstraintsWithFormat(format: "H:[v0(150)]", views: indicatorView)
+        view.addConstraintsWithFormat(format: "V:[v0(100)]", views: indicatorView)
+        indicatorView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        indicatorView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        indicator.centerXAnchor.constraint(equalTo: indicatorView.centerXAnchor).isActive = true
+        indicator.topAnchor.constraint(equalTo: indicatorView.topAnchor, constant: 15).isActive = true
+        indicatorLabel.centerXAnchor.constraint(equalTo: indicatorView.centerXAnchor).isActive = true
+        indicatorLabel.bottomAnchor.constraint(equalTo: indicatorView.bottomAnchor, constant: -15).isActive = true
     }
     
     fileprivate func clearCanvas() {
@@ -236,11 +273,6 @@ final class DrawingViewController: UIViewController {
         
         // Save character pixels to an array
         characterPixelsArray[selectedCharacterIndex].append(pixelsArray)
-        
-        // TODO: WTF
-//        let userDefaults = UserDefaults.standard
-//        userDefaults.setValue(characterPixelsArray, forKey: characterPixelsArrayKey)
-//        userDefaults.synchronize()
     }
     
     fileprivate func imagePixels() -> [Int] {
@@ -320,18 +352,35 @@ final class DrawingViewController: UIViewController {
             outputData.append(outputDataForLetter)
         }
         
+        if let loadedNetwork = NSKeyedUnarchiver.unarchiveObject(withFile: NeuralNetwork.ArchiveURL.path) as? NeuralNetwork {
+            neuralNetwork = loadedNetwork
+        }
+        
         // Dispatch training on another thread
+        indicatorView.alpha = 1
+        indicator.startAnimating()
+        
         DispatchQueue.global(qos: DispatchQoS.userInteractive.qosClass).async { [weak self] in
             guard let strongSelf = self else { return }
             
-            for iterations in 0..<50000 {
+            let epochs = 1000
+            
+            for iterations in 0..<epochs {
                 for (character, output) in zip(strongSelf.characterPixelsArray, outputData) {
                     for i in 0..<character.count {
                         strongSelf.neuralNetwork.trainWith(inputs: character[i], targetOutput: output)
                     }
                     
-                    print("Iterations: \(iterations)")
+                    DispatchQueue.main.async {
+                        let percent: CGFloat = CGFloat(iterations) / CGFloat(epochs) * 100.0
+                        self?.indicatorLabel.text = ("Training: \(percent)%")
+                    }
                 }
+            }
+            
+            DispatchQueue.main.async {
+                self?.indicator.stopAnimating()
+                self?.indicatorView.alpha = 0
             }
             
             NSKeyedArchiver.archiveRootObject(strongSelf.neuralNetwork, toFile: NeuralNetwork.ArchiveURL.path)
