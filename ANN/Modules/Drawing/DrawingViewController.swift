@@ -363,7 +363,7 @@ final class DrawingViewController: UIViewController {
         DispatchQueue.global(qos: DispatchQoS.userInteractive.qosClass).async { [weak self] in
             guard let strongSelf = self else { return }
             
-            let epochs = 1000
+            let epochs = 50000
             
             for iterations in 0..<epochs {
                 for (character, output) in zip(strongSelf.characterPixelsArray, outputData) {
