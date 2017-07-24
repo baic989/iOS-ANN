@@ -87,7 +87,7 @@ final class DrawingViewController: UIViewController {
     }()
     
     fileprivate lazy var neuralNetwork: NeuralNetwork = {
-        let neuralNetWork = NeuralNetwork(inputSize: 64, hiddenSize: 64, outputSize: 2)
+        let neuralNetWork = NeuralNetwork(inputSize: Int(self.scaledImageSize.width * self.scaledImageSize.width), hiddenSize: Int(self.scaledImageSize.width * self.scaledImageSize.width), outputSize: self.pickerViewData.count)
         return neuralNetWork
     }()
     
