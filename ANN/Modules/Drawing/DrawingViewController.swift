@@ -386,6 +386,37 @@ final class DrawingViewController: UIViewController {
             NSKeyedArchiver.archiveRootObject(strongSelf.neuralNetwork, toFile: NeuralNetwork.ArchiveURL.path)
         }
     }
+    
+    fileprivate func bestEstimateFor(prediction: [Float]) {
+        
+        var maxValue: Float = 0
+        var predictedLetter = ""
+        
+        for (prediction, letter) in zip(prediction, pickerViewData) {
+            if prediction > maxValue {
+                maxValue = prediction
+                predictedLetter = letter
+            }
+        }
+        
+        let predictionLabel = UILabel()
+        predictionLabel.text = "best prediction -> \(predictedLetter)"
+        predictionLabel.alpha = 0
+        predictionLabel.textAlignment = .center
+        view.addSubview(predictionLabel)
+        view.addConstraintsWithFormat(format: "H:|[v0]|", views: predictionLabel)
+        view.addConstraintsWithFormat(format: "V:|-15-[v0(100)]", views: predictionLabel)
+        
+        UIView.animate(withDuration: 0.2, animations: {
+            predictionLabel.alpha = 1
+        }) { finished in
+            UIView.animate(withDuration: 0.6, delay: 0.2, options: [], animations: {
+                predictionLabel.alpha = 0
+            }, completion: { finished in
+                predictionLabel.removeFromSuperview()
+            })
+        }
+    }
 }
 
 // MARK: - Extensions -
@@ -421,7 +452,9 @@ extension DrawingViewController: DrawingViewInterface {
         if let neuralNetwork = NSKeyedUnarchiver.unarchiveObject(withFile: NeuralNetwork.ArchiveURL.path) as? NeuralNetwork {
             let pixelsArray = imagePixels()
             let floatingPixels = pixelsArray.map { Float($0) }
-            print(neuralNetwork.predictFor(inputs: floatingPixels))
+            
+            let result = neuralNetwork.predictFor(inputs: floatingPixels)
+            bestEstimateFor(prediction: result)
         } else {
             let alert = UIAlertController(title: "Error", message: "Couldn't load neural network", preferredStyle: .alert)
             let action = UIAlertAction(title: "OK", style: .default, handler: { action in
