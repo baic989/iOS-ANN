@@ -32,9 +32,9 @@ final class DrawingViewController: UIViewController {
     lazy var backButton: UIButton = {
         let button = UIButton()
         button.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
-        button.setImage(UIImage(named: "arrow-left"), for: .normal)
+        button.setImage(UIImage(named: "arrow-left")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        button.imageView?.tintColor = .white
         button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = .red
         return button
     }()
     

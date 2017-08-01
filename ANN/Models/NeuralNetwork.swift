@@ -48,17 +48,23 @@ class NeuralNetwork: NSObject, NSCoding {
     // MARK: - Helpers -
     
     func predictFor(inputs: [Float]) -> [Float] {
-        return forwardPropagate(inputs: inputs)
+        if !inputs.isEmpty {
+            return forwardPropagate(inputs: inputs)
+        }
+        
+        return []
     }
     
     func trainWith(inputs: [Float], targetOutput: [Float], learningRate: Float = 0.3) {
         
-        // forward
-        let networkOutput = forwardPropagate(inputs: inputs)
-        
-        // backward
-        let outputError = zip(targetOutput, networkOutput).map { $0 - $1 }
-        backPropagate(error: outputError, inputs: inputs, learningRate: learningRate)
+        if !inputs.isEmpty {
+            // forward
+            let networkOutput = forwardPropagate(inputs: inputs)
+            
+            // backward
+            let outputError = zip(targetOutput, networkOutput).map { $0 - $1 }
+            backPropagate(error: outputError, inputs: inputs, learningRate: learningRate)
+        }
     }
     
     private func forwardPropagate(inputs: [Float]) -> [Float] {
