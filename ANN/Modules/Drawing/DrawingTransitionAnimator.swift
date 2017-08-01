@@ -12,7 +12,7 @@ import UIKit
 class DrawingTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     
     var navigationOption: MainMenuNavigationOption = .train
-    let animationDuration = 0.4
+    let animationDuration = 0.6
     var operation: UINavigationControllerOperation = .pop
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
@@ -29,21 +29,26 @@ class DrawingTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning
         
         var button: UIButton
         switch navigationOption {
-        case .test: button = toViewController.testButton
-        case .train: button = toViewController.trainButton
+            case .test: button = toViewController.testButton
+            case .train: button = toViewController.trainButton
         }
         
-        UIView.animate(withDuration: animationDuration / 2, animations: {
+        UIView.animate(withDuration: animationDuration / 3, animations: {
             fromViewController.view.alpha = 0
             
         }, completion: { finished in
             containerView.bringSubview(toFront: toViewController.view)
             
-            UIView.animate(withDuration: self.animationDuration / 2, animations: {
+            UIView.animate(withDuration: self.animationDuration / 3, animations: {
                 button.transform = CGAffineTransform(scaleX: 1, y: 1)
-                button.titleLabel?.alpha = 1
+                
             }, completion: { finished in
-                transitionContext.completeTransition(true)
+                
+                UIView.animate(withDuration: self.animationDuration / 3, animations: {
+                    button.titleLabel?.alpha = 1
+                }, completion: { finished in
+                    transitionContext.completeTransition(true)
+                })
             })
         })
     }
