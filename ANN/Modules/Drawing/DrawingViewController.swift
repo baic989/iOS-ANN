@@ -127,7 +127,7 @@ final class DrawingViewController: UIViewController {
     fileprivate let scaledImageSize = CGSize(width: 8.0, height: 8.0)
     
     // Picker view data source
-    fileprivate let pickerViewData = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
+    fileprivate let pickerViewData = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
     
     // Array holding all the pixels extracted from the drawn letter
     fileprivate var characterPixelsArray: [[[Float]]]!
@@ -356,6 +356,10 @@ final class DrawingViewController: UIViewController {
             neuralNetwork = loadedNetwork
         }
         
+        trainButton.isEnabled = false
+        okButton.isEnabled = false
+        clearButton.isEnabled = false
+        
         // Dispatch training on another thread
         indicatorView.alpha = 1
         indicator.startAnimating()
@@ -367,6 +371,7 @@ final class DrawingViewController: UIViewController {
             
             for iterations in 0..<epochs {
                 for (character, output) in zip(strongSelf.characterPixelsArray, outputData) {
+                    print(strongSelf.characterPixelsArray)
                     for i in 0..<character.count {
                         strongSelf.neuralNetwork.trainWith(inputs: character[i], targetOutput: output)
                     }
@@ -379,8 +384,12 @@ final class DrawingViewController: UIViewController {
             }
             
             DispatchQueue.main.async {
-                self?.indicator.stopAnimating()
-                self?.indicatorView.alpha = 0
+                strongSelf.indicator.stopAnimating()
+                strongSelf.indicatorView.alpha = 0
+                
+                strongSelf.trainButton.isEnabled = true
+                strongSelf.okButton.isEnabled = true
+                strongSelf.clearButton.isEnabled = true
             }
             
             NSKeyedArchiver.archiveRootObject(strongSelf.neuralNetwork, toFile: NeuralNetwork.ArchiveURL.path)
