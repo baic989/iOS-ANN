@@ -356,44 +356,29 @@ final class DrawingViewController: UIViewController {
             neuralNetwork = loadedNetwork
         }
         
-        trainButton.isEnabled = false
-        okButton.isEnabled = false
-        clearButton.isEnabled = false
-        
         // Dispatch training on another thread
         indicatorView.alpha = 1
         indicator.startAnimating()
         
-        DispatchQueue.global(qos: DispatchQoS.userInteractive.qosClass).async { [weak self] in
-            guard let strongSelf = self else { return }
-            
-            let epochs = 50000
-            
-            for iterations in 0..<epochs {
-                for (character, output) in zip(strongSelf.characterPixelsArray, outputData) {
-                    print(strongSelf.characterPixelsArray)
-                    for i in 0..<character.count {
-                        strongSelf.neuralNetwork.trainWith(inputs: character[i], targetOutput: output)
-                    }
-                    
-                    DispatchQueue.main.async {
-                        let percent: CGFloat = CGFloat(iterations) / CGFloat(epochs) * 100.0
-                        self?.indicatorLabel.text = ("Training: \(percent)%")
-                    }
+        let epochs = 50000
+        
+        // Training is done on the main thread because it shouldn't be interrupted
+        for iterations in 0..<epochs {
+            for (character, output) in zip(characterPixelsArray, outputData) {
+                print(characterPixelsArray)
+                for i in 0..<character.count {
+                    neuralNetwork.trainWith(inputs: character[i], targetOutput: output)
                 }
-            }
-            
-            DispatchQueue.main.async {
-                strongSelf.indicator.stopAnimating()
-                strongSelf.indicatorView.alpha = 0
                 
-                strongSelf.trainButton.isEnabled = true
-                strongSelf.okButton.isEnabled = true
-                strongSelf.clearButton.isEnabled = true
+                let percent: CGFloat = CGFloat(iterations) / CGFloat(epochs) * 100.0
+                indicatorLabel.text = ("Training: \(percent)%")
             }
-            
-            NSKeyedArchiver.archiveRootObject(strongSelf.neuralNetwork, toFile: NeuralNetwork.ArchiveURL.path)
         }
+        
+        indicator.stopAnimating()
+        indicatorView.alpha = 0
+        
+        NSKeyedArchiver.archiveRootObject(neuralNetwork, toFile: NeuralNetwork.ArchiveURL.path)
     }
     
     fileprivate func bestEstimateFor(prediction: [Float]) {
