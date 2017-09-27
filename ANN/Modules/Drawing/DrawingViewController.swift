@@ -94,7 +94,7 @@ final class DrawingViewController: UIViewController {
     fileprivate let indicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
         indicator.translatesAutoresizingMaskIntoConstraints = false
-        indicator.hidesWhenStopped = true
+        indicator.hidesWhenStopped = false
         return indicator
     }()
     
@@ -102,7 +102,7 @@ final class DrawingViewController: UIViewController {
         let view = UIView()
         view.layer.cornerRadius = 8
         view.layer.masksToBounds = true
-        view.backgroundColor = .menuButton
+        view.backgroundColor = .red//.menuButton
         view.translatesAutoresizingMaskIntoConstraints = false
         view.alpha = 0
         return view
@@ -127,7 +127,7 @@ final class DrawingViewController: UIViewController {
     fileprivate let scaledImageSize = CGSize(width: 8.0, height: 8.0)
     
     // Picker view data source
-    fileprivate let pickerViewData = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
+    fileprivate let pickerViewData = ["A", "B", "C", "D"] //["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
     
     // Array holding all the pixels extracted from the drawn letter
     fileprivate var characterPixelsArray: [[[Float]]]!
@@ -356,29 +356,33 @@ final class DrawingViewController: UIViewController {
             neuralNetwork = loadedNetwork
         }
         
-        // Dispatch training on another thread
         indicatorView.alpha = 1
         indicator.startAnimating()
         
-        let epochs = 50000
+        let epochs = 50
         
-        // Training is done on the main thread because it shouldn't be interrupted
-        for iterations in 0..<epochs {
-            for (character, output) in zip(characterPixelsArray, outputData) {
-                print(characterPixelsArray)
-                for i in 0..<character.count {
-                    neuralNetwork.trainWith(inputs: character[i], targetOutput: output)
+        DispatchQueue.global(qos: .background).async { [weak self] in
+            guard let strongSelf = self else { return }
+            
+            for iterations in 0..<epochs {
+                for (character, output) in zip(strongSelf.characterPixelsArray, outputData) {
+                    for i in 0..<character.count {
+                        strongSelf.neuralNetwork.trainWith(inputs: character[i], targetOutput: output)
+                    }
+                    let percent: CGFloat = CGFloat(iterations) / CGFloat(epochs) * 100.0
+                    print(percent)
+                    DispatchQueue.main.async {
+                        strongSelf.indicatorLabel.text = ("Training: \(percent)%")
+                    }
                 }
-                
-                let percent: CGFloat = CGFloat(iterations) / CGFloat(epochs) * 100.0
-                indicatorLabel.text = ("Training: \(percent)%")
+            }
+            
+            DispatchQueue.main.async {
+                strongSelf.indicator.stopAnimating()
+                strongSelf.indicatorView.alpha = 0
+                NSKeyedArchiver.archiveRootObject(strongSelf.neuralNetwork, toFile: NeuralNetwork.ArchiveURL.path)
             }
         }
-        
-        indicator.stopAnimating()
-        indicatorView.alpha = 0
-        
-        NSKeyedArchiver.archiveRootObject(neuralNetwork, toFile: NeuralNetwork.ArchiveURL.path)
     }
     
     fileprivate func bestEstimateFor(prediction: [Float]) {
