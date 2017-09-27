@@ -94,7 +94,6 @@ final class DrawingViewController: UIViewController {
     fileprivate let indicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
         indicator.translatesAutoresizingMaskIntoConstraints = false
-        indicator.hidesWhenStopped = false
         return indicator
     }()
     
@@ -102,7 +101,7 @@ final class DrawingViewController: UIViewController {
         let view = UIView()
         view.layer.cornerRadius = 8
         view.layer.masksToBounds = true
-        view.backgroundColor = .red//.menuButton
+        view.backgroundColor = .menuButton
         view.translatesAutoresizingMaskIntoConstraints = false
         view.alpha = 0
         return view
@@ -359,7 +358,7 @@ final class DrawingViewController: UIViewController {
         indicatorView.alpha = 1
         indicator.startAnimating()
         
-        let epochs = 50
+        let epochs = 5000
         
         DispatchQueue.global(qos: .background).async { [weak self] in
             guard let strongSelf = self else { return }
